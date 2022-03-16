@@ -1,0 +1,24 @@
+{
+  "expo": {
+    "name": "stardle",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "scheme": "myapp",
+    "userInterfaceStyle": "dark",
+    "updates": {
+      "fallbackToCacheTimeout": 0
+    },
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "ios": {
+      "supportsTablet": true
+    },
+    "android": {
+      "userInterfaceStyle": "dark"
+    },
+    "web": {
+      "favicon": "./assets/images/favicon.png"
+    }
+  }
+}
