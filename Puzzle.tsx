@@ -1,24 +1,11 @@
 import React, { useState, useEffect, useRef } from 'react'
 import { View, TextInput, TouchableOpacity, Text } from "./components/Themed"
 import { StyleSheet, TextInput as HiddenText } from 'react-native'
+import Data from "./constants/Data"
 
-let mockdata : Array<String> = [
-    "Harry Potter and the Half-Blood Prince",
-    "Daniel Radcliffe",
-    "Rupert Grint",
-    "Emma Watson",
-    "Helena Bonham Carter",
-    "Robbie Coltrane",
-    "Warwick Davis"
-]
+console.log(Object.keys(Data))
 
-let filmmockdata : Array<String> = [
-    "jericho",
-    "iron man",
-    "watership down",
-    "harry potter and the half blood prince",
-    "harry potter and the deathly hallows",
-]
+const filmmockdata : Array<string> = Object.keys(Data)
 
 
 
@@ -65,8 +52,10 @@ export default function Puzzle () {
     let holdoverdata = filmmockdata;
     let peekdisplays;
     let peektexts;
+    let peekoldtexts;
 
     const [oldText, setOldText] = useState('')
+    const [newoldtext, setnewoldtext] = useState(['','','','','',''])
     const [displays, setDisplays] = useState([
         "none","none","none",
         "none","none","none",
@@ -82,20 +71,7 @@ export default function Puzzle () {
         "","","",
         "","",""])
 
-    function textHandler(text: string){
-        console.log(oldText);
-        if (text.length < oldText.length){
-            console.log("less")
-            holdoverdata = filmmockdata;
-            peekdisplays = displays;
-            peekdisplays[0] = "none";
-            setDisplays(peekdisplays);
-        }
-        else{
-            peekdisplays = displays;
-            peekdisplays[0] = "flex";
-            setDisplays(peekdisplays);
-        }
+    function textHandler(text: string, column: number){
         let newData = [];
         for (let i = 0; i < holdoverdata.length; i += 1){
             if (holdoverdata[i].includes(text.toLowerCase())){
@@ -103,20 +79,102 @@ export default function Puzzle () {
             }
         }
         peektexts = texts;
-        for (let i = 0; i < newData.length; i += 1){
-            peektexts[i] = newData[i];
+        for (let i = (column * 3); i < Math.min((column + 1) * 3, (column * 3) + newData.length); i += 1){
+            peektexts[i] = Data[newData[i - (column * 3)]][0];
         }
-        setTexts(peektexts)
-        setOldText(text)
+        setTexts(peektexts);
+        // if this isn't here the text updates don't work. i have no idea why this is.
+        setOldText(text);
+        console.log(oldText);
         holdoverdata = newData;
-        console.log(holdoverdata);
+        //console.log(holdoverdata);
+        if (text.length < newoldtext[column].length){
+            holdoverdata = filmmockdata;
+            peekdisplays = displays;
+            for (let i = column * 3; i < (column + 1) * 3; i += 1){
+                peekdisplays[i] = "none";
+            }
+            setDisplays(peekdisplays);
+        }
+        else{
+            peekdisplays = displays;
+            for (let i = column * 3; i < (column + 1) * 3; i += 1){
+                if (i - (column * 3) < newData.length){
+                    peekdisplays[i] = "flex";
+                }
+                else{
+                    peekdisplays[i] = "none";
+                }
+            }
+            setDisplays(peekdisplays);
+        }
+
+        peekoldtexts = newoldtext;
+        newoldtext[column] = text;
+        setnewoldtext(peekoldtexts);
         // now we need to know where we are in the chain of command so we can render 3 suggestion boxes under.
     }
 
     return <View>
-        <TextInput style={styles.input} onChange={(e) => {textHandler(e.target.value)}}></TextInput>
+        <TextInput style={styles.input} onChange={(e) => {textHandler(e.target.value, 0)}}></TextInput>
         <TouchableOpacity style={{display: displays[0]}}>
             <Text>{texts[0]}</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={{display: displays[1]}}>
+            <Text>{texts[1]}</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={{display: displays[2]}}>
+            <Text>{texts[2]}</Text>
+        </TouchableOpacity>
+        <TextInput style={styles.input} onChange={(e) => {textHandler(e.target.value, 1)}}></TextInput>
+        <TouchableOpacity style={{display: displays[3]}}>
+            <Text>{texts[3]}</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={{display: displays[4]}}>
+            <Text>{texts[4]}</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={{display: displays[5]}}>
+            <Text>{texts[5]}</Text>
+        </TouchableOpacity>
+        <TextInput style={styles.input} onChange={(e) => {textHandler(e.target.value, 2)}}></TextInput>
+        <TouchableOpacity style={{display: displays[6]}}>
+            <Text>{texts[6]}</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={{display: displays[7]}}>
+            <Text>{texts[7]}</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={{display: displays[8]}}>
+            <Text>{texts[8]}</Text>
+        </TouchableOpacity>
+        <TextInput style={styles.input} onChange={(e) => {textHandler(e.target.value, 3)}}></TextInput>
+        <TouchableOpacity style={{display: displays[9]}}>
+            <Text>{texts[9]}</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={{display: displays[10]}}>
+            <Text>{texts[10]}</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={{display: displays[11]}}>
+            <Text>{texts[11]}</Text>
+        </TouchableOpacity>
+        <TextInput style={styles.input} onChange={(e) => {textHandler(e.target.value, 4)}}></TextInput>
+        <TouchableOpacity style={{display: displays[12]}}>
+            <Text>{texts[12]}</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={{display: displays[13]}}>
+            <Text>{texts[13]}</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={{display: displays[14]}}>
+            <Text>{texts[14]}</Text>
+        </TouchableOpacity>
+        <TextInput style={styles.input} onChange={(e) => {textHandler(e.target.value, 5)}}></TextInput>
+        <TouchableOpacity style={{display: displays[15]}}>
+            <Text>{texts[15]}</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={{display: displays[16]}}>
+            <Text>{texts[16]}</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={{display: displays[17]}}>
+            <Text>{texts[17]}</Text>
         </TouchableOpacity>
     </View>
 }
