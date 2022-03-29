@@ -2,70 +2,28 @@ import React, { useState, useEffect, useRef } from 'react'
 import { View, TextInput, TouchableOpacity, Text } from "./components/Themed"
 import { StyleSheet, TextInput as DefaultInput } from 'react-native'
 import Data from "./constants/Data"
+import PointlessWords from './constants/PointlessWords'
 
 console.log(Object.keys(Data))
 
 const filmmockdata : Array<string> = Object.keys(Data)
 
 export default function Puzzle () {
-    // function keyHandler(key: string, keyCode: number){
-    //     inputRef.current.focus()
-    //     console.log(key)
-    //     if (key.length === 1 && /[a-zA-Z ]/.test(key)){
-    //         console.log("etter")
-    //         setTextOne(textOne + key)
-    //     }
-    //     else if (key === "Backspace" && textOne.length > 0){
-    //         setTextOne(textOne.substring(0, textOne.length - 1))
-    //     }
-    // }
-
-    // const [textOne, setTextOne] = useState("")
-
-    // const inputRef = useRef(null);
-    // useEffect(() => {
-    //     inputRef.current && inputRef.current.focus();
-    // }, []);
-
-    // // 
-    // <HiddenText ref={inputRef} style={{width: 0, height: 0}} onKeyPress={(e) => {
-    //     // used to prevent from losing focus on pressing Tab or Enter
-    //     if (e.keyCode === 9 || e.keyCode === 13 || e.key === "Alt"){
-    //         e.preventDefault();
-    //     }
-    //     keyHandler(e.key);
-    //     inputRef.current && inputRef.current.focus();
-    // }}></HiddenText>
-    
-//     <TouchableOpacity onPress={() => keyHandler("q")}>
-//     <Text>Q</Text>
-// </TouchableOpacity>
-// <TouchableOpacity onPress={() => keyHandler("w")}>
-//     <Text>W</Text>
-// </TouchableOpacity>
-// <TouchableOpacity onPress={() => keyHandler("e")}>
-//     <Text>E</Text>
-// </TouchableOpacity>
 
     let holdoverdata = filmmockdata;
-    let peekdisplays;
-    let peektexts;
-    let peekoldtexts;
+    let peekTexts;
+    let peekOldTexts;
+    let peekGuessStyles;
+    let peekBools;
+    let peekGuessTexts;
 
-    let correct = Data['harry potter and the half blood prince'];
+    const [correct] = useState(Data[filmmockdata[Math.floor(Math.random() * filmmockdata.length)]]);
     console.log(correct)
-
-    const [booltest, setBooltest] = useState(true);
+    
+    const [bools, setBools] = useState([true, true, true, true, true, true])
 
     const [oldText, setOldText] = useState('')
-    const [newoldtext, setnewoldtext] = useState(['','','','','',''])
-    const [displays, setDisplays] = useState([
-        "none","none","none",
-        "none","none","none",
-        "none","none","none",
-        "none","none","none",
-        "none","none","none",
-        "none","none","none"])
+    const [newoldtext, setNewOldText] = useState(['','','','','',''])
     const [texts, setTexts] = useState([
         "","","",
         "","","",
@@ -74,10 +32,10 @@ export default function Puzzle () {
         "","","",
         "","",""])
     const [actors, setActors] = useState([correct[1],"_","_","_","_","_"])
+    const [guessTexts, setGuessTexts] = useState(["","","","","",""])
+    const [guessStyles, setGuessStyles] = useState([styles.input, styles.input, styles.input, styles.input, styles.input, styles.input])
 
-    const [arrtest, setArrtest] = useState([styles.input])
-
-    const inputRefs = [useRef(null), useRef(null)]
+    const inputRefs = [useRef(null), useRef(null), useRef(null), useRef(null), useRef(null), useRef(null)]
 
     function textHandler(text: string, column: number){
         let newData = [];
@@ -89,49 +47,73 @@ export default function Puzzle () {
         
         // if this isn't here the text updates don't work. i have no idea why this is.
         setOldText(text);
-        console.log(oldText);
+
         holdoverdata = newData;
         //console.log(holdoverdata);
         if (text.length < newoldtext[column].length){
-            peektexts = texts;
+            peekTexts = texts;
             for (let i = (column * 3); i < Math.min((column + 1) * 3, (column * 3) + newData.length); i += 1){
-                peektexts[i] = "";
+                peekTexts[i] = "";
             }
-            setTexts(peektexts);
+            setTexts(peekTexts);
             holdoverdata = filmmockdata;
-            peekdisplays = displays;
-            for (let i = column * 3; i < (column + 1) * 3; i += 1){
-                peekdisplays[i] = "none";
-            }
-            setDisplays(peekdisplays);
         }
         else{
-            peektexts = texts;
-            for (let i = (column * 3); i < Math.min((column + 1) * 3, (column * 3) + newData.length); i += 1){
-                peektexts[i] = Data[newData[i - (column * 3)]][0];
-            }
-            setTexts(peektexts);
-            peekdisplays = displays;
-            for (let i = column * 3; i < (column + 1) * 3; i += 1){
-                if (i - (column * 3) < newData.length){
-                    peekdisplays[i] = "flex";
+            peekTexts = texts;
+            for (let i = (column * 3); i < (column + 1) * 3; i += 1){
+                if (i < (column * 3) + newData.length){
+                    peekTexts[i] = Data[newData[i - (column * 3)]][0];
                 }
                 else{
-                    peekdisplays[i] = "none";
+                    peekTexts[i] = "";
                 }
             }
-            setDisplays(peekdisplays);
+            setTexts(peekTexts);
         }
 
-        peekoldtexts = newoldtext;
+        peekOldTexts = newoldtext;
         newoldtext[column] = text;
-        setnewoldtext(peekoldtexts);
+        setNewOldText(peekOldTexts);
         // now we need to know where we are in the chain of command so we can render 3 suggestion boxes under.
     }
 
     function guess(box: number){
-        setBooltest(false);
         let section = Math.floor(box / 3);
+        peekGuessTexts = guessTexts;
+        peekGuessTexts[section] = texts[box];
+        setGuessTexts(peekGuessTexts);
+        //setBooltest(false);
+        if (texts[box] === correct[0]){
+            //console.log("winner!");
+            peekGuessStyles = guessStyles;
+            peekGuessStyles[section] = styles.green;
+            setGuessStyles(peekGuessStyles);
+            peekBools = bools;
+            for (let i = 0; i < peekBools.length; i += 1){
+                peekBools[i] = false;
+            }
+            setBools(peekBools);
+            textHandler("", section)
+            return;
+        }
+        else{
+            let wordsGuess = new Set(texts[box].split(" "));
+            peekGuessStyles = guessStyles;
+            peekGuessStyles[section] = styles.gray;
+            setGuessStyles(peekGuessStyles);
+            for (let item of new Set(correct[0].split(" "))){
+                if (!PointlessWords.has(item) && wordsGuess.has(item)){
+                    //console.log("overlap");
+                    peekGuessStyles = guessStyles;
+                    peekGuessStyles[section] = styles.yellow;
+                    setGuessStyles(peekGuessStyles);
+                    break;
+                }
+            }
+        }
+        peekBools = bools;
+        peekBools[section] = false;
+        setBools(peekBools);
         if (box < 15){
             let peekactors = actors;
             peekactors[section + 1] = correct[section + 2];
@@ -144,10 +126,10 @@ export default function Puzzle () {
     return <View>
         <Text>{actors[0]}</Text>
         <DefaultInput 
-            ref={inputRefs[0]} style={booltest ? arrtest[0] : styles.none} onChange={(e) => {textHandler(e.target.value, 0)}}>
+            ref={inputRefs[0]} style={bools[0] ? styles.input : styles.none} onChange={(e) => {textHandler(e.target.value, 0)}}>
         </DefaultInput>
-        <View style={booltest ? styles.none : styles.input}>
-            <Text>Harry Potter and the Half-Blood Prince</Text>
+        <View style={bools[0] ? styles.none : guessStyles[0]}>
+            <Text>{guessTexts[0]}</Text>
         </View>
         <TouchableOpacity style={styles.hover} onPress={() => guess(0)}>
             <Text>{texts[0]}</Text>
@@ -159,58 +141,75 @@ export default function Puzzle () {
             <Text>{texts[2]}</Text>
         </TouchableOpacity>
         <Text style={actors[1].length > 1 ? null : styles.black}>{actors[1]}</Text>
-        <TextInput style={styles.input} onChange={(e) => {textHandler(e.target.value, 1)}}></TextInput>
-        <TouchableOpacity style={{display: displays[3]}} onPress={() => guess(3)}>
+        <DefaultInput 
+            ref={inputRefs[1]} style={bools[1] ? styles.input : styles.none} onChange={(e) => {textHandler(e.target.value, 1)}}>
+        </DefaultInput>
+        <View style={bools[1] ? styles.none : guessStyles[1]}>
+            <Text>{guessTexts[1]}</Text>
+        </View>
+        <TouchableOpacity style={styles.hover} onPress={() => guess(3)}>
             <Text>{texts[3]}</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={{display: displays[4]}} onPress={() => guess(4)}>
+        <TouchableOpacity style={styles.hover} onPress={() => guess(4)}>
             <Text>{texts[4]}</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={{display: displays[5]}} onPress={() => guess(5)}>
+        <TouchableOpacity style={styles.hover} onPress={() => guess(5)}>
             <Text>{texts[5]}</Text>
         </TouchableOpacity>
         <Text style={actors[2].length > 1 ? null : styles.black}>{actors[2]}</Text>
-        <TextInput style={styles.input} onChange={(e) => {textHandler(e.target.value, 2)}}></TextInput>
-        <TouchableOpacity style={{display: displays[6]}} onPress={() => guess(6)}>
+        <TextInput style={bools[2] ? styles.input : styles.none} onChange={(e) => {textHandler(e.target.value, 2)}}></TextInput>
+        <View style={bools[2] ? styles.none : guessStyles[2]}>
+            <Text>{guessTexts[2]}</Text>
+        </View>
+        <TouchableOpacity style={styles.hover} onPress={() => guess(6)}>
             <Text>{texts[6]}</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={{display: displays[7]}} onPress={() => guess(7)}>
+        <TouchableOpacity style={styles.hover} onPress={() => guess(7)}>
             <Text>{texts[7]}</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={{display: displays[8]}} onPress={() => guess(8)}>
+        <TouchableOpacity style={styles.hover} onPress={() => guess(8)}>
             <Text>{texts[8]}</Text>
         </TouchableOpacity>
         <Text style={actors[3].length > 1 ? null : styles.black}>{actors[3]}</Text>
-        <TextInput style={styles.input} onChange={(e) => {textHandler(e.target.value, 3)}}></TextInput>
-        <TouchableOpacity style={{display: displays[9]}} onPress={() => guess(9)}>
+        <TextInput style={bools[3] ? styles.input : styles.none} onChange={(e) => {textHandler(e.target.value, 3)}}></TextInput>
+        <View style={bools[3] ? styles.none : guessStyles[3]}>
+            <Text>{guessTexts[3]}</Text>
+        </View>
+        <TouchableOpacity style={styles.hover} onPress={() => guess(9)}>
             <Text>{texts[9]}</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={{display: displays[10]}} onPress={() => guess(10)}>
+        <TouchableOpacity style={styles.hover} onPress={() => guess(10)}>
             <Text>{texts[10]}</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={{display: displays[11]}} onPress={() => guess(11)}>
+        <TouchableOpacity style={styles.hover} onPress={() => guess(11)}>
             <Text>{texts[11]}</Text>
         </TouchableOpacity>
         <Text style={actors[4].length > 1 ? null : styles.black}>{actors[4]}</Text>
-        <TextInput style={styles.input} onChange={(e) => {textHandler(e.target.value, 4)}}></TextInput>
-        <TouchableOpacity style={{display: displays[12]}} onPress={() => guess(12)}>
+        <TextInput style={bools[4] ? styles.input : styles.none} onChange={(e) => {textHandler(e.target.value, 4)}}></TextInput>
+        <View style={bools[4] ? styles.none : guessStyles[4]}>
+            <Text>{guessTexts[4]}</Text>
+        </View>
+        <TouchableOpacity style={styles.hover} onPress={() => guess(12)}>
             <Text>{texts[12]}</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={{display: displays[13]}} onPress={() => guess(13)}>
+        <TouchableOpacity style={styles.hover} onPress={() => guess(13)}>
             <Text>{texts[13]}</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={{display: displays[14]}} onPress={() => guess(14)}>
+        <TouchableOpacity style={styles.hover} onPress={() => guess(14)}>
             <Text>{texts[14]}</Text>
         </TouchableOpacity>
         <Text style={actors[5].length > 1 ? null : styles.black}>{actors[5]}</Text>
-        <TextInput style={styles.input} onChange={(e) => {textHandler(e.target.value, 5)}}></TextInput>
-        <TouchableOpacity style={{display: displays[15]}} onPress={() => guess(15)}>
+        <TextInput style={bools[5] ? styles.input : styles.none} onChange={(e) => {textHandler(e.target.value, 5)}}></TextInput>
+        <View style={bools[5] ? styles.none : guessStyles[5]}>
+            <Text>{guessTexts[5]}</Text>
+        </View>
+        <TouchableOpacity style={styles.hover} onPress={() => guess(15)}>
             <Text>{texts[15]}</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={{display: displays[16]}} onPress={() => guess(16)}>
+        <TouchableOpacity style={styles.hover} onPress={() => guess(16)}>
             <Text>{texts[16]}</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={{display: displays[17]}} onPress={() => guess(17)}>
+        <TouchableOpacity style={styles.hover} onPress={() => guess(17)}>
             <Text>{texts[17]}</Text>
         </TouchableOpacity>
     </View>
@@ -235,5 +234,20 @@ const styles = StyleSheet.create({
     },
     hover: {
         overflow: 'hidden'
+    },
+    yellow: {
+        borderWidth: 1,
+        borderColor: "black",
+        backgroundColor: "yellow",
+    },
+    green: {
+        borderWidth: 1,
+        borderColor: "black",
+        backgroundColor: "green",
+    },
+    gray: {
+        borderWidth: 1,
+        borderColor: "black",
+        backgroundColor: "gray",
     }
 })
