@@ -143,6 +143,15 @@ const Data: Object = {
         "Adam Driver",
         "Daisy Ridley"
     ],
+    "shang chi and the legend of the ten rings" : [
+        "Shang-Chi and the Legend of the Ten Rings",
+        "Benedict Wong",
+        "Florian Munteanu",
+        "Fala Chen",
+        "Meng'er Zhang",
+        "Awkwafina",
+        "Simu Liu"
+    ]
 }
 
 export default Data
