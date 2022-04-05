@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react'
-import { View, TextInput, TouchableOpacity, Text } from "./components/Themed"
-import { StyleSheet, TextInput as DefaultInput, Platform } from 'react-native'
+//import { View, TextInput, TouchableOpacity, Text } from "./components/Themed"
+import { StyleSheet, View, TouchableOpacity, Text, TextInput, Platform } from 'react-native'
 import Data from "./constants/Data"
 import PointlessWords from './constants/PointlessWords'
 
@@ -16,6 +16,7 @@ export default function Puzzle () {
     let peekGuessStyles;
     let peekBools;
     let peekGuessTexts;
+    let peekHoverTexts;
 
     const [correct] = useState(Data[filmmockdata[Math.floor(Math.random() * filmmockdata.length)]]);
     console.log(correct)
@@ -34,6 +35,7 @@ export default function Puzzle () {
     const [actors, setActors] = useState([correct[1],"_","_","_","_","_"])
     const [guessTexts, setGuessTexts] = useState(["","","","","",""])
     const [guessStyles, setGuessStyles] = useState([styles.input, styles.input, styles.input, styles.input, styles.input, styles.input])
+    const [hoverTexts, setHoverTexts] = useState(["","",""])
 
     const inputRefs = [useRef(null), useRef(null), useRef(null), useRef(null), useRef(null), useRef(null)]
 
@@ -50,26 +52,28 @@ export default function Puzzle () {
 
         holdoverdata = newData;
         //console.log(holdoverdata);
+        peekTexts = texts;
+        peekHoverTexts = hoverTexts;
         if (text.length < newoldtext[column].length){
-            peekTexts = texts;
             for (let i = (column * 3); i < Math.min((column + 1) * 3, (column * 3) + newData.length); i += 1){
                 peekTexts[i] = "";
+                peekHoverTexts[i % 3] = "";
             }
-            setTexts(peekTexts);
             holdoverdata = filmmockdata;
         }
         else{
-            peekTexts = texts;
             for (let i = (column * 3); i < (column + 1) * 3; i += 1){
                 if (i < (column * 3) + newData.length){
                     peekTexts[i] = Data[newData[i - (column * 3)]][0];
+                    peekHoverTexts[i % 3] = Data[newData[i - (column * 3)]][0];
                 }
                 else{
                     peekTexts[i] = "";
+                    peekHoverTexts[i % 3] = 0;
                 }
             }
-            setTexts(peekTexts);
         }
+        setTexts(peekTexts);
 
         peekOldTexts = newoldtext;
         newoldtext[column] = text;
@@ -131,106 +135,112 @@ export default function Puzzle () {
         textHandler("", section);
     }
 
-    return <View style={styles.container}>
-        <View style={styles.spot}>
-            <Text style={styles.actor}>{actors[0]}</Text>
-            <DefaultInput 
-                ref={inputRefs[0]} style={bools[0] ? styles.input : styles.none} onChange={(e) => {textHandler(e.target.value, 0)}}>
-            </DefaultInput>
-            <View style={[styles.input, bools[0] ? styles.none : guessStyles[0]]}>
-                <Text>{guessTexts[0]}</Text>
+    return <View>
+        <View>navbar?</View>
+        <TouchableOpacity style={[styles.hover]}>{hoverTexts[0]}</TouchableOpacity>
+        <TouchableOpacity style={[styles.hover, styles.bigtest]}>{hoverTexts[1]}</TouchableOpacity>
+        <TouchableOpacity style={[styles.hover, styles.bigtest]}>{hoverTexts[2]}</TouchableOpacity>
+        <View style={styles.container}>
+            <View style={styles.spot}>
+                <Text style={styles.actor}>{actors[0]}</Text>
+                <TextInput 
+                    ref={inputRefs[0]} style={bools[0] ? styles.input : styles.none} onChange={(e) => {textHandler(e.target.value, 0)}}>
+                </TextInput>
+                <View style={[styles.input, bools[0] ? styles.none : guessStyles[0]]}>
+                    <Text>{guessTexts[0]}</Text>
+                </View>
+                <TouchableOpacity style={[styles.hover, texts[0].length > 0 ? null : styles.none, styles.firstSug]} onPress={() => guess(0)}>
+                    <Text>{texts[0]}</Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={[styles.hover, texts[1].length > 0 ? null : styles.none, styles.secondSug]} onPress={() => guess(1)}>
+                    <Text>{texts[1]}</Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={[styles.hover, texts[2].length > 0 ? null : styles.none, styles.thirdSug]} onPress={() => guess(2)}>
+                    <Text>{texts[2]}</Text>
+                </TouchableOpacity>
             </View>
-            <TouchableOpacity style={styles.hover} onPress={() => guess(0)}>
-                <Text>{texts[0]}</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.hover} onPress={() => guess(1)}>
-                <Text>{texts[1]}</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.hover} onPress={() => guess(2)}>
-                <Text>{texts[2]}</Text>
-            </TouchableOpacity>
-        </View>
-        <View style={styles.spot}>
-            <Text style={actors[1].length > 1 ? styles.actor : styles.black}>{actors[1]}</Text>
-            <DefaultInput 
-                ref={inputRefs[1]} style={bools[1] ? styles.input : styles.none} onChange={(e) => {textHandler(e.target.value, 1)}}>
-            </DefaultInput>
-            <View style={[styles.input, bools[1] ? styles.none : guessStyles[1]]}>
-                <Text>{guessTexts[1]}</Text>
+            <View style={styles.spot}>
+                <Text style={actors[1].length > 1 ? styles.actor : styles.black}>{actors[1]}</Text>
+                <TextInput 
+                    ref={inputRefs[1]} style={bools[1] ? styles.input : styles.none} onChange={(e) => {textHandler(e.target.value, 1)}}>
+                </TextInput>
+                <View style={[styles.input, bools[1] ? styles.none : guessStyles[1]]}>
+                    <Text>{guessTexts[1]}</Text>
+                </View>
+                <TouchableOpacity style={styles.hover} onPress={() => guess(3)}>
+                    <Text>{texts[3]}</Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.hover} onPress={() => guess(4)}>
+                    <Text>{texts[4]}</Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.hover} onPress={() => guess(5)}>
+                    <Text>{texts[5]}</Text>
+                </TouchableOpacity>
             </View>
-            <TouchableOpacity style={styles.hover} onPress={() => guess(3)}>
-                <Text>{texts[3]}</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.hover} onPress={() => guess(4)}>
-                <Text>{texts[4]}</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.hover} onPress={() => guess(5)}>
-                <Text>{texts[5]}</Text>
-            </TouchableOpacity>
-        </View>
-        <View style={styles.spot}>
-            <Text style={actors[2].length > 1 ? styles.actor : styles.black}>{actors[2]}</Text>
-            <TextInput style={bools[2] ? styles.input : styles.none} onChange={(e) => {textHandler(e.target.value, 2)}}></TextInput>
-            <View style={[styles.input, bools[2] ? styles.none : guessStyles[2]]}>
-                <Text>{guessTexts[2]}</Text>
+            <View style={styles.spot}>
+                <Text style={actors[2].length > 1 ? styles.actor : styles.black}>{actors[2]}</Text>
+                <TextInput style={bools[2] ? styles.input : styles.none} onChange={(e) => {textHandler(e.target.value, 2)}}></TextInput>
+                <View style={[styles.input, bools[2] ? styles.none : guessStyles[2]]}>
+                    <Text>{guessTexts[2]}</Text>
+                </View>
+                <TouchableOpacity style={styles.hover} onPress={() => guess(6)}>
+                    <Text>{texts[6]}</Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.hover} onPress={() => guess(7)}>
+                    <Text>{texts[7]}</Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.hover} onPress={() => guess(8)}>
+                    <Text>{texts[8]}</Text>
+                </TouchableOpacity>
             </View>
-            <TouchableOpacity style={styles.hover} onPress={() => guess(6)}>
-                <Text>{texts[6]}</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.hover} onPress={() => guess(7)}>
-                <Text>{texts[7]}</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.hover} onPress={() => guess(8)}>
-                <Text>{texts[8]}</Text>
-            </TouchableOpacity>
-        </View>
-        <View style={styles.spot}>
-            <Text style={actors[3].length > 1 ? styles.actor : styles.black}>{actors[3]}</Text>
-            <TextInput style={bools[3] ? styles.input : styles.none} onChange={(e) => {textHandler(e.target.value, 3)}}></TextInput>
-            <View style={[styles.input, bools[3] ? styles.none : guessStyles[3]]}>
-                <Text>{guessTexts[3]}</Text>
+            <View style={styles.spot}>
+                <Text style={actors[3].length > 1 ? styles.actor : styles.black}>{actors[3]}</Text>
+                <TextInput style={bools[3] ? styles.input : styles.none} onChange={(e) => {textHandler(e.target.value, 3)}}></TextInput>
+                <View style={[styles.input, bools[3] ? styles.none : guessStyles[3]]}>
+                    <Text>{guessTexts[3]}</Text>
+                </View>
+                <TouchableOpacity style={styles.hover} onPress={() => guess(9)}>
+                    <Text>{texts[9]}</Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.hover} onPress={() => guess(10)}>
+                    <Text>{texts[10]}</Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.hover} onPress={() => guess(11)}>
+                    <Text>{texts[11]}</Text>
+                </TouchableOpacity>
             </View>
-            <TouchableOpacity style={styles.hover} onPress={() => guess(9)}>
-                <Text>{texts[9]}</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.hover} onPress={() => guess(10)}>
-                <Text>{texts[10]}</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.hover} onPress={() => guess(11)}>
-                <Text>{texts[11]}</Text>
-            </TouchableOpacity>
-        </View>
-        <View style={styles.spot}>
-            <Text style={actors[4].length > 1 ? styles.actor : styles.black}>{actors[4]}</Text>
-            <TextInput style={bools[4] ? styles.input : styles.none} onChange={(e) => {textHandler(e.target.value, 4)}}></TextInput>
-            <View style={[styles.input, bools[4] ? styles.none : guessStyles[4]]}>
-                <Text>{guessTexts[4]}</Text>
+            <View style={styles.spot}>
+                <Text style={actors[4].length > 1 ? styles.actor : styles.black}>{actors[4]}</Text>
+                <TextInput style={bools[4] ? styles.input : styles.none} onChange={(e) => {textHandler(e.target.value, 4)}}></TextInput>
+                <View style={[styles.input, bools[4] ? styles.none : guessStyles[4]]}>
+                    <Text>{guessTexts[4]}</Text>
+                </View>
+                <TouchableOpacity style={styles.hover} onPress={() => guess(12)}>
+                    <Text>{texts[12]}</Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.hover} onPress={() => guess(13)}>
+                    <Text>{texts[13]}</Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.hover} onPress={() => guess(14)}>
+                    <Text>{texts[14]}</Text>
+                </TouchableOpacity>
             </View>
-            <TouchableOpacity style={styles.hover} onPress={() => guess(12)}>
-                <Text>{texts[12]}</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.hover} onPress={() => guess(13)}>
-                <Text>{texts[13]}</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.hover} onPress={() => guess(14)}>
-                <Text>{texts[14]}</Text>
-            </TouchableOpacity>
-        </View>
-        <View style={styles.spot}>
-            <Text style={actors[5].length > 1 ? styles.actor : styles.black}>{actors[5]}</Text>
-            <TextInput style={bools[5] ? styles.input : styles.none} onChange={(e) => {textHandler(e.target.value, 5)}}></TextInput>
-            <View style={[styles.input, bools[5] ? styles.none : guessStyles[5]]}>
-                <Text>{guessTexts[5]}</Text>
+            <View style={styles.spot}>
+                <Text style={actors[5].length > 1 ? styles.actor : styles.black}>{actors[5]}</Text>
+                <TextInput style={bools[5] ? styles.input : styles.none} onChange={(e) => {textHandler(e.target.value, 5)}}></TextInput>
+                <View style={[styles.input, bools[5] ? styles.none : guessStyles[5]]}>
+                    <Text>{guessTexts[5]}</Text>
+                </View>
+                <TouchableOpacity style={styles.hover} onPress={() => guess(15)}>
+                    <Text>{texts[15]}</Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.hover} onPress={() => guess(16)}>
+                    <Text>{texts[16]}</Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.hover} onPress={() => guess(17)}>
+                    <Text>{texts[17]}</Text>
+                </TouchableOpacity>
             </View>
-            <TouchableOpacity style={styles.hover} onPress={() => guess(15)}>
-                <Text>{texts[15]}</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.hover} onPress={() => guess(16)}>
-                <Text>{texts[16]}</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.hover} onPress={() => guess(17)}>
-                <Text>{texts[17]}</Text>
-            </TouchableOpacity>
         </View>
     </View>
 }
@@ -243,13 +253,13 @@ const styles = StyleSheet.create({
         alignContent: 'center',
         marginVertical: "2%",
         marginHorizontal: "40%",
-        height: "100%",
-        fontSize: "50%"
+        height: "150%",
     },
     input: {
         borderWidth: 1,
         borderColor: "black",
         height: 30,
+        zIndex: -1
     },
     none: {
         display: 'none'
@@ -259,7 +269,12 @@ const styles = StyleSheet.create({
         height: 30
     },
     hover: {
-        position: 'absolute'
+        overflow: "hidden",
+        position: "absolute",
+        width: "100%",
+        height: "5%",
+        borderWidth: 1,
+        borderColor: "black",
     },
     yellow: {
         backgroundColor: "yellow",
@@ -272,9 +287,34 @@ const styles = StyleSheet.create({
     },
     spot: {
         marginVertical: "1%",
-        height: "14%"
+        height: "14%",
+        overflow: "hidden",
+        position: "relative"
     },
     actor: {
-        height: 30
+        height: 30,
+        fontSize: 20,
+        overflow: 'hidden',
+        fontStyle: 'italic',
+        borderWidth: 1,
+        borderColor: "black",
+        borderBottomWidth: 0
+    },
+    topTest: {
+        
+    },
+    firstSug: {
+        top: "55%"
+    },
+    secondSug: {
+        top: "75%"
+    },
+    thirdSug: {
+        top: "95%"
+    },
+    bigtest: {
+        top: "40%",
+        backgroundColor: "gray",
+        zIndex: 7
     }
 })
