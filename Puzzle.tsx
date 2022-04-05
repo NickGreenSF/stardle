@@ -11,33 +11,27 @@ const filmmockdata : Array<string> = Object.keys(Data)
 export default function Puzzle () {
 
     let holdoverdata = filmmockdata;
-    let peekTexts;
     let peekOldTexts;
     let peekGuessStyles;
     let peekBools;
     let peekGuessTexts;
     let peekHoverTexts;
+    let peekHoverDisplays;
 
     const [correct] = useState(Data[filmmockdata[Math.floor(Math.random() * filmmockdata.length)]]);
-    console.log(correct)
+    //console.log(correct)
+
+    const [active, setActive] = useState(0);
     
     const [bools, setBools] = useState([true, false, false, false, false, false])
 
     const [oldText, setOldText] = useState('')
     const [newoldtext, setNewOldText] = useState(['','','','','',''])
-    const [texts, setTexts] = useState([
-        "","","",
-        "","","",
-        "","","",
-        "","","",
-        "","","",
-        "","",""])
     const [actors, setActors] = useState([correct[1],"_","_","_","_","_"])
     const [guessTexts, setGuessTexts] = useState(["","","","","",""])
     const [guessStyles, setGuessStyles] = useState([styles.input, styles.input, styles.input, styles.input, styles.input, styles.input])
     const [hoverTexts, setHoverTexts] = useState(["","",""])
-
-    const inputRefs = [useRef(null), useRef(null), useRef(null), useRef(null), useRef(null), useRef(null)]
+    const [hoverDisplays, setHoverDisplays] = useState([false, false, false])
 
     function textHandler(text: string, column: number){
         let newData = [];
@@ -52,29 +46,29 @@ export default function Puzzle () {
 
         holdoverdata = newData;
         //console.log(holdoverdata);
-        peekTexts = texts;
         peekHoverTexts = hoverTexts;
+        peekHoverDisplays = hoverDisplays;
         if (text.length < newoldtext[column].length){
             for (let i = (column * 3); i < Math.min((column + 1) * 3, (column * 3) + newData.length); i += 1){
-                peekTexts[i] = "";
                 peekHoverTexts[i % 3] = "";
+                peekHoverDisplays[i % 3] = false;
             }
             holdoverdata = filmmockdata;
         }
         else{
             for (let i = (column * 3); i < (column + 1) * 3; i += 1){
                 if (i < (column * 3) + newData.length){
-                    peekTexts[i] = Data[newData[i - (column * 3)]][0];
                     peekHoverTexts[i % 3] = Data[newData[i - (column * 3)]][0];
+                    peekHoverDisplays[i % 3] = true;
                 }
                 else{
-                    peekTexts[i] = "";
-                    peekHoverTexts[i % 3] = 0;
+                    peekHoverTexts[i % 3] = "";
+                    peekHoverDisplays[i % 3] = false;
                 }
             }
         }
-        setTexts(peekTexts);
-
+        setHoverTexts(peekHoverTexts);
+        setHoverDisplays(peekHoverDisplays);
         peekOldTexts = newoldtext;
         newoldtext[column] = text;
         setNewOldText(peekOldTexts);
@@ -82,12 +76,17 @@ export default function Puzzle () {
     }
 
     function guess(box: number){
+        if (box > 17){
+            // this will break the page if allowed to run so we abort it
+            return
+        }
         let section = Math.floor(box / 3);
+        setActive(active + 1);
         peekGuessTexts = guessTexts;
-        peekGuessTexts[section] = texts[box];
+        peekGuessTexts[section] = hoverTexts[box % 3];
         setGuessTexts(peekGuessTexts);
         //setBooltest(false);
-        if (texts[box] === correct[0]){
+        if (hoverTexts[box % 3] === correct[0]){
             //console.log("winner!");
             peekGuessStyles = guessStyles;
             peekGuessStyles[section] = styles.green;
@@ -108,7 +107,7 @@ export default function Puzzle () {
             return;
         }
         else{
-            let wordsGuess = new Set(texts[box].split(" "));
+            let wordsGuess = new Set(hoverTexts[box % 3].split(" "));
             peekGuessStyles = guessStyles;
             peekGuessStyles[section] = styles.gray;
             setGuessStyles(peekGuessStyles);
@@ -129,53 +128,47 @@ export default function Puzzle () {
             let peekactors = actors;
             peekactors[section + 1] = correct[section + 2];
             setActors(peekactors);
-            console.log(actors);
+            //console.log(actors);
         }
         setBools(peekBools);
         textHandler("", section);
     }
 
-    return <View>
-        <View>navbar?</View>
-        <TouchableOpacity style={[styles.hover]}>{hoverTexts[0]}</TouchableOpacity>
-        <TouchableOpacity style={[styles.hover, styles.bigtest]}>{hoverTexts[1]}</TouchableOpacity>
-        <TouchableOpacity style={[styles.hover, styles.bigtest]}>{hoverTexts[2]}</TouchableOpacity>
+    return <View style={styles.toplevel}>
+        <View style={styles.navbar}>navbar?</View>
+        <TouchableOpacity 
+            style={[styles.hover, styles.firstSug, hoverDisplays[0] ? null : styles.none]} 
+            onPress={() => guess((active * 3))}>
+                {hoverTexts[0]}
+        </TouchableOpacity>
+        <TouchableOpacity 
+            style={[styles.hover, styles.secondSug, hoverDisplays[1] ? null : styles.none]} 
+            onPress={() => guess(1 + (active * 3))}>
+                {hoverTexts[1]}
+        </TouchableOpacity>
+        <TouchableOpacity 
+            style={[styles.hover, styles.thirdSug, hoverDisplays[2] ? null : styles.none]} 
+            onPress={() => guess(2 + (active * 3))}>
+                {hoverTexts[2]}
+        </TouchableOpacity>
         <View style={styles.container}>
             <View style={styles.spot}>
                 <Text style={styles.actor}>{actors[0]}</Text>
                 <TextInput 
-                    ref={inputRefs[0]} style={bools[0] ? styles.input : styles.none} onChange={(e) => {textHandler(e.target.value, 0)}}>
+                    style={bools[0] ? styles.input : styles.none} onChange={(e) => {textHandler(e.target.value, 0)}}>
                 </TextInput>
                 <View style={[styles.input, bools[0] ? styles.none : guessStyles[0]]}>
                     <Text>{guessTexts[0]}</Text>
                 </View>
-                <TouchableOpacity style={[styles.hover, texts[0].length > 0 ? null : styles.none, styles.firstSug]} onPress={() => guess(0)}>
-                    <Text>{texts[0]}</Text>
-                </TouchableOpacity>
-                <TouchableOpacity style={[styles.hover, texts[1].length > 0 ? null : styles.none, styles.secondSug]} onPress={() => guess(1)}>
-                    <Text>{texts[1]}</Text>
-                </TouchableOpacity>
-                <TouchableOpacity style={[styles.hover, texts[2].length > 0 ? null : styles.none, styles.thirdSug]} onPress={() => guess(2)}>
-                    <Text>{texts[2]}</Text>
-                </TouchableOpacity>
             </View>
             <View style={styles.spot}>
                 <Text style={actors[1].length > 1 ? styles.actor : styles.black}>{actors[1]}</Text>
                 <TextInput 
-                    ref={inputRefs[1]} style={bools[1] ? styles.input : styles.none} onChange={(e) => {textHandler(e.target.value, 1)}}>
+                    style={bools[1] ? styles.input : styles.none} onChange={(e) => {textHandler(e.target.value, 1)}}>
                 </TextInput>
                 <View style={[styles.input, bools[1] ? styles.none : guessStyles[1]]}>
                     <Text>{guessTexts[1]}</Text>
                 </View>
-                <TouchableOpacity style={styles.hover} onPress={() => guess(3)}>
-                    <Text>{texts[3]}</Text>
-                </TouchableOpacity>
-                <TouchableOpacity style={styles.hover} onPress={() => guess(4)}>
-                    <Text>{texts[4]}</Text>
-                </TouchableOpacity>
-                <TouchableOpacity style={styles.hover} onPress={() => guess(5)}>
-                    <Text>{texts[5]}</Text>
-                </TouchableOpacity>
             </View>
             <View style={styles.spot}>
                 <Text style={actors[2].length > 1 ? styles.actor : styles.black}>{actors[2]}</Text>
@@ -183,15 +176,6 @@ export default function Puzzle () {
                 <View style={[styles.input, bools[2] ? styles.none : guessStyles[2]]}>
                     <Text>{guessTexts[2]}</Text>
                 </View>
-                <TouchableOpacity style={styles.hover} onPress={() => guess(6)}>
-                    <Text>{texts[6]}</Text>
-                </TouchableOpacity>
-                <TouchableOpacity style={styles.hover} onPress={() => guess(7)}>
-                    <Text>{texts[7]}</Text>
-                </TouchableOpacity>
-                <TouchableOpacity style={styles.hover} onPress={() => guess(8)}>
-                    <Text>{texts[8]}</Text>
-                </TouchableOpacity>
             </View>
             <View style={styles.spot}>
                 <Text style={actors[3].length > 1 ? styles.actor : styles.black}>{actors[3]}</Text>
@@ -199,15 +183,6 @@ export default function Puzzle () {
                 <View style={[styles.input, bools[3] ? styles.none : guessStyles[3]]}>
                     <Text>{guessTexts[3]}</Text>
                 </View>
-                <TouchableOpacity style={styles.hover} onPress={() => guess(9)}>
-                    <Text>{texts[9]}</Text>
-                </TouchableOpacity>
-                <TouchableOpacity style={styles.hover} onPress={() => guess(10)}>
-                    <Text>{texts[10]}</Text>
-                </TouchableOpacity>
-                <TouchableOpacity style={styles.hover} onPress={() => guess(11)}>
-                    <Text>{texts[11]}</Text>
-                </TouchableOpacity>
             </View>
             <View style={styles.spot}>
                 <Text style={actors[4].length > 1 ? styles.actor : styles.black}>{actors[4]}</Text>
@@ -215,15 +190,6 @@ export default function Puzzle () {
                 <View style={[styles.input, bools[4] ? styles.none : guessStyles[4]]}>
                     <Text>{guessTexts[4]}</Text>
                 </View>
-                <TouchableOpacity style={styles.hover} onPress={() => guess(12)}>
-                    <Text>{texts[12]}</Text>
-                </TouchableOpacity>
-                <TouchableOpacity style={styles.hover} onPress={() => guess(13)}>
-                    <Text>{texts[13]}</Text>
-                </TouchableOpacity>
-                <TouchableOpacity style={styles.hover} onPress={() => guess(14)}>
-                    <Text>{texts[14]}</Text>
-                </TouchableOpacity>
             </View>
             <View style={styles.spot}>
                 <Text style={actors[5].length > 1 ? styles.actor : styles.black}>{actors[5]}</Text>
@@ -231,15 +197,6 @@ export default function Puzzle () {
                 <View style={[styles.input, bools[5] ? styles.none : guessStyles[5]]}>
                     <Text>{guessTexts[5]}</Text>
                 </View>
-                <TouchableOpacity style={styles.hover} onPress={() => guess(15)}>
-                    <Text>{texts[15]}</Text>
-                </TouchableOpacity>
-                <TouchableOpacity style={styles.hover} onPress={() => guess(16)}>
-                    <Text>{texts[16]}</Text>
-                </TouchableOpacity>
-                <TouchableOpacity style={styles.hover} onPress={() => guess(17)}>
-                    <Text>{texts[17]}</Text>
-                </TouchableOpacity>
             </View>
         </View>
     </View>
@@ -247,40 +204,40 @@ export default function Puzzle () {
 
 const styles = StyleSheet.create({
     text: {
-        margin: 5,
+        margin: "5%",
     },
     container: {
         alignContent: 'center',
-        marginVertical: "2%",
         marginHorizontal: "40%",
-        height: "150%",
+        height: "90%",
     },
     input: {
         borderWidth: 1,
         borderColor: "black",
-        height: 30,
-        zIndex: -1
+        height: "50%"
     },
     none: {
         display: 'none'
     },
     black: {
         backgroundColor: "black",
-        height: 30
+        height: "50%"
     },
     hover: {
         overflow: "hidden",
         position: "absolute",
-        width: "100%",
-        height: "5%",
+        width: "20%",
+        height: "10%",
         borderWidth: 1,
-        borderColor: "black",
+        borderColor: "white",
+        zIndex: 7,
+        backgroundColor: "gray"
     },
     yellow: {
-        backgroundColor: "yellow",
+        backgroundColor: "#FFD185",
     },
     green: {
-        backgroundColor: "green",
+        backgroundColor: "#77D353",
     },
     gray: {
         backgroundColor: "gray",
@@ -289,32 +246,30 @@ const styles = StyleSheet.create({
         marginVertical: "1%",
         height: "14%",
         overflow: "hidden",
-        position: "relative"
     },
     actor: {
-        height: 30,
-        fontSize: 20,
+        height: "50%",
+        fontSize: "100%",
         overflow: 'hidden',
         fontStyle: 'italic',
         borderWidth: 1,
         borderColor: "black",
         borderBottomWidth: 0
     },
-    topTest: {
-        
+    navbar: {
+        top: 0,
+        height: "5%"
     },
     firstSug: {
-        top: "55%"
+        top: "15%"
     },
     secondSug: {
-        top: "75%"
+        top: "35%"
     },
     thirdSug: {
-        top: "95%"
+        top: "55%"
     },
-    bigtest: {
-        top: "40%",
-        backgroundColor: "gray",
-        zIndex: 7
+    toplevel: {
+        height: "100%"
     }
 })
