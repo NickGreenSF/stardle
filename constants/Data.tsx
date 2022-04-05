@@ -1,4 +1,456 @@
+// Years done: 2000, first 3 2022, 2021, 2020, 2019, 2018
+
 const Data: Object = {
+    "black panther" : [
+        "Black Panther",
+        "Daniel Kaluuya",
+        "Martin Freeman",
+        "Danai Gurira",
+        "Lupita Nyong'o",
+        "Michael B. Jordan",
+        "Chadwick Boseman"
+    ],
+    "avengers infinity war" : [
+        "Avengers: Infinity War",
+        "Benedict Cumberbatch",
+        "Scarlett Johansson",
+        "Chris Evans",
+        "Mark Ruffalo",
+        "Chris Hemsworth",
+        "Robert Downey Jr."
+    ],
+    "incredibles 2" : [
+        "Incredibles 2",
+        "Samuel L. Jackson",
+        "Eli Fucile",
+        "Huckleberry Milner",
+        "Sarah Vowell",
+        "Holly Hunter",
+        "Craig T. Nelson"
+    ],
+    "jurassic world fallen kingdom" : [
+        "Jurassic World: Fallen Kingdom",
+        "James Cromwell",
+        "Daniella Pineda",
+        "Justice Smith",
+        "Rafe Spall",
+        "Bryce Dallas Howard",
+        "Chris Pratt"
+    ],
+    "aquaman" : [
+        "Aquaman",
+        "Yahya Abdul-Mateen II",
+        "Dolph Lundgren",
+        "Patrick Wilson",
+        "Willem Dafoe",
+        "Amber Heard",
+        "Jason Momoa"
+    ],
+    "deadpool 2" : [
+        "Deadpool 2",
+        "T.J. Miller",
+        "Zazie Beetz",
+        "Julian Dennison",
+        "Morena Baccarin",
+        "Josh Brolin",
+        "Ryan Reynolds"
+    ],
+    "the grinch" : [
+        "The Grinch",
+        "Pharrell Williams",
+        "Angela Lansbury",
+        "Kenan Thompson",
+        "Rashida Jones",
+        "Cameron Seely",
+        "Benedict Cumberbatch"
+    ],
+    "mission impossible fallout" : [
+        "Mission: Impossible - Fallout",
+        "Sean Harris",
+        "Rebecca Ferguson",
+        "Simon Pegg",
+        "Ving Rhames",
+        "Henry Cavill",
+        "Tom Cruise"
+    ],
+    "ant man and the wasp" : [
+        "Ant-Man and the Wasp",
+        "Michael Douglas",
+        "Laurence Fishburne",
+        "Michelle Pfeiffer",
+        "Michael Peña",
+        "Evangeline Lilly",
+        "Paul Rudd"
+    ],
+    "bohemian rhapsody" : [
+        "Bohemian Rhapsody",
+        "Aidan Gillen",
+        "Joe Mazzello",
+        "Ben Hardy",
+        "Gwilym Lee",
+        "Lucy Boynton",
+        "Rami Malek"
+    ],
+    "avengers endgame" : [
+        "Avengers: Endgame",
+        "Josh Brolin",
+        "Brie Larson",
+        "Chris Hemsworth",
+        "Mark Ruffalo",
+        "Chris Evans",
+        "Robert Downey Jr."
+    ],
+    "the lion king (2019)" : [
+        "The Lion King (2019)",
+        "John Kani",
+        "Billy Eichner",
+        "Alfre Woodard",
+        "Chiwetel Ejiofor",
+        "Seth Rogen",
+        "Donald Glover"
+    ],
+    "frozen ii" : [
+        "Frozen II",
+        "Sterling K. Brown",
+        "Martha Plimpton",
+        "Jonathan Groff",
+        "Josh Gad",
+        "Idina Menzel",
+        "Kristen Bell"
+    ],
+    "toy story 4" : [
+        "Toy Story 4",
+        "Jordan Peele",
+        "Keegan-Michael Key",
+        "Tony Hale",
+        "Annie Potts",
+        "Tim Allen",
+        "Tom Hanks"
+    ],
+    "captain marvel" : [
+        "Captain Marvel",
+        "Lashana Lynch",
+        "Lee Pace",
+        "Djimon Hounsou",
+        "Ben Mendelsohn",
+        "Samuel L. Jackson",
+        "Brie Larson"
+    ],
+    "spider man far from home" : [
+        "Spider-Man: Far From Home",
+        "Jon Favreau",
+        "Cobie Smulders",
+        "Jake Gyllenhaal",
+        "Zendaya",
+        "Samuel L. Jackson",
+        "Tom Holland"
+    ],
+    "aladdin" : [
+        "Aladdin",
+        "Nasim Pedrad",
+        "Navid Negahban",
+        "Marwan Kenzari",
+        "Naomi Scott",
+        "Mena Massoud",
+        "Will Smith"
+    ],
+    "joker" : [
+        "Joker",
+        "Douglas Hodge",
+        "Brett Cullen",
+        "Frances Conroy",
+        "Zazie Beetz",
+        "Robert De Niro",
+        "Joaquin Phoenix"
+    ],
+    "jumanji the next level" : [
+        "Jumanji: The Next Level",
+        "Awkwafina",
+        "Nick Jonas",
+        "Karen Gillan",
+        "Kevin Hart",
+        "Jack Black",
+        "Dwayne Johnson"
+    ],
+    "bad boys for life" : [
+        "Bad Boys for Life",
+        "Charles Melton",
+        "Alexander Ludwig",
+        "Vanessa Hudgens",
+        "Paola Nuñez",
+        "Martin Lawrence",
+        "Will Smith"
+    ],
+    "sonic the hedgehog" : [
+        "Sonic the Hedgehog",
+        "Adam Pally",
+        "Natasha Rothwell",
+        "Tika Sumpter",
+        "James Marsden",
+        "Jim Carrey",
+        "Ben Schwartz"
+    ],
+    "birds of prey" : [
+        "Birds of Prey",
+        "Ewan McGregor",
+        "Chris Messina",
+        "Rosie Perez",
+        "Jumee Smollett-Bell",
+        "Mary Elizabeth Winstead",
+        "Margot Robbie"
+    ],
+    "dolittle" : [
+        "Dolittle",
+        "Octavia Spencer",
+        "Kumail Nanjiani",
+        "John Cena",
+        "Rami Malek",
+        "Emma Thompson",
+        "Robert Downey Jr."
+    ],
+    "the invisible man" : [
+        "The Invisible Man",
+        "Michael Dorman",
+        "Harriet Dyer",
+        "Storm Reid",
+        "Aldis Hodge",
+        "Oliver Jackson-Cohen",
+        "Elisabeth Moss"
+    ],
+    "the call of the wild" : [
+        "The Call of the Wild",
+        "Bradley Whitford",
+        "Karen Gillan",
+        "Cara Gee",
+        "Dan Stevens",
+        "Omar Sy",
+        "Harrison Ford"
+    ],
+    "onward" : [
+        "Onward",
+        "Mel Rodriguez",
+        "Kyle Bornheimer",
+        "Octavia Spencer",
+        "Julia Louis-Dreyfus",
+        "Chris Pratt",
+        "Tom Holland"
+    ],
+    "the croods a new age" : [
+        "The Croods: A New Age",
+        "Leslie Mann",
+        "Peter Dinklage",
+        "Kelly Marie Tran",
+        "Ryan Reynolds",
+        "Emma Stone",
+        "Nicolas Cage"
+    ],
+    "tenet" : [
+        "Tenet",
+        "Kenneth Branagh",
+        "Michael Caine",
+        "Dimple Kapadia",
+        "Elizabeth Debicki",
+        "Robert Pattinson",
+        "John David Washington"
+    ],
+    "wonder woman 1984" : [
+        "Wonder Woman 1984",
+        "Connie Nielsen",
+        "Robin Wright",
+        "Pedro Pascal",
+        "Kristen Wiig",
+        "Chris Pine",
+        "Gal Gadot"
+    ],
+    "venom let there be carnage" : [
+        "Venom: Let There Be Carnage",
+        "Woody Harrelson",
+        "Stephen Graham",
+        "Reid Scott",
+        "Naomie Harris",
+        "Michelle Williams",
+        "Tom Hardy"
+    ],
+    "black widow" : [
+        "Black Widow",
+        "William Hurt",
+        "Olga Kurylenko",
+        "O-T Fagbenle",
+        "David Harbour",
+        "Florence Pugh",
+        "Scarlett Johansson"
+    ],
+    "f9" : [
+        "F9",
+        "Nathalie Emmanuel",
+        "John Cena",
+        'Chris "Ludacris" Bridges',
+        "Tyrese Gibson",
+        "Michelle Rodriguez",
+        "Vin Diesel"
+    ],
+    "eternals" : [
+        "Eternals",
+        "Lauren Ridloff",
+        "Brian Tyree Henry",
+        "Lia McHugh",
+        "Kumail Nanjiani",
+        "Richard Madden",
+        "Gemma Chan"
+    ],
+    "no time to die" : [
+        "No Time to Die",
+        "Naomie Harris",
+        "Ben Whinshaw",
+        "Lashana Lynch",
+        "Rami Malek",
+        "Lea Seydoux",
+        "Daniel Craig"
+    ],
+    "sing 2" : [
+        "Sing 2",
+        "Tori Kelly",
+        "Bobby Cannavale",
+        "Taron Egerton",
+        "Scarlett Johansson",
+        "Reese Witherspoon",
+        "Matthew McConaughey"
+    ],
+    "a quiet place part ii" : [
+        "A Quiet Place Part II",
+        "John Krasinski",
+        "Djimon Hounsou",
+        "Noah Jupe",
+        "Millicent Simmonds",
+        "Cillian Murphy",
+        "Emily Blunt"
+    ],
+    "ghostbusters afterlife" : [
+        "Ghostbusters: Afterlife",
+        "Bill Murray",
+        "Dan Aykroyd",
+        "Paul Rudd",
+        "Mckenna Grace",
+        "Finn Wolfhard",
+        "Carrie Coon"
+    ],
+    "scream" : [
+        "Scream",
+        "Mikey Madison",
+        "Jack Quaid",
+        "Melissa Barrera",
+        "David Arquette",
+        "Courteney Cox",
+        "Neve Campbell"
+    ],
+    "uncharted" : [
+        "Uncharted",
+        "Rudy Pankow",
+        "Tati Gabrielle",
+        "Sophia Ali",
+        "Antonio Banderas",
+        "Mark Wahlberg",
+        "Tom Holland"
+    ],
+    "the batman" : [
+        "The Batman",
+        "Colin Farrell",
+        "Andy Serkis",
+        "Paul Dano",
+        "Jeffrey Wright",
+        "Zoe Kravitz",
+        "Robert Pattinson"
+    ],
+    "what lies beneath" : [
+        "What Lies Beneath",
+        "Ray Baker",
+        "James Remar",
+        "Miranda Otto",
+        "Diana Scarwid",
+        "Michelle Pfeiffer",
+        "Harrison Ford"
+    ],
+    "x men" : [
+        "X-Men",
+        "Halle Berry",
+        "James Marsden",
+        "Famke Janssen",
+        "Ian McKellen",
+        "Patrick Stewart",
+        "Hugh Jackman"
+    ],
+    "the perfect storm" : [
+        "The Perfect Storm",
+        "William Fichtner",
+        "John C. Reilly",
+        "John Hawkes",
+        "Diane Lane",
+        "Mark Wahlberg",
+        "George Clooney"
+    ],
+    "meet the parents" : [
+        "Meet the Parents",
+        "Owen Wilson",
+        "Blythe Danner",
+        "Teri Polo",
+        "Nicole DeHuff",
+        "Ben Stiller",
+        "Robert De Niro"
+    ],
+    "how the grinch stole christmas" : [
+        "How the Grinch Stole Christmas",
+        "Molly Shannon",
+        "Bill Irwin",
+        "Taylor Momsen",
+        "Jeffrey Tambor",
+        "Christine Baranski",
+        "Jim Carrey"
+    ],
+    "dinosaur" : [
+        "Dinosaur",
+        "Samuel E. Wright",
+        "Hayden Panettiere",
+        "Max Casella",
+        "Ossie Davis",
+        "Alfre Woodard",
+        "D.B. Sweeney"
+    ],
+    "what women want" : [
+        "What Women Want",
+        "Lauren Holly",
+        "Ashley Johnson",
+        "Alan Alda",
+        "Marisa Tomei",
+        "Helen Hunt",
+        "Mel Gibson"
+    ],
+    "cast away" : [
+        "Cast Away",
+        "Vince Martin",
+        "Lari White",
+        "Chris Noth",
+        "Nick Searcy",
+        "Helen Hunt",
+        "Tom Hanks"
+    ],
+    "gladiator" : [
+        "Gladiator",
+        "Richard Harris",
+        "Djimon Hounsou",
+        "Derek Jacobi",
+        "Connie Nielsen",
+        "Joaquin Phoenix",
+        "Russell Crowe"
+    ],
+    "mission impossible 2" : [
+        "Mission Impossible 2",
+        "Brendan Gleeson",
+        "Ving Rhames",
+        "Richard Roxburgh",
+        "Thandie Newton",
+        "Dougray Scott",
+        "Tom Cruise"
+    ],
     "harry potter and the half blood prince" : [
         "Harry Potter and the Half-Blood Prince",
         "Michael Gambon",
