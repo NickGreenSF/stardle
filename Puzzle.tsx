@@ -1,10 +1,18 @@
 import React, { useState, useEffect, useRef } from 'react'
 //import { View, TextInput, TouchableOpacity, Text } from "./components/Themed"
-import { StyleSheet, View, TouchableOpacity, Text, TextInput, Platform } from 'react-native'
+import { StyleSheet, View, TouchableOpacity, Text, TextInput, Animated, Dimensions } from 'react-native'
 import Data from "./constants/Data"
 import PointlessWords from './constants/PointlessWords'
 
-console.log(Object.keys(Data))
+//console.log(Object.keys(Data))
+
+
+//declaring styling variables
+const dimensions = Dimensions.get("window")
+const width = dimensions.width
+const height = dimensions.height
+const spotheight = height * .13
+console.log(dimensions, width, height)
 
 const filmmockdata : Array<string> = Object.keys(Data)
 
@@ -17,6 +25,7 @@ export default function Puzzle () {
     let peekGuessTexts;
     let peekHoverTexts;
     let peekHoverDisplays;
+    let peekCurHoverLocations;
 
     const [correct] = useState(Data[filmmockdata[Math.floor(Math.random() * filmmockdata.length)]]);
     //console.log(correct)
@@ -25,6 +34,8 @@ export default function Puzzle () {
     
     const [bools, setBools] = useState([true, false, false, false, false, false])
 
+    // YAY IT LOOKS HORRIBLE
+
     const [oldText, setOldText] = useState('')
     const [newoldtext, setNewOldText] = useState(['','','','','',''])
     const [actors, setActors] = useState([correct[1],"_","_","_","_","_"])
@@ -32,6 +43,23 @@ export default function Puzzle () {
     const [guessStyles, setGuessStyles] = useState([styles.input, styles.input, styles.input, styles.input, styles.input, styles.input])
     const [hoverTexts, setHoverTexts] = useState(["","",""])
     const [hoverDisplays, setHoverDisplays] = useState([false, false, false])
+    const hoverLocations = [styles.zero, styles.one, styles.two, styles.three, styles.four, styles.five, styles.six, styles.seven,
+    styles.eight, styles.nine, styles.ten, styles.eleven, styles.twelve, styles.thirteen, styles.fourteen, styles.fifteen, styles.sixteen, 
+    styles.seventeen]
+    const [curHoverLocations, setCurHoverLocations] = useState([styles.zero, styles.one, styles.two])
+    const animateds = [
+        useRef( new Animated.Value( 90 ) ).current,
+        useRef( new Animated.Value( 90 ) ).current,
+        useRef( new Animated.Value( 90 ) ).current,
+        useRef( new Animated.Value( 90 ) ).current,
+        useRef( new Animated.Value( 90 ) ).current
+    ]
+    const rotations = [0,0,0,0,0]
+    //animateds[0].addListener( ( { value } ) => rotations[0] = value );
+    for (let i = 0; i < animateds.length; i += 1){
+        animateds[i].addListener( ( { value } ) => rotations[i] = value );
+    }
+    //flipBackBlack(0);
 
     function textHandler(text: string, column: number){
         let newData = [];
@@ -67,6 +95,7 @@ export default function Puzzle () {
                 }
             }
         }
+        console.log("setting hover texts here")
         setHoverTexts(peekHoverTexts);
         setHoverDisplays(peekHoverDisplays);
         peekOldTexts = newoldtext;
@@ -100,6 +129,8 @@ export default function Puzzle () {
             let peekactors = actors;
             while (section < correct.length - 1){
                 peekactors[section + 1] = correct[section + 2];
+                console.log(section);
+                flipForwardActor(section);
                 section += 1;
             }
             setActors(peekactors);
@@ -107,6 +138,7 @@ export default function Puzzle () {
             return;
         }
         else{
+            textHandler("", section);
             let wordsGuess = new Set(hoverTexts[box % 3].split(" "));
             peekGuessStyles = guessStyles;
             peekGuessStyles[section] = styles.gray;
@@ -123,33 +155,80 @@ export default function Puzzle () {
         }
         peekBools = bools;
         peekBools[section] = false;
+        
+        peekCurHoverLocations = curHoverLocations;
+        peekCurHoverLocations[0] = hoverLocations[(section + 1) * 3];
+        peekCurHoverLocations[1] = hoverLocations[(section + 1) * 3 + 1];
+        peekCurHoverLocations[2] = hoverLocations[(section + 1) * 3 + 2];
+        setCurHoverLocations(peekCurHoverLocations);
         if (box < 15){
             peekBools[section + 1] = true;
+            // flipBackBlack(active);
+            // //console.log(requestAnimationFrame(flipBackBlack))
+            // let animating = true;
+            // let val;
+            // while (animating){
+            //     val = requestAnimationFrame(flipBackBlack);
+            //     if (val > 3000){
+            //         animating = false;
+            //     }
+            //     //console.log(val)
+            // }
+            //console.log("Done")
             let peekactors = actors;
             peekactors[section + 1] = correct[section + 2];
             setActors(peekactors);
+            flipForwardActor(active);
             //console.log(actors);
         }
         setBools(peekBools);
-        textHandler("", section);
     }
 
+    function flipBackBlack (i: number){
+        Animated.sequence([
+            Animated.timing( animateds[i], {
+                toValue: 90,
+                duration: 300,
+                useNativeDriver: true,
+            } )
+        ])
+        // Animated.timing( animateds[i], {
+        //     toValue: 90,
+        //     duration: 300,
+        //     useNativeDriver: true,
+        // } ).start();
+      };
+
+      function flipForwardActor (i: number){
+        if (i > 4){
+            return
+        }
+        console.log(animateds[i])
+        Animated.timing( animateds[i], {
+            toValue: 0,
+            duration: 300,
+            useNativeDriver: true,
+        } ).start();
+      };
+
     return <View style={styles.toplevel}>
-        <View style={styles.navbar}>navbar?</View>
+        <View style={[styles.navbar]}>
+            <Text>STARDLE</Text>
+        </View>
         <TouchableOpacity 
-            style={[styles.hover, styles.firstSug, hoverDisplays[0] ? null : styles.none]} 
+            style={[styles.hover, hoverDisplays[0] ? null : styles.none, curHoverLocations[0]]} 
             onPress={() => guess((active * 3))}>
-                {hoverTexts[0]}
+                <Text>{hoverTexts[0]}</Text>
         </TouchableOpacity>
         <TouchableOpacity 
-            style={[styles.hover, styles.secondSug, hoverDisplays[1] ? null : styles.none]} 
+            style={[styles.hover, hoverDisplays[1] ? null : styles.none, curHoverLocations[1]]} 
             onPress={() => guess(1 + (active * 3))}>
-                {hoverTexts[1]}
+                <Text>{hoverTexts[1]}</Text>
         </TouchableOpacity>
         <TouchableOpacity 
-            style={[styles.hover, styles.thirdSug, hoverDisplays[2] ? null : styles.none]} 
+            style={[styles.hover, hoverDisplays[2] ? null : styles.none, curHoverLocations[2]]} 
             onPress={() => guess(2 + (active * 3))}>
-                {hoverTexts[2]}
+                <Text>{hoverTexts[2]}</Text>
         </TouchableOpacity>
         <View style={styles.container}>
             <View style={styles.spot}>
@@ -162,7 +241,13 @@ export default function Puzzle () {
                 </View>
             </View>
             <View style={styles.spot}>
-                <Text style={actors[1].length > 1 ? styles.actor : styles.black}>{actors[1]}</Text>
+                <Animated.View style={actors[1].length > 1 ? styles.none : styles.black}></Animated.View>
+                <Animated.Text style={[actors[1].length > 1 ? styles.actor : styles.none, {
+                    transform: [{ rotateX: animateds[0].interpolate({
+                    inputRange: [ 0, 360 ],
+                    outputRange: [ "0deg", "360deg" ]
+                    }) }]}]}>{actors[1]}
+                </Animated.Text>
                 <TextInput 
                     style={bools[1] ? styles.input : styles.none} onChange={(e) => {textHandler(e.target.value, 1)}}>
                 </TextInput>
@@ -171,28 +256,52 @@ export default function Puzzle () {
                 </View>
             </View>
             <View style={styles.spot}>
-                <Text style={actors[2].length > 1 ? styles.actor : styles.black}>{actors[2]}</Text>
+                <Animated.View style={actors[2].length > 1 ? styles.none : styles.black}></Animated.View>
+                <Animated.Text style={[actors[2].length > 1 ? styles.actor : styles.none, {
+                    transform: [{ rotateX: animateds[1].interpolate({
+                    inputRange: [ 0, 360 ],
+                    outputRange: [ "0deg", "360deg" ]
+                    }) }]}]}>{actors[2]}
+                </Animated.Text>
                 <TextInput style={bools[2] ? styles.input : styles.none} onChange={(e) => {textHandler(e.target.value, 2)}}></TextInput>
                 <View style={[styles.input, bools[2] ? styles.none : guessStyles[2]]}>
                     <Text>{guessTexts[2]}</Text>
                 </View>
             </View>
             <View style={styles.spot}>
-                <Text style={actors[3].length > 1 ? styles.actor : styles.black}>{actors[3]}</Text>
+                <Animated.View style={actors[3].length > 1 ? styles.none : styles.black}></Animated.View>
+                <Animated.Text style={[actors[3].length > 1 ? styles.actor : styles.none, {
+                    transform: [{ rotateX: animateds[2].interpolate({
+                    inputRange: [ 0, 360 ],
+                    outputRange: [ "0deg", "360deg" ]
+                    }) }]}]}>{actors[3]}
+                </Animated.Text>
                 <TextInput style={bools[3] ? styles.input : styles.none} onChange={(e) => {textHandler(e.target.value, 3)}}></TextInput>
                 <View style={[styles.input, bools[3] ? styles.none : guessStyles[3]]}>
                     <Text>{guessTexts[3]}</Text>
                 </View>
             </View>
             <View style={styles.spot}>
-                <Text style={actors[4].length > 1 ? styles.actor : styles.black}>{actors[4]}</Text>
+                <Animated.View style={actors[4].length > 1 ? styles.none : styles.black}></Animated.View>
+                <Animated.Text style={[actors[4].length > 1 ? styles.actor : styles.none, {
+                    transform: [{ rotateX: animateds[3].interpolate({
+                    inputRange: [ 0, 360 ],
+                    outputRange: [ "0deg", "360deg" ]
+                    }) }]}]}>{actors[4]}
+                </Animated.Text>
                 <TextInput style={bools[4] ? styles.input : styles.none} onChange={(e) => {textHandler(e.target.value, 4)}}></TextInput>
                 <View style={[styles.input, bools[4] ? styles.none : guessStyles[4]]}>
                     <Text>{guessTexts[4]}</Text>
                 </View>
             </View>
             <View style={styles.spot}>
-                <Text style={actors[5].length > 1 ? styles.actor : styles.black}>{actors[5]}</Text>
+                <Animated.View style={actors[5].length > 1 ? styles.none : styles.black}></Animated.View>
+                <Animated.Text style={[actors[5].length > 1 ? styles.actor : styles.none, {
+                    transform: [{ rotateX: animateds[4].interpolate({
+                    inputRange: [ 0, 360 ],
+                    outputRange: [ "0deg", "360deg" ]
+                    }) }]}]}>{actors[5]}
+                </Animated.Text>
                 <TextInput style={bools[5] ? styles.input : styles.none} onChange={(e) => {textHandler(e.target.value, 5)}}></TextInput>
                 <View style={[styles.input, bools[5] ? styles.none : guessStyles[5]]}>
                     <Text>{guessTexts[5]}</Text>
@@ -203,35 +312,34 @@ export default function Puzzle () {
 }
 
 const styles = StyleSheet.create({
-    text: {
-        margin: "5%",
-    },
     container: {
         alignContent: 'center',
-        marginHorizontal: "40%",
-        height: "90%",
+        height: height * .9,
+        margin: "auto",
+        minWidth: width/3
     },
     input: {
         borderWidth: 1,
         borderColor: "black",
-        height: "50%"
+        height: spotheight * .45
     },
     none: {
         display: 'none'
     },
     black: {
         backgroundColor: "black",
-        height: "50%"
+        height: spotheight * .45
     },
     hover: {
         overflow: "hidden",
         position: "absolute",
-        width: "20%",
-        height: "10%",
+        width: width/3,
+        height: height/20,
         borderWidth: 1,
-        borderColor: "white",
+        borderColor: "black",
         zIndex: 7,
-        backgroundColor: "gray"
+        backgroundColor: "white",
+        color: "black"
     },
     yellow: {
         backgroundColor: "#FFD185",
@@ -243,33 +351,82 @@ const styles = StyleSheet.create({
         backgroundColor: "gray",
     },
     spot: {
-        marginVertical: "1%",
-        height: "14%",
+        marginVertical: 0,
+        height: spotheight,
         overflow: "hidden",
     },
     actor: {
-        height: "50%",
-        fontSize: "100%",
+        height: spotheight * .45,
+        fontSize: "150%",
         overflow: 'hidden',
-        fontStyle: 'italic',
         borderWidth: 1,
         borderColor: "black",
-        borderBottomWidth: 0
+        borderBottomWidth: 0,
+        borderRadius: height/100,
+        textAlign: "center"
     },
     navbar: {
         top: 0,
-        height: "5%"
-    },
-    firstSug: {
-        top: "15%"
-    },
-    secondSug: {
-        top: "35%"
-    },
-    thirdSug: {
-        top: "55%"
+        height: height/20
     },
     toplevel: {
-        height: "100%"
+        height: "100%",
+        color: "gray",
+        margin: "auto"
+    },
+    // BEHOLD THIS LOOKS TERRIBLE, but it's the positions that the suggestion boxes need to be assigned to.
+    zero: {
+        top: "19%"
+    },
+    one: {
+        top: "24%"
+    },
+    two: {
+        top: "29%"
+    },
+    three: {
+        top: "32%"
+    },
+    four: {
+        top: "37%"
+    },
+    five: {
+        top: "42%"
+    },
+    six: {
+        top: "45%"
+    },
+    seven: {
+        top: "50%"
+    },
+    eight: {
+        top: "55%"
+    },
+    nine: {
+        top: "58%"
+    },
+    ten: {
+        top: "63%"
+    },
+    eleven: {
+        top: "68%"
+    },
+    twelve: {
+        top: "71%"
+    },
+    thirteen: {
+        top: "76%"
+    },
+    fourteen:{
+        top: "81%"
+    },
+    fifteen: {
+        top: "84%"
+    },
+    sixteen: {
+        top: "89%"
+    },
+    seventeen: {
+        top: "94%"
     }
 })

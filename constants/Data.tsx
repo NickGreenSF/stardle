@@ -578,7 +578,7 @@ const Data: Object = {
         "Daisy Ridley"
     ],
     "star wars episode viii the last jedi" : [
-        "Star Wars Episode VII: The Last Jedi",
+        "Star Wars Episode VIII: The Last Jedi",
         "Carrie Fisher",
         "Mark Hamill",
         "Oscar Isaac",
