@@ -9,11 +9,13 @@ import PointlessWords from './constants/PointlessWords'
 
 
 //declaring styling variables
-const dimensions = Dimensions.get("screen")
+const dimensions = Dimensions.get("window")
 const width = dimensions.width
 const height = Platform.OS === "web" ? dimensions.height * .9 : dimensions.height
 const spotheight = height * .13
 //console.log(dimensions, width, height)
+
+const hoverPadding = Platform.OS === "web" ? width/3 : "0%"
 
 const filmmockdata : Array<string> = Object.keys(Data)
 
@@ -33,9 +35,9 @@ export default function App () {
 
     const [active, setActive] = useState(0);
     const [rulesVisible, setRulesVisible] = useState(true)
-    const [settingsVisible, setSettingsVisible] = useState(false)
+    const [endVisible, setEndVisible] = useState(false)
 
-    const [darkMode, setDarkMode] = useState(false)
+    const [darkMode, setDarkMode] = useState(true)
     
     const [bools, setBools] = useState([true, false, false, false, false, false])
 
@@ -100,7 +102,7 @@ export default function App () {
                 }
             }
         }
-        console.log("setting hover texts here")
+        //console.log("setting hover texts here")
         setHoverTexts(peekHoverTexts);
         setHoverDisplays(peekHoverDisplays);
         peekOldTexts = newoldtext;
@@ -139,16 +141,19 @@ export default function App () {
                 section += 1;
             }
             setActors(peekactors);
+            setTimeout(()=>{setEndVisible(true)}, 1000)
             //console.log(actors);
             return;
         }
         else{
-            textHandler("", section);
+            //console.log("bad guess", hoverTexts[box % 3])
             let wordsGuess = new Set(hoverTexts[box % 3].split(" "));
+            textHandler("", section);
             peekGuessStyles = guessStyles;
             peekGuessStyles[section] = styles.gray;
             setGuessStyles(peekGuessStyles);
             for (let item of new Set(correct[0].split(" "))){
+                //console.log(item, wordsGuess.has(item), wordsGuess)
                 if (!PointlessWords.has(item) && wordsGuess.has(item)){
                     //console.log("overlap");
                     peekGuessStyles = guessStyles;
@@ -186,6 +191,9 @@ export default function App () {
             flipForwardActor(active);
             //console.log(actors);
         }
+        else{
+            setTimeout(()=>{setEndVisible(true)}, 1000);
+        }
         setBools(peekBools);
     }
 
@@ -201,140 +209,152 @@ export default function App () {
         } ).start();
     };
 
-    return <SafeAreaProvider style={darkMode ? styles.darkcolors : styles.lightcolors}>
+    return <SafeAreaProvider style={darkMode ? styles.darklv1 : styles.lightcolors}>
         <View style={styles.toplevel}>
             <Modal style={styles.rules} animationType="fade" transparent={true} visible={rulesVisible}>
                 <TouchableWithoutFeedback onPress={() => {setRulesVisible(false)}}>
                     <View style={styles.modalback}>
-                        <View style={styles.modalfront}>
-                            <View style={styles.modalbody}>
-                                <Text>HOW TO PLAY</Text>
-                                <Text>Guess the <Text style={styles.modallogo}>S T A R D L E</Text> in six tries.</Text>
+                        <TouchableWithoutFeedback style={styles.modalfront} onPress={() => {setRulesVisible(true)}}>
+                            <View style={[styles.modalbody, darkMode ? styles.darklv5 : styles.lightcolors]}>
+                                <Text style={darkMode ? styles.darklv5 : styles.lightcolors}>HOW TO PLAY</Text>
+                                <Text style={darkMode ? styles.darklv5 : styles.lightcolors}>Guess the <Text style={styles.modallogo}>S T A R D L E</Text> in six tries.</Text>
                             </View>
-                        </View>
+                        </TouchableWithoutFeedback>
+                    </View>
+                </TouchableWithoutFeedback>    
+            </Modal>
+            <Modal style={styles.rules} animationType="fade" transparent={true} visible={endVisible}>
+                <TouchableWithoutFeedback onPress={() => {setEndVisible(false)}}>
+                    <View style={styles.modalback}>
+                        <TouchableWithoutFeedback style={styles.modalfront} onPress={() => {setEndVisible(true)}}>
+                            <View style={[styles.modalbody, darkMode ? styles.darklv5 : styles.lightcolors]}>
+                                <Text style={darkMode ? styles.darklv5 : styles.lightcolors}>The answer was</Text>
+                                <Text style={darkMode ? styles.darklv5 : styles.lightcolors}>{correct[0].toUpperCase()}</Text>
+                            </View>
+                        </TouchableWithoutFeedback>
                     </View>
                 </TouchableWithoutFeedback>    
             </Modal>
             <View style={[styles.navbar]}>
                 <Text>
-                    <Text onPress={() => {setRulesVisible(true)}}>rules</Text>
+                    <Text style={darkMode ? styles.darklv1 : styles.lightcolors} onPress={() => {setRulesVisible(true)}}>rules</Text>
                     <Text style={styles.toptext}>S T A R D L E</Text>
-                    <Text onPress={() => {setDarkMode(!darkMode)}}>darkmode</Text>
+                    <Text style={darkMode ? styles.darklv1 : styles.lightcolors} onPress={() => {setDarkMode(!darkMode)}}>darkmode</Text>
                 </Text>
             </View>
             <TouchableOpacity 
-                style={[styles.hover, hoverDisplays[0] ? null : styles.none, curHoverLocations[0]]} 
+                style={[styles.hover, darkMode ? styles.darklv5 : styles.lightcolors, hoverDisplays[0] ? null : styles.none, curHoverLocations[0]]} 
                 onPress={() => guess((active * 3))}>
-                    <Text style={styles.hovertext}>{hoverTexts[0]}</Text>
+                    <Text style={[styles.hovertext, darkMode ? styles.darklv5 : styles.lightcolors]}>{hoverTexts[0]}</Text>
             </TouchableOpacity>
             <TouchableOpacity 
-                style={[styles.hover, hoverDisplays[1] ? null : styles.none, curHoverLocations[1]]} 
+                style={[styles.hover, darkMode ? styles.darklv5 : styles.lightcolors, hoverDisplays[1] ? null : styles.none, curHoverLocations[1]]} 
                 onPress={() => guess(1 + (active * 3))}>
-                    <Text style={styles.hovertext}>{hoverTexts[1]}</Text>
+                    <Text style={[styles.hovertext, darkMode ? styles.darklv5 : styles.lightcolors]}>{hoverTexts[1]}</Text>
             </TouchableOpacity>
             <TouchableOpacity 
-                style={[styles.hover, hoverDisplays[2] ? null : styles.none, curHoverLocations[2]]} 
+                style={[styles.hover, darkMode ? styles.darklv5 : styles.lightcolors, hoverDisplays[2] ? null : styles.none, curHoverLocations[2]]} 
                 onPress={() => guess(2 + (active * 3))}>
-                    <Text style={styles.hovertext}>{hoverTexts[2]}</Text>
+                    <Text style={[styles.hovertext, darkMode ? styles.darklv5 : styles.lightcolors]}>{hoverTexts[2]}</Text>
             </TouchableOpacity>
             <View style={styles.container}>
                 <View style={styles.spot}>
-                    <Text style={[styles.actor, darkMode ? styles.darkcolors : styles.lightcolors]}>{actors[0]}</Text>
+                    <Text style={[styles.actor, darkMode ? styles.darklv1 : styles.lightcolors]}>{actors[0]}</Text>
                     <TextInput 
-                        style={[bools[0] ? styles.input : styles.none, styles.textinput, darkMode ? styles.darkcolors : styles.lightcolors]} 
+                        style={[bools[0] ? styles.input : styles.none, styles.textinput, darkMode ? styles.darklv2 : styles.lightcolors]} 
                         onChange={(e) => {textHandler(e.target.value, 0)}}>
                     </TextInput>
-                    <View style={[styles.input, bools[0] ? styles.none : guessStyles[0]]}>
+                    <View style={[styles.input, darkMode ? styles.darklv3 : styles.lightcolors, bools[0] ? styles.none : guessStyles[0]]}>
                         <Text style={styles.textinput}>{guessTexts[0]}</Text>
                     </View>
                 </View>
                 <View style={styles.spot}>
                     <View 
-                        style={actors[1].length > 1 ? styles.none : [styles.black, darkMode ? styles.lightcolors : styles.darkcolors]}>
+                        style={actors[1].length > 1 ? styles.none : [styles.black, darkMode ? styles.darklv4 : null]}>
                     </View>
-                    <Animated.Text style={[actors[1].length > 1 ? styles.actor : styles.none, darkMode ? styles.darkcolors : styles.lightcolors, {
+                    <Animated.Text style={[actors[1].length > 1 ? styles.actor : styles.none, darkMode ? styles.darklv1 : styles.lightcolors, {
                         transform: [{ rotateX: animateds[0].interpolate({
                         inputRange: [ 0, 360 ],
                         outputRange: [ "0deg", "360deg" ]
                         }) }]}]}>{actors[1]}
                     </Animated.Text>
                     <TextInput 
-                        style={[bools[1] ? styles.input : styles.none, styles.textinput, darkMode ? styles.darkcolors : styles.lightcolors]} 
+                        style={[bools[1] ? styles.input : styles.none, styles.textinput, darkMode ? styles.darklv2 : styles.lightcolors]} 
                         onChange={(e) => {textHandler(e.target.value, 1)}}>
                     </TextInput>
-                    <View style={[styles.input, bools[1] ? styles.none : guessStyles[1]]}>
+                    <View style={[styles.input, darkMode ? styles.darklv3 : styles.lightcolors, bools[1] ? styles.none : guessStyles[1]]}>
                         <Text style={styles.textinput}>{guessTexts[1]}</Text>
                     </View>
                 </View>
                 <View style={styles.spot}>
                     <View 
-                        style={actors[2].length > 1 ? styles.none : [styles.black, darkMode ? styles.lightcolors : styles.darkcolors]}>
+                        style={actors[2].length > 1 ? styles.none : [styles.black, darkMode ? styles.darklv4 : null]}>
                     </View>
-                    <Animated.Text style={[actors[2].length > 1 ? styles.actor : styles.none, darkMode ? styles.darkcolors : styles.lightcolors, {
+                    <Animated.Text style={[actors[2].length > 1 ? styles.actor : styles.none, darkMode ? styles.darklv1 : styles.lightcolors, {
                         transform: [{ rotateX: animateds[1].interpolate({
                         inputRange: [ 0, 360 ],
                         outputRange: [ "0deg", "360deg" ]
                         }) }]}]}>{actors[2]}
                     </Animated.Text>
                     <TextInput 
-                        style={[bools[2] ? styles.input : styles.none, styles.textinput, darkMode ? styles.darkcolors : styles.lightcolors]} 
+                        style={[bools[2] ? styles.input : styles.none, styles.textinput, darkMode ? styles.darklv2 : styles.lightcolors]} 
                         onChange={(e) => {textHandler(e.target.value, 2)}}>
                     </TextInput>
-                    <View style={[styles.input, bools[2] ? styles.none : guessStyles[2]]}>
+                    <View style={[styles.input, darkMode ? styles.darklv3 : styles.lightcolors, bools[2] ? styles.none : guessStyles[2]]}>
                         <Text style={styles.textinput}>{guessTexts[2]}</Text>
                     </View>
                 </View>
                 <View style={styles.spot}>
                     <View 
-                        style={actors[3].length > 1 ? styles.none : [styles.black, darkMode ? styles.lightcolors : styles.darkcolors]}>
+                        style={actors[3].length > 1 ? styles.none : [styles.black, darkMode ? styles.darklv4 : null]}>
                     </View>
-                    <Animated.Text style={[actors[3].length > 1 ? styles.actor : styles.none, darkMode ? styles.darkcolors : styles.lightcolors, {
+                    <Animated.Text style={[actors[3].length > 1 ? styles.actor : styles.none, darkMode ? styles.darklv1 : styles.lightcolors, {
                         transform: [{ rotateX: animateds[2].interpolate({
                         inputRange: [ 0, 360 ],
                         outputRange: [ "0deg", "360deg" ]
                         }) }]}]}>{actors[3]}
                     </Animated.Text>
                     <TextInput 
-                        style={[bools[3] ? styles.input : styles.none, styles.textinput, darkMode ? styles.darkcolors : styles.lightcolors]} 
+                        style={[bools[3] ? styles.input : styles.none, styles.textinput, darkMode ? styles.darklv2 : styles.lightcolors]} 
                         onChange={(e) => {textHandler(e.target.value, 3)}}>
                     </TextInput>
-                    <View style={[styles.input, bools[3] ? styles.none : guessStyles[3]]}>
+                    <View style={[styles.input, darkMode ? styles.darklv3 : styles.lightcolors, bools[3] ? styles.none : guessStyles[3]]}>
                         <Text style={styles.textinput}>{guessTexts[3]}</Text>
                     </View>
                 </View>
                 <View style={styles.spot}>
                     <View 
-                        style={actors[4].length > 1 ? styles.none : [styles.black, darkMode ? styles.lightcolors : styles.darkcolors]}>
+                        style={actors[4].length > 1 ? styles.none : [styles.black, darkMode ? styles.darklv4 : null]}>
                     </View>
-                    <Animated.Text style={[actors[4].length > 1 ? styles.actor : styles.none, darkMode ? styles.darkcolors : styles.lightcolors, {
+                    <Animated.Text style={[actors[4].length > 1 ? styles.actor : styles.none, darkMode ? styles.darklv1 : styles.lightcolors, {
                         transform: [{ rotateX: animateds[3].interpolate({
                         inputRange: [ 0, 360 ],
                         outputRange: [ "0deg", "360deg" ]
                         }) }]}]}>{actors[4]}
                     </Animated.Text>
                     <TextInput 
-                        style={[bools[4] ? styles.input : styles.none, styles.textinput, darkMode ? styles.darkcolors : styles.lightcolors]} 
+                        style={[bools[4] ? styles.input : styles.none, styles.textinput, darkMode ? styles.darklv2 : styles.lightcolors]} 
                         onChange={(e) => {textHandler(e.target.value, 4)}}>
                     </TextInput>
-                    <View style={[styles.input, bools[4] ? styles.none : guessStyles[4]]}>
+                    <View style={[styles.input, darkMode ? styles.darklv3 : styles.lightcolors, bools[4] ? styles.none : guessStyles[4]]}>
                         <Text style={styles.textinput}>{guessTexts[4]}</Text>
                     </View>
                 </View>
                 <View style={styles.spot}>
                     <View 
-                        style={actors[5].length > 1 ? styles.none : [styles.black, darkMode ? styles.lightcolors : styles.darkcolors]}>
+                        style={actors[5].length > 1 ? styles.none : [styles.black, darkMode ? styles.darklv4 : null]}>
                     </View>
-                    <Animated.Text style={[actors[5].length > 1 ? styles.actor : styles.none, darkMode ? styles.darkcolors : styles.lightcolors, {
+                    <Animated.Text style={[actors[5].length > 1 ? styles.actor : styles.none, darkMode ? styles.darklv1 : styles.lightcolors, {
                         transform: [{ rotateX: animateds[4].interpolate({
                         inputRange: [ 0, 360 ],
                         outputRange: [ "0deg", "360deg" ]
                         }) }]}]}>{actors[5]}
                     </Animated.Text>
                     <TextInput 
-                        style={[bools[5] ? styles.input : styles.none, styles.textinput, darkMode ? styles.darkcolors : styles.lightcolors]} 
+                        style={[bools[5] ? styles.input : styles.none, styles.textinput, darkMode ? styles.darklv2 : styles.lightcolors]} 
                         onChange={(e) => {textHandler(e.target.value, 5)}}>
                     </TextInput>
-                    <View style={[styles.input, bools[5] ? styles.none : guessStyles[5]]}>
+                    <View style={[styles.input, darkMode ? styles.darklv3 : styles.lightcolors, bools[5] ? styles.none : guessStyles[5]]}>
                         <Text style={styles.textinput}>{guessTexts[5]}</Text>
                     </View>
                 </View>
@@ -343,9 +363,31 @@ export default function App () {
     </SafeAreaProvider>
 }
 
+// Our base here is rgb(18, 18, 18), to go up a level, simply add 2.55 * the % opaque of the white transparency recommended.
+
 const styles = StyleSheet.create({
-    darkcolors: {
-        backgroundColor: "black",
+    darklv1: {
+        backgroundColor: "#121212",
+        color: "white",
+        borderColor: "white"
+    },
+    darklv2: {
+        backgroundColor: "rgb(30.75, 30.75, 30.75)",
+        color: "white",
+        borderColor: "white"
+    },
+    darklv3: {
+        backgroundColor: "rgb(38.4, 38.4, 38.4)",
+        color: "white",
+        borderColor: "white"
+    },
+    darklv4: {
+        backgroundColor: "rgb(46.05, 46.05, 46.05)",
+        color: "white",
+        borderColor: "white"
+    },
+    darklv5: {
+        backgroundColor: "rgb(53.7, 53.7, 53.7)",
         color: "white",
         borderColor: "white"
     },
@@ -353,6 +395,9 @@ const styles = StyleSheet.create({
         backgroundColor: "white",
         color: "black",
         borderColor: "black"
+    },
+    greybars: {
+        backgroundColor: "gray"
     },
     container: {
         alignContent: 'center',
@@ -383,7 +428,6 @@ const styles = StyleSheet.create({
     input: {
         borderRadius: height/50,
         borderWidth: 1,
-        borderColor: "black",
         height: spotheight * .45
     },
     none: {
@@ -391,7 +435,8 @@ const styles = StyleSheet.create({
     },
     black: {
         borderRadius: height/50,
-        height: spotheight * .45
+        height: spotheight * .45,
+        backgroundColor: "black"
     },
     hover: {
         overflow: "hidden",
@@ -401,12 +446,12 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         borderColor: "black",
         zIndex: 7,
-        backgroundColor: "white",
-        color: "black"
+        color: "black",
+        marginLeft: hoverPadding
     },
     hovertext: {
         paddingLeft: height/100,
-        fontSize: "125%"
+        fontSize: "125%",
     },
     yellow: {
         paddingTop: "1%",
@@ -426,7 +471,7 @@ const styles = StyleSheet.create({
     spot: {
         marginVertical: 0,
         height: spotheight,
-        overflow: "hidden",
+        overflow: "hidden"
     },
     actor: {
         height: spotheight * .45,
@@ -443,7 +488,8 @@ const styles = StyleSheet.create({
         top: 0,
         height: "5%",
         width: "100%",
-        overflow: "hidden"
+        overflow: "hidden",
+        backgroundColor: "rgba(255,255,255,.05)"
     },
     toptext: {
         color: "rgba(127,127,127,.8)",
@@ -452,7 +498,7 @@ const styles = StyleSheet.create({
     toplevel: {
         height: "100%",
         color: "gray",
-        margin: "auto",
+        padding: "auto",
     },
     textinput: {
         paddingLeft: height/100,
@@ -461,57 +507,57 @@ const styles = StyleSheet.create({
     },
     // BEHOLD THIS LOOKS TERRIBLE, but it's the positions that the suggestion boxes need to be assigned to.
     zero: {
-        top: height * .17
+        top: height * .25
     },
     one: {
-        top: height * .22
-    },
-    two: {
-        top: height * .27
-    },
-    three: {
         top: height * .3
     },
-    four: {
+    two: {
         top: height * .35
     },
-    five: {
-        top: height * .4
+    three: {
+        top: height * .38
     },
-    six: {
+    four: {
         top: height * .43
     },
-    seven: {
+    five: {
         top: height * .48
     },
-    eight: {
-        top: height * .53
+    six: {
+        top: height * .51
     },
-    nine: {
+    seven: {
         top: height * .56
     },
-    ten: {
+    eight: {
         top: height * .61
     },
-    eleven: {
-        top: height * .66
+    nine: {
+        top: height * .64
     },
-    twelve: {
+    ten: {
         top: height * .69
     },
-    thirteen: {
+    eleven: {
         top: height * .74
     },
-    fourteen:{
-        top: height * .79
+    twelve: {
+        top: height * .77
     },
-    fifteen: {
+    thirteen: {
         top: height * .82
     },
-    sixteen: {
+    fourteen:{
         top: height * .87
     },
+    fifteen: {
+        top: height * .9
+    },
+    sixteen: {
+        top: height * .95
+    },
     seventeen: {
-        top: height * .92
+        top: height
     }
 })
