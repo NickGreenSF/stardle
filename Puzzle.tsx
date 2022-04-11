@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react'
 //import { View, TextInput, TouchableOpacity, Text } from "./components/Themed"
-import { StyleSheet, View, TouchableOpacity, Text, TextInput, Animated, Dimensions } from 'react-native'
+import { StyleSheet, View, TouchableOpacity, Text, TextInput, Animated, Dimensions, Modal, TouchableWithoutFeedback, Platform } from 'react-native'
 import Data from "./constants/Data"
 import PointlessWords from './constants/PointlessWords'
 
@@ -8,11 +8,11 @@ import PointlessWords from './constants/PointlessWords'
 
 
 //declaring styling variables
-const dimensions = Dimensions.get("window")
+const dimensions = Dimensions.get("screen")
 const width = dimensions.width
-const height = dimensions.height
+const height = Platform.OS === "web" ? dimensions.height * .9 : dimensions.height
 const spotheight = height * .13
-console.log(dimensions, width, height)
+//console.log(dimensions, width, height)
 
 const filmmockdata : Array<string> = Object.keys(Data)
 
@@ -31,6 +31,7 @@ export default function Puzzle () {
     //console.log(correct)
 
     const [active, setActive] = useState(0);
+    const [rulesVisible, setRulesVisible] = useState(true)
     
     const [bools, setBools] = useState([true, false, false, false, false, false])
 
@@ -190,6 +191,16 @@ export default function Puzzle () {
                 toValue: 90,
                 duration: 300,
                 useNativeDriver: true,
+            } ),
+            Animated.timing( animateds[i], {
+                toValue: 5,
+                duration: 200,
+                useNativeDriver: true,
+            } ),
+            Animated.timing( animateds[i], {
+                toValue: 90,
+                duration: 300,
+                useNativeDriver: true,
             } )
         ])
         // Animated.timing( animateds[i], {
@@ -212,32 +223,47 @@ export default function Puzzle () {
       };
 
     return <View style={styles.toplevel}>
+        <Modal style={styles.rules} animationType="fade" transparent={true} visible={rulesVisible}>
+            <TouchableWithoutFeedback onPress={() => {setRulesVisible(false)}}>
+                <View style={styles.modalback}>
+                    <View style={styles.modalfront}>
+                        <View style={styles.modalbody}>
+                            <Text>HOW TO PLAY</Text>
+                            <Text>Guess the <Text style={styles.modallogo}>S T A R D L E</Text> in six tries.</Text>
+                        </View>
+                    </View>
+                </View>
+            </TouchableWithoutFeedback>    
+        </Modal>
         <View style={[styles.navbar]}>
-            <Text>STARDLE</Text>
+            <Text>
+                <Text onPress={() => {setRulesVisible(true)}}>rules</Text>
+                <Text style={styles.toptext}>S T A R D L E</Text>
+            </Text>
         </View>
         <TouchableOpacity 
             style={[styles.hover, hoverDisplays[0] ? null : styles.none, curHoverLocations[0]]} 
             onPress={() => guess((active * 3))}>
-                <Text>{hoverTexts[0]}</Text>
+                <Text style={styles.hovertext}>{hoverTexts[0]}</Text>
         </TouchableOpacity>
         <TouchableOpacity 
             style={[styles.hover, hoverDisplays[1] ? null : styles.none, curHoverLocations[1]]} 
             onPress={() => guess(1 + (active * 3))}>
-                <Text>{hoverTexts[1]}</Text>
+                <Text style={styles.hovertext}>{hoverTexts[1]}</Text>
         </TouchableOpacity>
         <TouchableOpacity 
             style={[styles.hover, hoverDisplays[2] ? null : styles.none, curHoverLocations[2]]} 
             onPress={() => guess(2 + (active * 3))}>
-                <Text>{hoverTexts[2]}</Text>
+                <Text style={styles.hovertext}>{hoverTexts[2]}</Text>
         </TouchableOpacity>
         <View style={styles.container}>
             <View style={styles.spot}>
                 <Text style={styles.actor}>{actors[0]}</Text>
                 <TextInput 
-                    style={bools[0] ? styles.input : styles.none} onChange={(e) => {textHandler(e.target.value, 0)}}>
+                    style={[bools[0] ? styles.input : styles.none, styles.textinput]} onChange={(e) => {textHandler(e.target.value, 0)}}>
                 </TextInput>
                 <View style={[styles.input, bools[0] ? styles.none : guessStyles[0]]}>
-                    <Text>{guessTexts[0]}</Text>
+                    <Text style={styles.textinput}>{guessTexts[0]}</Text>
                 </View>
             </View>
             <View style={styles.spot}>
@@ -249,10 +275,10 @@ export default function Puzzle () {
                     }) }]}]}>{actors[1]}
                 </Animated.Text>
                 <TextInput 
-                    style={bools[1] ? styles.input : styles.none} onChange={(e) => {textHandler(e.target.value, 1)}}>
+                    style={[bools[1] ? styles.input : styles.none, styles.textinput]} onChange={(e) => {textHandler(e.target.value, 1)}}>
                 </TextInput>
                 <View style={[styles.input, bools[1] ? styles.none : guessStyles[1]]}>
-                    <Text>{guessTexts[1]}</Text>
+                    <Text style={styles.textinput}>{guessTexts[1]}</Text>
                 </View>
             </View>
             <View style={styles.spot}>
@@ -263,9 +289,9 @@ export default function Puzzle () {
                     outputRange: [ "0deg", "360deg" ]
                     }) }]}]}>{actors[2]}
                 </Animated.Text>
-                <TextInput style={bools[2] ? styles.input : styles.none} onChange={(e) => {textHandler(e.target.value, 2)}}></TextInput>
+                <TextInput style={[bools[2] ? styles.input : styles.none, styles.textinput]} onChange={(e) => {textHandler(e.target.value, 2)}}></TextInput>
                 <View style={[styles.input, bools[2] ? styles.none : guessStyles[2]]}>
-                    <Text>{guessTexts[2]}</Text>
+                    <Text style={styles.textinput}>{guessTexts[2]}</Text>
                 </View>
             </View>
             <View style={styles.spot}>
@@ -276,9 +302,9 @@ export default function Puzzle () {
                     outputRange: [ "0deg", "360deg" ]
                     }) }]}]}>{actors[3]}
                 </Animated.Text>
-                <TextInput style={bools[3] ? styles.input : styles.none} onChange={(e) => {textHandler(e.target.value, 3)}}></TextInput>
+                <TextInput style={[bools[3] ? styles.input : styles.none, styles.textinput]} onChange={(e) => {textHandler(e.target.value, 3)}}></TextInput>
                 <View style={[styles.input, bools[3] ? styles.none : guessStyles[3]]}>
-                    <Text>{guessTexts[3]}</Text>
+                    <Text style={styles.textinput}>{guessTexts[3]}</Text>
                 </View>
             </View>
             <View style={styles.spot}>
@@ -289,9 +315,9 @@ export default function Puzzle () {
                     outputRange: [ "0deg", "360deg" ]
                     }) }]}]}>{actors[4]}
                 </Animated.Text>
-                <TextInput style={bools[4] ? styles.input : styles.none} onChange={(e) => {textHandler(e.target.value, 4)}}></TextInput>
+                <TextInput style={[bools[4] ? styles.input : styles.none, styles.textinput]} onChange={(e) => {textHandler(e.target.value, 4)}}></TextInput>
                 <View style={[styles.input, bools[4] ? styles.none : guessStyles[4]]}>
-                    <Text>{guessTexts[4]}</Text>
+                    <Text style={styles.textinput}>{guessTexts[4]}</Text>
                 </View>
             </View>
             <View style={styles.spot}>
@@ -302,9 +328,9 @@ export default function Puzzle () {
                     outputRange: [ "0deg", "360deg" ]
                     }) }]}]}>{actors[5]}
                 </Animated.Text>
-                <TextInput style={bools[5] ? styles.input : styles.none} onChange={(e) => {textHandler(e.target.value, 5)}}></TextInput>
+                <TextInput style={[bools[5] ? styles.input : styles.none, styles.textinput]} onChange={(e) => {textHandler(e.target.value, 5)}}></TextInput>
                 <View style={[styles.input, bools[5] ? styles.none : guessStyles[5]]}>
-                    <Text>{guessTexts[5]}</Text>
+                    <Text style={styles.textinput}>{guessTexts[5]}</Text>
                 </View>
             </View>
         </View>
@@ -318,7 +344,28 @@ const styles = StyleSheet.create({
         margin: "auto",
         minWidth: width/3
     },
+    rules: {
+        margin: "50%"
+    },
+    modalback: {
+        backgroundColor: "rgba(0,0,0,.4)",
+        width: "100%",
+        height: "100%"
+    },
+    modalfront: {
+        backgroundColor: "white",
+        marginVertical: "5%",
+        marginHorizontal: "20%"
+    },
+    modalbody: {
+        margin: "5%"
+    },
+    modallogo: {
+        color: "rgba(127,127,127,.8)",
+        fontSize: "125%"
+    },
     input: {
+        borderRadius: height/50,
         borderWidth: 1,
         borderColor: "black",
         height: spotheight * .45
@@ -327,6 +374,7 @@ const styles = StyleSheet.create({
         display: 'none'
     },
     black: {
+        borderRadius: height/50,
         backgroundColor: "black",
         height: spotheight * .45
     },
@@ -341,14 +389,24 @@ const styles = StyleSheet.create({
         backgroundColor: "white",
         color: "black"
     },
+    hovertext: {
+        paddingLeft: height/100,
+        fontSize: "125%"
+    },
     yellow: {
+        paddingTop: "1%",
+        borderRadius: height/50,
         backgroundColor: "#FFD185",
     },
     green: {
+        paddingTop: "1%",
+        borderRadius: height/50,
         backgroundColor: "#77D353",
     },
     gray: {
-        backgroundColor: "gray",
+        paddingTop: "1%",
+        borderRadius: height/50,
+        backgroundColor: "lightgray",
     },
     spot: {
         marginVertical: 0,
@@ -357,76 +415,88 @@ const styles = StyleSheet.create({
     },
     actor: {
         height: spotheight * .45,
-        fontSize: "150%",
+        fontSize: "125%",
         overflow: 'hidden',
         borderWidth: 1,
         borderColor: "black",
         borderBottomWidth: 0,
-        borderRadius: height/100,
-        textAlign: "center"
+        borderRadius: height/50,
+        textAlign: "center",
+        paddingTop: "1%"
     },
     navbar: {
         top: 0,
-        height: height/20
+        height: "5%",
+        width: "100%",
+        overflow: "hidden"
+    },
+    toptext: {
+        color: "rgba(127,127,127,.8)",
+        fontSize: "250%"
     },
     toplevel: {
         height: "100%",
         color: "gray",
-        margin: "auto"
+        margin: "auto",
+    },
+    textinput: {
+        paddingLeft: height/100,
+        fontSize: "125%",
+        borderRadius: height/50
     },
     // BEHOLD THIS LOOKS TERRIBLE, but it's the positions that the suggestion boxes need to be assigned to.
     zero: {
-        top: "19%"
+        top: height * .17
     },
     one: {
-        top: "24%"
+        top: height * .22
     },
     two: {
-        top: "29%"
+        top: height * .27
     },
     three: {
-        top: "32%"
+        top: height * .3
     },
     four: {
-        top: "37%"
+        top: height * .35
     },
     five: {
-        top: "42%"
+        top: height * .4
     },
     six: {
-        top: "45%"
+        top: height * .43
     },
     seven: {
-        top: "50%"
+        top: height * .48
     },
     eight: {
-        top: "55%"
+        top: height * .53
     },
     nine: {
-        top: "58%"
+        top: height * .56
     },
     ten: {
-        top: "63%"
+        top: height * .61
     },
     eleven: {
-        top: "68%"
+        top: height * .66
     },
     twelve: {
-        top: "71%"
+        top: height * .69
     },
     thirteen: {
-        top: "76%"
+        top: height * .74
     },
     fourteen:{
-        top: "81%"
+        top: height * .79
     },
     fifteen: {
-        top: "84%"
+        top: height * .82
     },
     sixteen: {
-        top: "89%"
+        top: height * .87
     },
     seventeen: {
-        top: "94%"
+        top: height * .92
     }
 })
