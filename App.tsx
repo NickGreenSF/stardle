@@ -557,6 +557,7 @@ const styles = StyleSheet.create({
     sixteen: {
         top: height * .95
     },
+    //these values are currently different because height is set to .9 of full
     seventeen: {
         top: height
     }

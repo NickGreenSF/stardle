@@ -1,6 +1,367 @@
-// Years done: 2000, first 3 2022, 2021, 2020, 2019, 2018
+// Years done: 2000, first 3 2022, 2021, 2020, 2019, 2018, 2017, 2016, 2015, 2014
+
+// "" : [
+//     "",
+//     "",
+//     "",
+//     "",
+//     "",
+//     "",
+//     ""
+// ],
 
 const Data: Object = {
+    "" : [
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        ""
+    ],
+    "big hero 6" : [
+        "Big Hero 6",
+        "Damon Wayans Jr.",
+        "Jamie Chung",
+        "TJ Miller",
+        "Daniel Henney",
+        "Ryan Potter",
+        "Scott Adsit"
+    ],
+    "x men days of future past" : [
+        "X-Men: Days of Future Past",
+        "Jennifer Lawrence",
+        "Ian McKellen",
+        "Michael Fassbender",
+        "Patrick Stewart",
+        "James McAvoy",
+        "Hugh Jackman"
+    ],
+    "maleficent" : [
+        "Maleficent",
+        "Juno Temple",
+        "Imelda Staunton",
+        "Sam Riley",
+        "Sharlto Copley",
+        "Elle Fanning",
+        "Angelina Jolie"
+    ],
+    "transformers age of extinction" : [
+        "Transformers: Age of Extinction",
+        "Nicola Peltz",
+        "Kelsey Grammer",
+        "Stanley Tucci",
+        "Mark Wahlberg",
+        "Frank Welker",
+        "Peter Cullen"
+    ],
+    "the hobbit the battle of the five armies" : [
+        "The Hobbit: The Battle of the Five Armies",
+        "Luke Evans",
+        "Evangeline Lilly",
+        "Orlando Bloom",
+        "Richard Armitage",
+        "Ian McKellen",
+        "Martin Freeman"
+    ],
+    "the lego movie" : [
+        "The Lego Movie",
+        "Alison Brie",
+        "Nick Offerman",
+        "Will Arnett",
+        "Elizabeth Banks",
+        "Will Ferrell",
+        "Chris Pratt"
+    ],
+    "captain america the winter soldier" : [
+        "Captain America: The Winter Soldier",
+        "Frank Grillo",
+        "Cobie Smulders",
+        "Anthony Mackie",
+        "Sebastian Stan",
+        "Scarlett Johansson",
+        "Chris Evans"
+    ],
+    "guardians of the galaxy" : [
+        "Guardians of the Galaxy",
+        "Lee Pace",
+        "Bradley Cooper",
+        "Vin Diesel",
+        "Dave Bautista",
+        "Zoe Saldaña",
+        "Chris Pratt"
+    ],
+    "the hunger games mockingjay pt 1" : [
+        "The Hunger Games: Mockingjay - Pt. 1",
+        "Julianne Moore",
+        "Elizabeth Banks",
+        "Woody Harrelson",
+        "Liam Hemsworth",
+        "Josh Hutcherson",
+        "Jennifer Lawrence"
+    ],
+    "american sniper" : [
+        "American Sniper",
+        'Kevin "Dauber" Lacz',
+        "Cory Hardrict",
+        "Jake McDorman",
+        "Luke Grimes",
+        "Sienna Miller",
+        "Bradley Cooper"
+    ],
+    "spectre" : [
+        "Spectre",
+        "Dave Bautista",
+        "Naomie Harris",
+        "Ben Whishaw",
+        "Léa Seydoux",
+        "Christoph Waltz",
+        "Daniel Craig"
+    ],
+    "cinderella" : [
+        "Cinderella",
+        "Stellan Skarsgård",
+        "Nonso Anozie",
+        "Helena Bonham Carter",
+        "Cate Blanchett",
+        "Richard Madden",
+        "Lily James"
+    ],
+    "the martian" : [
+        "The Martian",
+        "Sean Bean",
+        "Michael Peña",
+        "Jeff Daniels",
+        "Kristen Wiig",
+        "Jessica Chastain",
+        "Matt Damon"
+    ],
+    "the hunger games mockingjay pt 2" : [
+        "The Hunger Games: Mockingjay - Pt. 2",
+        "Julianne Moore",
+        "Elizabeth Banks",
+        "Woody Harrelson",
+        "Liam Hemsworth",
+        "Josh Hutcherson",
+        "Jennifer Lawrence"
+    ],
+    "minions" : [
+        "Minions",
+        "Sandra Bullock",
+        "Jon Hamm",
+        "Michael Keaton",
+        "Allison Janney",
+        "Steve Coogan",
+        "Pierre Coffin"
+    ],
+    "furious 7" : [
+        "Furious 7",
+        'Chris "Ludacris" Bridges',
+        "Tyrese Gibson",
+        "Michelle Rodriguez",
+        "Dwayne Johnson",
+        "Paul Walker",
+        "Vin Diesel"
+    ],
+    "inside out" : [
+        "Inside Out",
+        "Mindy Kaling",
+        "Lewis Black",
+        "Bill Hader",
+        "Richard Kind",
+        "Phyllis Smith",
+        "Amy Poehler"
+    ],
+    "avengers age of ultron" : [
+        "Avengers: Age of Ultron",
+        "James Spader",
+        "Scarlett Johansson",
+        "Chris Evans",
+        "Mark Ruffalo",
+        "Chris Hemsworth",
+        "Robert Downey Jr."
+    ],
+    "jurassic world" : [
+        "Jurassic World",
+        "Omar Sy",
+        "Nick Robinson",
+        "Ty Simpkins",
+        "Vincent D'Onofrio",
+        "Bryce Dallas Howard",
+        "Chris Pratt"
+    ],
+    "sing" : [
+        "Sing",
+        "Taron Egerton",
+        "John C. Reilly",
+        "Scarlett Johansson",
+        "Seth MacFarlane",
+        "Reese Witherspoon",
+        "Matthew McConaughey"
+    ],
+    "suicide squad" : [
+        "Suicide Squad",
+        "Jay Hernandez",
+        "Jai Courtney",
+        "Cara Delevingne",
+        "Margot Robbie",
+        "Jared Leto",
+        "Will Smith"
+    ],
+    "batman v superman dawn of justice" : [
+        "Batman v Superman: Dawn of Justice",
+        "Laurence Fishburne",
+        "Diane Lane",
+        "Jesse Eisenberg",
+        "Amy Adams",
+        "Ben Affleck",
+        "Henry Cavill"
+    ],
+    "zootopia" : [
+        "Zootopia",
+        "Bonnie Hunt",
+        "Nate Torrence",
+        "Jenny Slate",
+        "Idris Elba",
+        "Jason Bateman",
+        "Ginnifer Goodwin"
+    ],
+    "deadpool" : [
+        "Deadpool",
+        "Brianna Hildebrand",
+        "Gina Carano",
+        "TJ Miller",
+        "Ed Skrein",
+        "Morena Baccarin",
+        "Ryan Reynolds"
+    ],
+    "the jungle book" : [
+        "The Jungle Book",
+        "Neel Sethi",
+        "Scarlett Johansson",
+        "Lupita Nyong'o",
+        "Idris Elba",
+        "Ben Kingsley",
+        "Bill Murray"
+    ],
+    "the secret life of pets" : [
+        "The Secret Life of Pets",
+        "Lake Bell",
+        "Elle Kemper",
+        "Jenny Slate",
+        "Kevin Hart",
+        "Eric Stonestreet",
+        "Louis CK"
+    ],
+    "captain america civil war" : [
+        "Captain America: Civil War",
+        "Don Cheadle",
+        "Anthony Mackie",
+        "Sebastian Stan",
+        "Scarlett Johansson",
+        "Robert Downey Jr.",
+        "Chris Evans"
+    ],
+    "finding dory" : [
+        "Finding Dory",
+        "Ty Burrell",
+        "Kaitlin Olson",
+        "Ed O'Neill",
+        "Hayden Rolence",
+        "Albert Brooks",
+        "Ellen DeGeneres"
+    ],
+    "rogue one" : [
+        "Rogue One",
+        "Alan Tudyk",
+        "Mads Mikkelsen",
+        "Donnie Yen",
+        "Ben Mendelsohn",
+        "Diego Luna",
+        "Felicity Jones"
+    ],
+    "justice league" : [
+        "Justice League",
+        "Jason Momoa",
+        "Ezra Miller",
+        "Gal Gadot",
+        "Amy Adams",
+        "Ben Affleck",
+        "Henry Cavill"
+    ],
+    "despicable me 3" : [
+        "Despicable Me 3",
+        "Steve Coogan",
+        "Miranda Cosgrove",
+        "Pierre Coffin",
+        "Trey Parker",
+        "Kristen Wiig",
+        "Steve Carell"
+    ],
+    "thor ragnarok" : [
+        "Thor: Ragnarok",
+        "Tessa Thompson",
+        "Jeff Goldblum",
+        "Idris Elba",
+        "Cate Blanchett",
+        "Tom Hiddleston",
+        "Chris Hemsworth"
+    ],
+    "it" : [
+        "It",
+        "Wyatt Oleff",
+        "Finn Wolfhard",
+        "Sophia Lillis",
+        "Jeremy Ray Taylor",
+        "Jaeden Lieberher",
+        "Bill Skarsgård"
+    ],
+    "spider man homecoming" : [
+        "Spider-Man: Homecoming",
+        "Robert Downey Jr.",
+        "Marisa Tomei",
+        "Zendaya",
+        "Donald Glover",
+        "Michael Keaton",
+        "Tom Holland"
+    ],
+    "guardians of the galaxy vol 2" : [
+        "Guardians of the Galaxy Vol. 2",
+        "Kurt Russell",
+        "Bradley Cooper",
+        "Vin Diesel",
+        "Dave Bautista",
+        "Zoe Saldaña",
+        "Chris Pratt"
+    ],
+    "jumanji welcome to the jungle" : [
+        "Jumanji: Welcome to the Jungle",
+        "Bobby Cannavale",
+        "Nick Jonas",
+        "Karen Gillan",
+        "Kevin Hart",
+        "Jack Black",
+        "Dwayne Johnson"
+    ],
+    "wonder woman" : [
+        "Wonder Woman",
+        "Connie Nielsen",
+        "David Thewlis",
+        "Danny Huston",
+        "Robin Wright",
+        "Chris Evans",
+        "Gal Gadot"
+    ],
+    "beauty and the beast (2017)" : [
+        "Beauty and the Beast (2017)",
+        "Ewan McGregor",
+        "Kevin Kline",
+        "Josh Gad",
+        "Luke Evans",
+        "Dan Stevens",
+        "Emma Watson"
+    ],
     "black panther" : [
         "Black Panther",
         "Daniel Kaluuya",
