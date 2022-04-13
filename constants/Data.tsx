@@ -1,4 +1,4 @@
-// Years done: 2000, first 3 2022, 2021, 2020, 2019, 2018, 2017, 2016, 2015, 2014
+// Years done: 2000, first 3 2022, 2021, 2020, 2019, 2018, 2017, 2016, 2015, 2014, 2013
 
 // "" : [
 //     "",
@@ -11,14 +11,95 @@
 // ],
 
 const Data: Object = {
-    "" : [
-        "",
-        "",
-        "",
-        "",
-        "",
-        "",
-        ""
+    "thor the dark world" : [
+        "Thor: The Dark World",
+        "Idris Elba",
+        "Stellan Skarsgård",
+        "Anthony Hopkins",
+        "Tom Hiddleston",
+        "Natalie Portman",
+        "Chris Hemsworth"
+    ],
+    "man of steel" : [
+        "Man of Steel",
+        "Laurence Fishburne",
+        "Diane Lane",
+        "Kevin Costner",
+        "Michael Shannon",
+        "Amy Adams",
+        "Henry Cavill"
+    ],
+    "gravity" : [
+        "Gravity",
+        "Sandra Bullock",
+        "George Clooney",
+        "Ed Harris",
+        "Orto Ignatiussen",
+        "Phaldut Sharma",
+        "Amy Warren"
+    ],
+    "monsters university" : [
+        "Monsters University",
+        "Charlie Day",
+        "Joel Murray",
+        "Peter Sohn",
+        "Steve Buscemi",
+        "John Goodman",
+        "Billy Crystal"
+    ],
+    "fast and furious 6" : [
+        "Fast & Furious 6",
+        "Jordanna Brewster",
+        "Tyrese Gibson",
+        "Michelle Rodriguez",
+        "Dwayne Johnson",
+        "Paul Walker",
+        "Vin Diesel"
+    ],
+    "the hunger games catching fire" : [
+        "The Hunger Games: Catching Fire",
+        "Lenny Kravitz",
+        "Elizabeth Banks",
+        "Woody Harrelson",
+        "Liam Hemsworth",
+        "Josh Hutcherson",
+        "Jennifer Lawrence"
+    ],
+    "the hobbit the desolation of smaug" : [
+        "The Hobbit: The Desolation of Smaug",
+        "Luke Evans",
+        "Evangeline Lilly",
+        "Benedict Cumberbatch",
+        "Richard Armitage",
+        "Ian McKellen",
+        "Martin Freeman"
+    ],
+    "despicable me 2" : [
+        "Despicable Me 2",
+        "Steve Coogan",
+        "Russell Brand",
+        "Miranda Cosgrove",
+        "Benjamin Bratt",
+        "Kristen Wiig",
+        "Steve Carell"
+    ],
+    "iron man 3" : [
+        "Iron Man 3",
+        "Rebecca Hall",
+        "Guy Pearce",
+        "Ben Kingsley",
+        "Don Cheadle",
+        "Gwyneth Paltrow",
+        "Robert Downey Jr."
+    ],
+    "frozen" : [
+        "Frozen",
+        "Alan Tudyk",
+        "Santino Fontana",
+        "Josh Gad",
+        "Jonathan Groff",
+        "Idina Menzel",
+        "Kristen Bell"
     ],
     "big hero 6" : [
         "Big Hero 6",
