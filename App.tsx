@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react'
 //import { View, TextInput, TouchableOpacity, Text } from "./components/Themed"
-import { StyleSheet, View, TouchableOpacity, Text, TextInput, Animated, Dimensions, Modal, TouchableWithoutFeedback, Platform } from 'react-native'
+import { 
+    StyleSheet, View, TouchableOpacity, Text, TextInput, Animated, Dimensions, Modal, TouchableWithoutFeedback, Platform 
+} from 'react-native'
 import { SafeAreaProvider } from 'react-native-safe-area-context'
 import Data from "./constants/Data"
 import PointlessWords from './constants/PointlessWords'
@@ -83,7 +85,7 @@ export default function App () {
         //console.log(holdoverdata);
         peekHoverTexts = hoverTexts;
         peekHoverDisplays = hoverDisplays;
-        if (text.length < newoldtext[column].length){
+        if (text.length == 0){
             for (let i = (column * 3); i < Math.min((column + 1) * 3, (column * 3) + newData.length); i += 1){
                 peekHoverTexts[i % 3] = "";
                 peekHoverDisplays[i % 3] = false;
@@ -216,8 +218,48 @@ export default function App () {
                     <View style={styles.modalback}>
                         <TouchableWithoutFeedback style={styles.modalfront} onPress={() => {setRulesVisible(true)}}>
                             <View style={[styles.modalbody, darkMode ? styles.darklv5 : styles.lightcolors]}>
-                                <Text style={darkMode ? styles.darklv5 : styles.lightcolors}>HOW TO PLAY</Text>
-                                <Text style={darkMode ? styles.darklv5 : styles.lightcolors}>Guess the <Text style={styles.modallogo}>S T A R D L E</Text> in six tries.</Text>
+                                <Text style={[darkMode ? styles.darklv5 : styles.lightcolors, styles.basictext, styles.rulestext, styles.bold]}>
+                                    HOW TO PLAY
+                                </Text>
+                                <Text style={[darkMode ? styles.darklv5 : styles.lightcolors, styles.basictext, styles.rulestext]}>
+                                    Guess the <Text style={styles.modallogo}>S T A R D L E</Text> in six tries.
+                                </Text>
+                                <Text style={[darkMode ? styles.darklv5 : styles.lightcolors, styles.basictext, styles.rulestext]}>
+                                    Enter your guesses into the boxes below the actors.
+                                </Text>
+                                <Text style={[styles.actor, darkMode ? styles.darklv2 : styles.lightcolors, styles.modalactor]}>
+                                    Tom Hanks
+                                </Text>
+                                <TextInput 
+                                    style={[styles.input, styles.textinput, darkMode ? styles.darklv2 : styles.lightcolors, styles.modalactor]}>
+                                </TextInput>
+                                <Text style={[darkMode ? styles.darklv5 : styles.lightcolors, styles.basictext, styles.rulestext]}>
+                                    Guess by pressing a movie title suggested by the text box.
+                                </Text>
+                                <Text style={[darkMode ? styles.darklv5 : styles.lightcolors, styles.basictext, styles.rulestext]}>
+                                    After each guess the color of the text box will change to show how close your title is to the STARDLE.
+                                </Text>
+                                <Text style={[darkMode ? styles.darklv5 : styles.lightcolors, styles.basictext, styles.rulestext]}>
+                                    If a guess is correct, you win.
+                                </Text>
+                                <View style={[styles.input, styles.green, styles.modalactor]}>
+                                    <Text style={styles.textinput}>Toy Story 4</Text>
+                                </View>
+                                <Text style={[darkMode ? styles.darklv5 : styles.lightcolors, styles.basictext, styles.rulestext]}>
+                                    If a guess has words in common with the Stardle:
+                                </Text>
+                                <View style={[styles.input, styles.yellow, styles.modalactor]}>
+                                    <Text style={styles.textinput}>Toy Story 3</Text>
+                                </View>
+                                <Text style={[darkMode ? styles.darklv5 : styles.lightcolors, styles.basictext, styles.rulestext]}>
+                                    If a guess has no words in common with the Stardle:
+                                </Text>
+                                <View style={[styles.input, styles.gray, styles.modalactor]}>
+                                    <Text style={styles.textinput}>Cast Away</Text>
+                                </View>
+                                <Text style={[darkMode ? styles.darklv5 : styles.lightcolors, styles.basictext, styles.rulestext]}>
+                                    A new Stardle will be available every day.
+                                </Text>
                             </View>
                         </TouchableWithoutFeedback>
                     </View>
@@ -228,18 +270,28 @@ export default function App () {
                     <View style={styles.modalback}>
                         <TouchableWithoutFeedback style={styles.modalfront} onPress={() => {setEndVisible(true)}}>
                             <View style={[styles.modalbody, darkMode ? styles.darklv5 : styles.lightcolors]}>
-                                <Text style={darkMode ? styles.darklv5 : styles.lightcolors}>The answer was</Text>
-                                <Text style={darkMode ? styles.darklv5 : styles.lightcolors}>{correct[0].toUpperCase()}</Text>
+                                <Text style={[darkMode ? styles.darklv5 : styles.lightcolors, styles.resultstext, styles.basictext]}>
+                                    The answer was
+                                </Text>
+                                <Text style={[darkMode ? styles.darklv5 : styles.lightcolors, styles.basictext, styles.answer]}>
+                                    {correct[0].toUpperCase()}
+                                </Text>
                             </View>
                         </TouchableWithoutFeedback>
                     </View>
                 </TouchableWithoutFeedback>    
             </Modal>
             <View style={[styles.navbar]}>
-                <Text>
-                    <Text style={darkMode ? styles.darklv1 : styles.lightcolors} onPress={() => {setRulesVisible(true)}}>rules</Text>
+                <Text style={{margin: "auto"}}>
+                    <Text style={[darkMode ? styles.darklv1 : styles.lightcolors, styles.basictext]} 
+                        onPress={() => {setRulesVisible(true)}}>
+                            rules 
+                    </Text>
                     <Text style={styles.toptext}>S T A R D L E</Text>
-                    <Text style={darkMode ? styles.darklv1 : styles.lightcolors} onPress={() => {setDarkMode(!darkMode)}}>darkmode</Text>
+                    <Text style={[darkMode ? styles.darklv1 : styles.lightcolors, styles.basictext]} 
+                        onPress={() => {setDarkMode(!darkMode)}}>
+                             darkmode
+                    </Text>
                 </Text>
             </View>
             <TouchableOpacity 
@@ -259,7 +311,7 @@ export default function App () {
             </TouchableOpacity>
             <View style={styles.container}>
                 <View style={styles.spot}>
-                    <Text style={[styles.actor, darkMode ? styles.darklv1 : styles.lightcolors]}>{actors[0]}</Text>
+                    <Text style={[styles.actor, darkMode ? styles.darklv2 : styles.lightcolors]}>{actors[0]}</Text>
                     <TextInput 
                         style={[bools[0] ? styles.input : styles.none, styles.textinput, darkMode ? styles.darklv2 : styles.lightcolors]} 
                         onChange={(e) => {textHandler(e.target.value, 0)}}>
@@ -366,30 +418,46 @@ export default function App () {
 // Our base here is rgb(18, 18, 18), to go up a level, simply add 2.55 * the % opaque of the white transparency recommended.
 
 const styles = StyleSheet.create({
+    bold: {
+        fontWeight: "bold"
+    },
+    italic: {
+        fontStyle: "italic"
+    },
+    rulestext: {
+        marginVertical: height/120,
+        marginHorizontal: width/50
+    },
+    basictext: {
+        fontSize: height/50
+    },
+    resultstext: {
+        margin: "auto"
+    },
     darklv1: {
         backgroundColor: "#121212",
         color: "white",
-        borderColor: "white"
+        //borderColor: "white"
     },
     darklv2: {
         backgroundColor: "rgb(30.75, 30.75, 30.75)",
         color: "white",
-        borderColor: "white"
+        //borderColor: "white"
     },
     darklv3: {
         backgroundColor: "rgb(38.4, 38.4, 38.4)",
         color: "white",
-        borderColor: "white"
+        //borderColor: "white"
     },
     darklv4: {
         backgroundColor: "rgb(46.05, 46.05, 46.05)",
         color: "white",
-        borderColor: "white"
+        //borderColor: "white"
     },
     darklv5: {
         backgroundColor: "rgb(53.7, 53.7, 53.7)",
         color: "white",
-        borderColor: "white"
+        //borderColor: "white"
     },
     lightcolors: {
         backgroundColor: "white",
@@ -403,7 +471,7 @@ const styles = StyleSheet.create({
         alignContent: 'center',
         height: height * .9,
         margin: "auto",
-        minWidth: width/3
+        width: width/3
     },
     rules: {
         margin: "50%"
@@ -419,11 +487,19 @@ const styles = StyleSheet.create({
         marginHorizontal: "20%"
     },
     modalbody: {
-        margin: "5%"
+        margin: "auto"
     },
     modallogo: {
         color: "rgba(127,127,127,.8)",
-        fontSize: "125%"
+        fontSize: height/30
+    },
+    modalactor: {
+        width: width/3,
+        marginHorizontal: width/50
+    },
+    answer: {
+        fontWeight: "bold",
+        fontSize: height/20
     },
     input: {
         borderRadius: height/50,
@@ -451,20 +527,20 @@ const styles = StyleSheet.create({
     },
     hovertext: {
         paddingLeft: height/100,
-        fontSize: "125%",
+        fontSize: height/30,
     },
     yellow: {
-        paddingTop: "1%",
+        paddingTop: height/200,
         borderRadius: height/50,
         backgroundColor: "#FFD185",
     },
     green: {
-        paddingTop: "1%",
+        paddingTop: height/200,
         borderRadius: height/50,
         backgroundColor: "#77D353",
     },
     gray: {
-        paddingTop: "1%",
+        paddingTop: height/200,
         borderRadius: height/50,
         backgroundColor: "lightgray",
     },
@@ -475,14 +551,14 @@ const styles = StyleSheet.create({
     },
     actor: {
         height: spotheight * .45,
-        fontSize: "125%",
+        fontSize: height/30,
         overflow: 'hidden',
         borderWidth: 1,
         borderColor: "black",
         borderBottomWidth: 0,
         borderRadius: height/50,
         textAlign: "center",
-        paddingTop: "1%"
+        paddingTop: height/200
     },
     navbar: {
         top: 0,
@@ -493,7 +569,7 @@ const styles = StyleSheet.create({
     },
     toptext: {
         color: "rgba(127,127,127,.8)",
-        fontSize: "250%"
+        fontSize: height/20
     },
     toplevel: {
         height: "100%",
@@ -502,7 +578,7 @@ const styles = StyleSheet.create({
     },
     textinput: {
         paddingLeft: height/100,
-        fontSize: "125%",
+        fontSize: height/30,
         borderRadius: height/50
     },
     // BEHOLD THIS LOOKS TERRIBLE, but it's the positions that the suggestion boxes need to be assigned to.
