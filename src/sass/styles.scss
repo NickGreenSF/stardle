@@ -10,14 +10,6 @@ $hover-padding: math.div($width, 3);
 .black{
     background-color: black;
     color: black;
-    height: $spot-height * .45;
-    border-radius: $height * .02;
-}
-
-.toplevel{
-    height: 100%;
-    color: gray;
-    padding: "auto";
 }
 
 .rulestext{
@@ -27,31 +19,8 @@ $hover-padding: math.div($width, 3);
     margin-right: math.div($width, 50);
 }
 
-.graybars {
-    background-color: gray;
-}
-
-.container{
-    height: $height * .9;
-    margin: auto;
-}
-
 .rules{
     margin: 50%
-}
-
-.modalback{
-    background-color: rgba($color: #000000, $alpha: 0.4);
-    width: 100%;
-    height: 100%;
-}
-
-.modalfront{
-    background-color: white;
-    margin-top: 5%;
-    margin-bottom: 5%;
-    margin-left: 20%;
-    margin-right: 20%;
 }
 
 .modalbody{
@@ -74,154 +43,12 @@ $hover-padding: math.div($width, 3);
     font-size: math.div($height, 20);
 }
 
-.input{
-    border-radius: math.div($height, 50);
-    border-width: 1px;
-    border-color: black;
-    border-style: solid;
-    height: $spot-height * .45;
-    font-size: math.div($height, 30);
-}
-
 .textinput{
     box-sizing: border-box;
-    width: 100%;
-}
-
-.hover{
-    overflow: hidden;
-    position: absolute;
-    height: math.div($height, 20);
-    border-width: 1px;
-    border-color: black;
-    z-index: 7;
-    color: black;
-    margin-left: $hover-padding;
-}
-
-.hovertext{
-    padding-left: math.div($height, 100);
-    font-size: math.div($height, 30);
-}
-
-.yellow{
-    @extend .textboxpadding;
-    border-radius: math.div($height, 50);
-    background-color: #FFD185;
-}
-
-.green{
-    @extend .textboxpadding;
-    border-radius: math.div($height, 50);
-    background-color: #77D353;
-}
-
-.gray{
-    @extend .textboxpadding;
-    border-radius: math.div($height, 50);
-    background-color: lightgray;
-}
-
-.spot{
-    margin-top: 0;
-    margin-bottom: 0;
-    height: $spot-height;
-    overflow: hidden;
-}
-
-.actor{
-    @extend .textboxpadding;
-    height: $spot-height * .45;
-    font-size: math.div($height, 30);
-    overflow: hidden;
-    border-width: 1px;
-    border-color: black;
-    border-radius: math.div($height, 50);
-    text-align: center;
-    border-style: solid;
-}
-
-.navbar{
-    top: 0;
-    height: 5%;
-    overflow: hidden;
-    text-align: center;
     width: 100%;
 }
 
 .toptext{
     color: rgba(127,127,127,.8);
     font-size: math.div($height, 20);
-}
-
-.zero{
-    top: $height * .25;
-}
-
-.one{
-    top: $height * .3;
-}
-
-.two{
-    top: $height * .35;
-}
-
-.three{
-    top: $height * .38;
-}
-
-.four{
-    top: $height * .43;
-}
-
-.five{
-    top: $height * .48;
-}
-
-.six{
-    top: $height * .51;
-}
-
-.seven{
-    top: $height * .56;
-}
-
-.eight{
-    top: $height * .61;
-}
-
-.nine{
-    top: $height * .64;
-}
-
-.ten{
-    top: $height * .69;
-}
-
-.eleven{
-    top: $height * .74;
-}
-
-.twelve{
-    top: $height * .77;
-}
-
-.thirteen{
-    top: $height * .82;
-}
-
-.fourteen{
-    top: $height * .87;
-}
-
-.fifteen{
-    top: $height * .9;
-}
-
-.sixteen{
-    top: $height * .95;
-}
-
-.seventeen{
-    top: $height;
 }

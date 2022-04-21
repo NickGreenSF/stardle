@@ -4,23 +4,11 @@
 
 body {
   font-family: Arial, Helvetica, sans-serif;
-  background-color: black;
+  background-color: #121212;
 }
 
 .white {
   background-color: white;
-}
-
-.shortwidth {
-  width: 33.3333333333vw;
-}
-
-.longwidth {
-  width: 90vw;
-}
-
-.textboxpadding, .yellow, .green, .gray, .actor {
-  padding-top: 0.45vh;
 }
 
 .bold, .answer {
@@ -41,6 +29,10 @@ body {
 
 .resultstext {
   margin: auto;
+}
+
+.blacktext {
+  color: black;
 }
 
 .darklv1 {
@@ -77,14 +69,6 @@ body {
 .black {
   background-color: black;
   color: black;
-  height: 5.67vh;
-  border-radius: 1.8vh;
-}
-
-.toplevel {
-  height: 100%;
-  color: gray;
-  padding: "auto";
 }
 
 .rulestext {
@@ -94,31 +78,8 @@ body {
   margin-right: 2vw;
 }
 
-.graybars {
-  background-color: gray;
-}
-
-.container {
-  height: 81vh;
-  margin: auto;
-}
-
 .rules {
   margin: 50%;
-}
-
-.modalback {
-  background-color: rgba(0, 0, 0, 0.4);
-  width: 100%;
-  height: 100%;
-}
-
-.modalfront {
-  background-color: white;
-  margin-top: 5%;
-  margin-bottom: 5%;
-  margin-left: 20%;
-  margin-right: 20%;
 }
 
 .modalbody {
@@ -139,152 +100,14 @@ body {
   font-size: 4.5vh;
 }
 
-.input {
-  border-radius: 1.8vh;
-  border-width: 1px;
-  border-color: black;
-  border-style: solid;
-  height: 5.67vh;
-  font-size: 3vh;
-}
-
 .textinput {
   box-sizing: border-box;
-  width: 100%;
-}
-
-.hover {
-  overflow: hidden;
-  position: absolute;
-  height: 4.5vh;
-  border-width: 1px;
-  border-color: black;
-  z-index: 7;
-  color: black;
-  margin-left: 33.3333333333vw;
-}
-
-.hovertext {
-  padding-left: 0.9vh;
-  font-size: 3vh;
-}
-
-.yellow {
-  border-radius: 1.8vh;
-  background-color: #FFD185;
-}
-
-.green {
-  border-radius: 1.8vh;
-  background-color: #77D353;
-}
-
-.gray {
-  border-radius: 1.8vh;
-  background-color: lightgray;
-}
-
-.spot {
-  margin-top: 0;
-  margin-bottom: 0;
-  height: 12.6vh;
-  overflow: hidden;
-}
-
-.actor {
-  height: 5.67vh;
-  font-size: 3vh;
-  overflow: hidden;
-  border-width: 1px;
-  border-color: black;
-  border-radius: 1.8vh;
-  text-align: center;
-  border-style: solid;
-}
-
-.navbar {
-  top: 0;
-  height: 5%;
-  overflow: hidden;
-  text-align: center;
   width: 100%;
 }
 
 .toptext {
   color: rgba(127, 127, 127, 0.8);
   font-size: 4.5vh;
-}
-
-.zero {
-  top: 22.5vh;
-}
-
-.one {
-  top: 27vh;
-}
-
-.two {
-  top: 31.5vh;
-}
-
-.three {
-  top: 34.2vh;
-}
-
-.four {
-  top: 38.7vh;
-}
-
-.five {
-  top: 43.2vh;
-}
-
-.six {
-  top: 45.9vh;
-}
-
-.seven {
-  top: 50.4vh;
-}
-
-.eight {
-  top: 54.9vh;
-}
-
-.nine {
-  top: 57.6vh;
-}
-
-.ten {
-  top: 62.1vh;
-}
-
-.eleven {
-  top: 66.6vh;
-}
-
-.twelve {
-  top: 69.3vh;
-}
-
-.thirteen {
-  top: 73.8vh;
-}
-
-.fourteen {
-  top: 78.3vh;
-}
-
-.fifteen {
-  top: 81vh;
-}
-
-.sixteen {
-  top: 85.5vh;
-}
-
-.seventeen {
-  top: 90vh;
 }
 
 /*# sourceMappingURL=styles.css.map */

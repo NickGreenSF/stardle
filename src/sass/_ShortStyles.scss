@@ -10,23 +10,11 @@ $hover-padding: math.div($width, 3);
 }
 body{
     font-family: Arial, Helvetica, sans-serif;
-    background-color: black;
+    background-color: #121212;
 }
 
 .white{
     background-color: white;
-}
-
-.shortwidth{
-    width: math.div($width, 3);
-}
-
-.longwidth{
-    width: $width * .9;
-}
-
-.textboxpadding{
-    padding-top: math.div($height, 200);
 }
 
 .bold{
@@ -47,4 +35,8 @@ body{
 
 .resultstext{
     margin: auto;
+}
+
+.blacktext{
+    color: black;
 }
