@@ -1,10 +1,10 @@
 import React, {useState} from 'react'
-import { Modal, ModalBody, ButtonGroup, Button } from 'react-bootstrap'
+import { Modal, ModalBody } from 'react-bootstrap'
 import Data from "./constants/Data"
 import PointlessWords from './constants/PointlessWords'
 import "./styles.css"
 import styled, { keyframes } from 'styled-components'
-import { flipInX } from 'react-animations'
+import { flipInX, fadeInRight } from 'react-animations'
 
 //console.log(Object.keys(Data))
 
@@ -16,14 +16,42 @@ const filmmockdata : Array<string> = Object.keys(Data)
 const width = window.innerWidth
 const height = window.innerHeight
 const relevantWidth = width > height ? width / 3 : width * .9
-const relevantPercent = width > height ? "33.33333%" : "90%"
 const relevantPadding = width > height ? relevantWidth : width * .05
 const spotHeight = height * .13
 //console.log(height, spotHeight)
 
+let today : Date = new Date();
+let date : string = (today.getMonth() + 1) + "/" + today.getDate() + "/" + today.getFullYear()
+
 const flipInAnimation = keyframes`${flipInX}`
+const fadeInRightAnimation = keyframes`${fadeInRight}`
+
+// 1 guess, 2, 3, 4, 5, 6, miss, streak, has played today, guess 1, 2, 3, 4, 5, 6, has seen rules, dark mode
+//document.cookie = "0//0//0//0//0//0//0//0//false//_//_//_//_//_//_//false//false//" + date;
+
+let cookie = document.cookie
+if (!cookie || cookie.length < 1){
+    document.cookie = "0//0//0//0//0//0//0//0//false//_//_//_//_//_//_//false//false//" + date;
+    cookie = document.cookie
+}
+
+const outsideData = cookie.split("//")
+console.log(outsideData[8])
+if (outsideData[8] === "false"){
+    for (let i = 9; i <= 14; i += 1){
+        outsideData[i] = "_";
+    }
+    document.cookie = outsideData.join("//")
+}
+
+let maxAttempts = Math.max(parseInt(outsideData[0]),parseInt(outsideData[1]),parseInt(outsideData[2]),
+parseInt(outsideData[3]),parseInt(outsideData[4]),parseInt(outsideData[5]))
 
 export default function App () {
+
+    //console.log(document.cookie)
+
+    //console.log(date)
 
     let holdoverdata = filmmockdata;
     let peekOlddivs;
@@ -36,32 +64,38 @@ export default function App () {
 
     const [correct] = useState(Data[filmmockdata[Math.floor(Math.random() * filmmockdata.length)]]);
     //console.log(correct)
-    document.cookie = "0//0//0//0//0//0//0//0//false//_//_//_//_//_//_//false//false";
-    const [cookie, setCookie] = useState(document.cookie)
-    if (!cookie || cookie.length < 1){
-        document.cookie = "0//0//0//0//0//0//0//0//false//_//_//_//_//_//_//false//false";
-        setCookie(document.cookie)
-    }
+    // 1 guess, 2, 3, 4, 5, 6, miss, streak, has played today, guess 1, 2, 3, 4, 5, 6, has seen rules, dark mode
+    //document.cookie = "0//0//0//0//0//0//0//0//false//_//_//_//_//_//_//false//false//" + date;
+    // const [cookie, setCookie] = useState(document.cookie)
+    // if (!cookie || cookie.length < 1){
+    //     document.cookie = "0//0//0//0//0//0//0//0//false//_//_//_//_//_//_//false//false//" + date;
+    //     setCookie(document.cookie)
+    // }
     
-    const [data] = useState(cookie.split("//"))
+    const [data] = useState(outsideData)
+    //data[8] === "false" ? false : true
     const [solved, setSolved] = useState(false)
 
     const [active, setActive] = useState(0);
-    const [rulesVisible, setRulesVisible] = useState(data[data.length - 2] === "false" ? false : false)
+    const [rulesVisible, setRulesVisible] = useState(data[15] === "false" ? true : false)
+    if (rulesVisible === true){
+        data[15] = "true";
+        document.cookie = data.join("//")
+    }
     const [statsVisible, setStatsVisible] = useState(false)
 
-    if (data[data.length - 1] === "false"){
-        data[data.length - 1] = "true";
-        document.cookie = data.join("//");
-        console.log(data);
-    }
+    // if (data[data.length - 1] === "false"){
+    //     data[data.length - 1] = "true";
+    //     document.cookie = data.join("//");
+    //     console.log(data);
+    // }
 
-    const [darkMode, setDarkMode] = useState(data[data.length - 1] === "false" ? true : false)
+    const [darkMode, setDarkMode] = useState(data[16] === "true" ? true : false)
     if (!darkMode){
         document.body.classList.add("white");
     }
     
-    const [bools, setBools] = useState([true, false, false, false, false, false])
+    const [bools, setBools] = useState(solved === false ? [true, false, false, false, false, false] : [false, false, false, false, false, false])
 
     const green = {
         backgroundColor: "#77D353",
@@ -83,11 +117,33 @@ export default function App () {
     };
     const blank = {}
 
+    function yellowCheck(guess: string){
+        //console.log(guess)
+        let wordsGuess = new Set(guess.split(" "));
+        let wordset = correct[0].split(" ");
+        let flag = false;
+        wordset.forEach(function(item){
+            if (!PointlessWords.has(item) && wordsGuess.has(item)){
+                //console.log(item)
+                flag = true;
+            }
+        })
+        return flag
+    }
+
     const [olddiv, setOlddiv] = useState('')
     const [newoldtext, setNewOlddiv] = useState(['','','','','',''])
-    const [actors, setActors] = useState([correct[1],"_","_","_","_","_"])
-    const [guessSpans, setGuessSpans] = useState(["","","","","",""])
-    const [guessStyles, setGuessStyles] = useState([blank, blank, blank, blank, blank, blank])
+    const [actors, setActors] = useState(solved === false ? 
+        [correct[1],"_","_","_","_","_"] : [correct[1], correct[2],correct[3],correct[4],correct[5],correct[6]])
+    const [guessSpans, setGuessSpans] = useState(solved === false ? ["","","","","",""] : 
+    [data[9], data[10], data[11], data[12], data[13], data[14]])
+    const [guessStyles, setGuessStyles] = useState(solved === false ? [blank, blank, blank, blank, blank, blank] : 
+    [data[9].length > 1 ? (data[9] === correct[0] ? green : (yellowCheck(data[9]) ? yellow : gray)) : blank, 
+    data[10].length > 1 ? (data[10] === correct[0] ? green : (yellowCheck(data[10]) ? yellow : gray)) : blank, 
+    data[11].length > 1 ? (data[11] === correct[0] ? green : (yellowCheck(data[11]) ? yellow : gray)) : blank, 
+    data[12].length > 1 ? (data[12] === correct[0] ? green : (yellowCheck(data[12]) ? yellow : gray)) : blank, 
+    data[13].length > 1 ? (data[13] === correct[0] ? green : (yellowCheck(data[13]) ? yellow : gray)) : blank, 
+    data[14].length > 1 ? (data[14] === correct[0] ? green : (yellowCheck(data[14]) ? yellow : gray)) : blank])
     const [hoverSpans, setHoverSpans] = useState(["","",""])
     const [hoverDisplays, setHoverDisplays] = useState([false, false, false])
     const hoverLocations = 
@@ -151,13 +207,19 @@ export default function App () {
         }
         let section = Math.floor(box / 3);
         setActive(active + 1);
+        data[section + 9] = hoverSpans[box % 3];
         peekGuessSpans = guessSpans;
         peekGuessSpans[section] = hoverSpans[box % 3];
         setGuessSpans(peekGuessSpans);
         //setBooltest(false);
         if (hoverSpans[box % 3] === correct[0]){
             //console.log("winner!");
+            console.log(section, data[section])
             setSolved(true);
+            data[section] = (parseInt(data[section]) + 1).toString();
+            data[8] = "true";
+            console.log(section, data[section])
+            document.cookie = data.join("//");
             peekGuessStyles = guessStyles;
             peekGuessStyles[section] = green;
             setGuessStyles(peekGuessStyles);
@@ -170,8 +232,6 @@ export default function App () {
             let peekactors = actors;
             while (section < correct.length - 1){
                 peekactors[section + 1] = correct[section + 2];
-                console.log(section);
-                flipForwardActor(section);
                 section += 1;
             }
             setActors(peekactors);
@@ -180,22 +240,20 @@ export default function App () {
             return;
         }
         else{
-            //console.log("bad guess", hoverSpans[box % 3])
-            let wordsGuess = new Set(hoverSpans[box % 3].split(" "));
+            let curWord = hoverSpans[box % 3];
             textHandler("", section);
-            peekGuessStyles = guessStyles;
-            peekGuessStyles[section] = gray;
-            setGuessStyles(peekGuessStyles);
-            let wordset = correct[0].split(" ");
-            wordset.forEach(function(item){
-                if (!PointlessWords.has(item) && wordsGuess.has(item)){
-                    //console.log("overlap");
-                    peekGuessStyles = guessStyles;
-                    peekGuessStyles[section] = yellow;
-                    setGuessStyles(peekGuessStyles);
-                    //break;
-                }
-            })
+            let yellowResult = yellowCheck(curWord);
+            //console.log(yellowResult)
+            if (yellowResult){
+                peekGuessStyles = guessStyles;
+                peekGuessStyles[section] = yellow;
+                setGuessStyles(peekGuessStyles);
+            }
+            else {
+                peekGuessStyles = guessStyles;
+                peekGuessStyles[section] = gray;
+                setGuessStyles(peekGuessStyles);
+            }
         }
         peekBools = bools;
         peekBools[section] = false;
@@ -210,20 +268,19 @@ export default function App () {
             let peekactors = actors;
             peekactors[section + 1] = correct[section + 2];
             setActors(peekactors);
-            flipForwardActor(active);
             //console.log(actors);
         }
         else{
+            setSolved(true);
+            data[6] = (parseInt(data[6]) + 1).toString();
+            document.cookie = data.join("//")
             setTimeout(()=>{setStatsVisible(true)}, 1000);
         }
         setBools(peekBools);
     }
 
-    function flipForwardActor (i: number){
-        if (i > 4){
-            return
-        }
-    };
+    const [widthTest, setWidthTest] = useState(90)
+
     return <TopLevel>
         <Modal show={rulesVisible} onHide={() => {
             setRulesVisible(false)
@@ -282,8 +339,18 @@ export default function App () {
                         {solved ? "The answer was" : ""}
                     </div>
                     <div className={(darkMode ? "darklv5" : "lightcolors") + " answer"}>
-                        {correct[0].toUpperCase()}
+                        {solved ? correct[0].toUpperCase() : ""}
                     </div>
+                    <div>{data}</div>
+                    <div style={{borderLeft: "1px solid white"}}>
+                        <div style={{backgroundColor: "green", width: (parseInt(data[0]) / maxAttempts) * (width/3), height: height/40}}></div>
+                        <div style={{backgroundColor: "green", width: (parseInt(data[1]) / maxAttempts) * (width/3), height: height/40}}></div>
+                        <div style={{backgroundColor: "green", width: (parseInt(data[2]) / maxAttempts) * (width/3), height: height/40}}></div>
+                        <div style={{backgroundColor: "green", width: (parseInt(data[3]) / maxAttempts) * (width/3), height: height/40}}></div>
+                        <div style={{backgroundColor: "green", width: (parseInt(data[4]) / maxAttempts) * (width/3), height: height/40}}></div>
+                        <div style={{backgroundColor: "green", width: (parseInt(data[5]) / maxAttempts) * (width/3), height: height/40}}></div>
+                    </div>
+                    
                 </div>
             </ModalBody>
         </Modal>
@@ -301,10 +368,15 @@ export default function App () {
                 onClick={() => {
                     if (darkMode){
                         document.body.classList.add("white");
+                        data[16] = "false";
                     } else{
                         document.body.classList.remove("white");
+                        data[16] = "true";
                     }
+                    console.log(darkMode)
+                    document.cookie = data.join("//")
                     setDarkMode(!darkMode);
+                    //console.log(document.cookie)
                 }}>
                         darkmode
             </span>
@@ -332,7 +404,7 @@ export default function App () {
                     onChange={(e) => {textHandler(e.target.value, 0)}}>
                 </Input>
                 <AboveInput style={(bools[0] ? none : guessStyles[0])}>
-                    <div className="blacktext">{guessSpans[0]}</div>
+                    <div className="blacktext">{guessSpans[0].length > 1 ? guessSpans[0] : ""}</div>
                 </AboveInput>
             </Spot>
             <Spot>
@@ -346,7 +418,7 @@ export default function App () {
                     onChange={(e) => {textHandler(e.target.value, 1)}}>
                 </Input>
                 <AboveInput style={(bools[1] ? none : guessStyles[1])}>
-                    <div className="blacktext">{guessSpans[1]}</div>
+                    <div className="blacktext">{guessSpans[1].length > 1 ? guessSpans[1] : ""}</div>
                 </AboveInput>
             </Spot>
             <Spot>
@@ -360,7 +432,7 @@ export default function App () {
                     onChange={(e) => {textHandler(e.target.value, 2)}}>
                 </Input>
                 <AboveInput style={(bools[2] ? none : guessStyles[2])}>
-                    <div className="blacktext">{guessSpans[2]}</div>
+                    <div className="blacktext">{guessSpans[2].length > 1 ? guessSpans[2] : ""}</div>
                 </AboveInput>
             </Spot>
             <Spot>
@@ -374,7 +446,7 @@ export default function App () {
                     onChange={(e) => {textHandler(e.target.value, 3)}}>
                 </Input>
                 <AboveInput style={(bools[3] ? none : guessStyles[3])}>
-                    <div className="blacktext">{guessSpans[3]}</div>
+                    <div className="blacktext">{guessSpans[3].length > 1 ? guessSpans[3] : ""}</div>
                 </AboveInput>
             </Spot>
             <Spot>
@@ -388,7 +460,7 @@ export default function App () {
                     onChange={(e) => {textHandler(e.target.value, 4)}}>
                 </Input>
                 <AboveInput style={(bools[4] ? none : guessStyles[4])}>
-                    <div className="blacktext">{guessSpans[4]}</div>
+                    <div className="blacktext">{guessSpans[4].length > 1 ? guessSpans[4] : ""}</div>
                 </AboveInput>
             </Spot>
             <Spot>
@@ -402,7 +474,7 @@ export default function App () {
                     onChange={(e) => {textHandler(e.target.value, 5)}}>
                 </Input>
                 <AboveInput style={(bools[5] ? none : guessStyles[5])}>
-                    <div className="blacktext">{guessSpans[5]}</div>
+                    <div className="blacktext">{guessSpans[5].length > 1 ? guessSpans[5] : ""}</div>
                 </AboveInput>
             </Spot>
         </Puzzle>
@@ -437,6 +509,7 @@ const HoverText = styled.span`
 const Hider = styled.div`
     height: ${spotHeight * .45}px;
     border-radius: ${height * .02}px;
+    animation: 1s ${fadeInRightAnimation}
 `
 
 const TopLevel = styled.div`
