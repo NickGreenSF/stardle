@@ -5,14 +5,6 @@ $width: 100vw;
 $spot-height: $height * .14;
 $hover-padding: math.div($width, 3);
 
-.ptr{
-    cursor: pointer;
-}
-body{
-    font-family: Arial, Helvetica, sans-serif;
-    background-color: #121212;
-}
-
 .white{
     background-color: white;
 }
@@ -27,10 +19,6 @@ body{
 
 .none{
     display: none;
-}
-
-.basictext{
-    font-size: math.div($height, 50);
 }
 
 .resultstext{

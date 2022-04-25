@@ -1,12 +1,3 @@
-.ptr {
-  cursor: pointer;
-}
-
-body {
-  font-family: Arial, Helvetica, sans-serif;
-  background-color: #121212;
-}
-
 .white {
   background-color: white;
 }
@@ -21,10 +12,6 @@ body {
 
 .none {
   display: none;
-}
-
-.basictext {
-  font-size: 1.8vh;
 }
 
 .resultstext {
@@ -64,6 +51,11 @@ body {
   background-color: white;
   color: black;
   border-color: black;
+}
+
+body {
+  overflow: hidden;
+  background-color: #121212;
 }
 
 .black {
@@ -108,6 +100,10 @@ body {
 .toptext {
   color: rgba(127, 127, 127, 0.8);
   font-size: 4.5vh;
+}
+
+.modal-content {
+  border: 0px;
 }
 
 /*# sourceMappingURL=styles.css.map */

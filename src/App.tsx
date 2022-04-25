@@ -5,6 +5,7 @@ import PointlessWords from './constants/PointlessWords'
 import "./styles.css"
 import styled, { keyframes } from 'styled-components'
 import { flipInX, fadeInRight } from 'react-animations'
+import logo from "./icons/stardle 1.png"
 
 //console.log(Object.keys(Data))
 
@@ -16,6 +17,7 @@ const filmmockdata : Array<string> = Object.keys(Data)
 const width = window.innerWidth
 const height = window.innerHeight
 const relevantWidth = width > height ? width / 3 : width * .9
+const relevantGraphWidth = width > height ? width / 5 : width * .75
 const relevantPadding = width > height ? relevantWidth : width * .05
 const spotHeight = height * .13
 //console.log(height, spotHeight)
@@ -27,25 +29,38 @@ const flipInAnimation = keyframes`${flipInX}`
 const fadeInRightAnimation = keyframes`${fadeInRight}`
 
 // 1 guess, 2, 3, 4, 5, 6, miss, streak, has played today, guess 1, 2, 3, 4, 5, 6, has seen rules, dark mode
-//document.cookie = "0//0//0//0//0//0//0//0//false//_//_//_//_//_//_//false//false//" + date;
+//document.cookie = "0//0//0//0//0//0//0//0//false//_//_//_//_//_//_//false//false//1/2/2003//0";
 
 let cookie = document.cookie
 if (!cookie || cookie.length < 1){
-    document.cookie = "0//0//0//0//0//0//0//0//false//_//_//_//_//_//_//false//false//" + date;
+    document.cookie = "0//0//0//0//0//0//0//0//false//_//_//_//_//_//_//false//false//1/2/2003//0";
     cookie = document.cookie
 }
 
 const outsideData = cookie.split("//")
-console.log(outsideData[8])
-if (outsideData[8] === "false"){
-    for (let i = 9; i <= 14; i += 1){
+// console.log(outsideData[8])
+// if (outsideData[8] === "false"){
+//     for (let i = 9; i <= 14; i += 1){
+//         outsideData[i] = "_";
+//     }
+//     document.cookie = outsideData.join("//")
+// }
+const todaySolved = outsideData[17] === date
+if (!todaySolved){
+   for (let i = 9; i <= 14; i += 1){
         outsideData[i] = "_";
     }
     document.cookie = outsideData.join("//")
 }
 
-let maxAttempts = Math.max(parseInt(outsideData[0]),parseInt(outsideData[1]),parseInt(outsideData[2]),
-parseInt(outsideData[3]),parseInt(outsideData[4]),parseInt(outsideData[5]))
+let outsideMaxAttempts = Math.max(1, Math.max(parseInt(outsideData[0]),parseInt(outsideData[1]),parseInt(outsideData[2]),
+parseInt(outsideData[3]),parseInt(outsideData[4]),parseInt(outsideData[5])))
+let outsidePlayed = (parseInt(outsideData[0]) + parseInt(outsideData[1]) + parseInt(outsideData[2]) +
+parseInt(outsideData[3]) + parseInt(outsideData[4]) + parseInt(outsideData[5])) + parseInt(outsideData[6])
+let outsideWon = (parseInt(outsideData[0]) + parseInt(outsideData[1]) + parseInt(outsideData[2]) +
+parseInt(outsideData[3]) + parseInt(outsideData[4]) + parseInt(outsideData[5]))
+let outsideStreak = parseInt(outsideData[7])
+let outsideMaxStreak = parseInt(outsideData[18])
 
 export default function App () {
 
@@ -71,6 +86,13 @@ export default function App () {
     //     document.cookie = "0//0//0//0//0//0//0//0//false//_//_//_//_//_//_//false//false//" + date;
     //     setCookie(document.cookie)
     // }
+
+    const [maxAttempts, setMaxAttempts] = useState(outsideMaxAttempts)
+    const [played, setPlayed] = useState(outsidePlayed)
+    const [streak, setStreak] = useState(outsideStreak)
+    const [maxStreak, setMaxStreak] = useState(outsideMaxStreak)
+    const [successRate, setSuccessRate] = useState(outsideWon / Math.max(1, played))
+    //console.log(successRate)
     
     const [data] = useState(outsideData)
     //data[8] === "false" ? false : true
@@ -83,6 +105,7 @@ export default function App () {
         document.cookie = data.join("//")
     }
     const [statsVisible, setStatsVisible] = useState(false)
+    const [aboutVisible, setAboutVisible] = useState(false)
 
     // if (data[data.length - 1] === "false"){
     //     data[data.length - 1] = "true";
@@ -217,9 +240,23 @@ export default function App () {
             console.log(section, data[section])
             setSolved(true);
             data[section] = (parseInt(data[section]) + 1).toString();
+            if (parseInt(data[section]) > maxAttempts){
+                setMaxAttempts(maxAttempts + 1)
+            }
             data[8] = "true";
-            console.log(section, data[section])
+            data[7] = (parseInt(data[7]) + 1).toString();
+            console.log(data[7], maxStreak);
+            if (parseInt(data[7]) > maxStreak){
+                setMaxStreak(parseInt(data[7]));
+                data[18] = data[7]
+            }
+            console.log(data[18])
+            setStreak(streak + 1);
+            setPlayed(played + 1);
+            data[17] = date;
+            console.log(played);
             document.cookie = data.join("//");
+            setSuccessRate((outsideWon + 1) / (played + 1))
             peekGuessStyles = guessStyles;
             peekGuessStyles[section] = green;
             setGuessStyles(peekGuessStyles);
@@ -273,13 +310,16 @@ export default function App () {
         else{
             setSolved(true);
             data[6] = (parseInt(data[6]) + 1).toString();
+            data[7] = "0";
+            setStreak(0);
+            setPlayed(played + 1);
+            data[17] = date;
             document.cookie = data.join("//")
+            setSuccessRate(outsideWon / (played + 1))
             setTimeout(()=>{setStatsVisible(true)}, 1000);
         }
         setBools(peekBools);
     }
-
-    const [widthTest, setWidthTest] = useState(90)
 
     return <TopLevel>
         <Modal show={rulesVisible} onHide={() => {
@@ -312,19 +352,19 @@ export default function App () {
                         If a guess is correct, you win.
                     </div>
                     <AboveInput style={green} className="modalactor">
-                        <div className={"textinput"}>Toy Story 4</div>
+                        <div className={"textinput blacktext"}>Toy Story 4</div>
                     </AboveInput>
                     <div className={(darkMode ? "darklv5" : "lightcolors") + " basictext rulestext"}>
                         If a guess has words in common with the Stardle:
                     </div>
                     <AboveInput style={yellow} className="modalactor">
-                        <div className={"textinput"}>Toy Story 3</div>
+                        <div className={"textinput blacktext"}>Toy Story 3</div>
                     </AboveInput>
                     <div className={(darkMode ? "darklv5" : "lightcolors") + " basictext rulestext"}>
                         If a guess has no words in common with the Stardle:
                     </div>
                     <AboveInput style={gray} className="modalactor">
-                        <div className={"textinput"}>Cast Away</div>
+                        <div className={"textinput blacktext"}>Cast Away</div>
                     </AboveInput>
                     <div className={(darkMode ? "darklv5" : "lightcolors") + " basictext rulestext"}>
                         A new Stardle will be available every day.
@@ -341,30 +381,54 @@ export default function App () {
                     <div className={(darkMode ? "darklv5" : "lightcolors") + " answer"}>
                         {solved ? correct[0].toUpperCase() : ""}
                     </div>
-                    <div>{data}</div>
-                    <div style={{borderLeft: "1px solid white"}}>
-                        <div style={{backgroundColor: "green", width: (parseInt(data[0]) / maxAttempts) * (width/3), height: height/40}}></div>
-                        <div style={{backgroundColor: "green", width: (parseInt(data[1]) / maxAttempts) * (width/3), height: height/40}}></div>
-                        <div style={{backgroundColor: "green", width: (parseInt(data[2]) / maxAttempts) * (width/3), height: height/40}}></div>
-                        <div style={{backgroundColor: "green", width: (parseInt(data[3]) / maxAttempts) * (width/3), height: height/40}}></div>
-                        <div style={{backgroundColor: "green", width: (parseInt(data[4]) / maxAttempts) * (width/3), height: height/40}}></div>
-                        <div style={{backgroundColor: "green", width: (parseInt(data[5]) / maxAttempts) * (width/3), height: height/40}}></div>
+                    <div style={{display: "grid", gridTemplateColumns: "1fr 1fr 1fr 1fr", width: "100%"}}>
+                        <div>Played</div>
+                        <div>Success Rate</div>
+                        <div>Streak</div>
+                        <div>Max Streak</div>
+                        <div>{played}</div>
+                        <div>{Math.trunc(successRate * 100)}%</div>
+                        <div>{streak}</div>
+                        <div>{maxStreak}</div>
                     </div>
-                    
+                    <div style={{marginBottom: height/50, textAlign: "center"}} className="bold">GUESS DISTRIBUTION</div>
+                    <div style={{display: "grid", gridTemplateColumns: "5fr 95fr"}}>
+                        <div>
+                            <div style={{fontSize: height/50, height: height/40, marginTop: height/100, marginBottom: height/100}}>1</div>
+                            <div style={{fontSize: height/50, height: height/40, marginTop: height/100, marginBottom: height/100}}>2</div>
+                            <div style={{fontSize: height/50, height: height/40, marginTop: height/100, marginBottom: height/100}}>3</div>
+                            <div style={{fontSize: height/50, height: height/40, marginTop: height/100, marginBottom: height/100}}>4</div>
+                            <div style={{fontSize: height/50, height: height/40, marginTop: height/100, marginBottom: height/100}}>5</div>
+                            <div style={{fontSize: height/50, height: height/40, marginTop: height/100, marginBottom: height/100}}>6</div>
+                        </div>
+                        <div style={{}}>
+                            <div style={{backgroundColor: "gray", width: (parseInt(data[0]) / maxAttempts) * (relevantGraphWidth), height: height/40, marginTop: height/100, marginBottom: height/100}}></div>
+                            <div style={{backgroundColor: "gray", width: (parseInt(data[1]) / maxAttempts) * (relevantGraphWidth), height: height/40, marginTop: height/100, marginBottom: height/100}}></div>
+                            <div style={{backgroundColor: "gray", width: (parseInt(data[2]) / maxAttempts) * (relevantGraphWidth), height: height/40, marginTop: height/100, marginBottom: height/100}}></div>
+                            <div style={{backgroundColor: "gray", width: (parseInt(data[3]) / maxAttempts) * (relevantGraphWidth), height: height/40, marginTop: height/100, marginBottom: height/100}}></div>
+                            <div style={{backgroundColor: "gray", width: (parseInt(data[4]) / maxAttempts) * (relevantGraphWidth), height: height/40, marginTop: height/100, marginBottom: height/100}}></div>
+                            <div style={{backgroundColor: "gray", width: (parseInt(data[5]) / maxAttempts) * (relevantGraphWidth), height: height/40, marginTop: height/100, marginBottom: height/100}}></div>
+                        </div>
+                    </div>
                 </div>
             </ModalBody>
         </Modal>
-        <MyNavbar>
-            <span className={(darkMode ? "darklv1" : "lightcolors") + " basictext ptr"} 
+        <Modal show={aboutVisible} onHide={() => {setAboutVisible(false)}}>
+            <ModalBody className={(darkMode ? "darklv5" : "lightcolors")}>
+                <div>Made by Nick Green <a href="http://nickgreensf.com">(nickgreensf.com)</a></div>
+                <div>Based on Wordle</div>
+            </ModalBody>
+        </Modal>
+        <MyNavbar className={(darkMode ? "darklv5" : "lightcolors")}>
+            <NavbarText 
                 onClick={() => {setRulesVisible(true)}}>
-                    rules 
-            </span>
-            <span className={(darkMode ? "darklv1" : "lightcolors") + " basictext ptr"} 
+                    RULES
+            </NavbarText>
+            <NavbarText style={{left: width * .2}} 
                 onClick={() => {setStatsVisible(true)}}>
-                        stats
-            </span>
-            <span className="toptext">S T A R D L E</span>
-            <span className={(darkMode ? "darklv1" : "lightcolors") + " basictext ptr"} 
+                        STATS
+            </NavbarText>
+            <NavbarText style={{left: width * .6}} 
                 onClick={() => {
                     if (darkMode){
                         document.body.classList.add("white");
@@ -378,8 +442,13 @@ export default function App () {
                     setDarkMode(!darkMode);
                     //console.log(document.cookie)
                 }}>
-                        darkmode
-            </span>
+                        DARKMODE
+            </NavbarText>
+            <NavbarText style={{left: width * .8}} 
+                onClick={() => {setAboutVisible(true)}}>
+                        ABOUT
+            </NavbarText>
+            <LogoImage src={logo} alt="S T A R D L E"></LogoImage>
         </MyNavbar>
         <HoverButton 
             className={"hover shortwidth " + (darkMode ? "darklv5 " : "lightcolors ") + (hoverDisplays[0] ? "" : "none")} style={curHoverLocations[0]} 
@@ -557,11 +626,35 @@ const Actor = styled.div`
 `
 
 const MyNavbar = styled.div`
-    height: ${height * .1}px;
+    height: ${height * .06}px;
+    margin-bottom: ${height * .04}px;
     top: 0;
-    overflow: hidden;
-    text-align: center;
     width: 100%;
+`
+
+const NavbarText = styled.span`
+    cursor: pointer;
+    font-size: ${height * .02}px;
+    position: absolute;
+    padding-top: ${height * .02}px;
+    overflow: hidden;
+    width: ${width * .2}px;
+    text-align: center;
+`
+
+// const Logo = styled.span`
+//     color: rgba(127,127,127,.9);
+//     font-size: ${height/20}px;
+//     cursor: auto;
+//     font-family: Baskerville;
+// `
+// <Logo>S T A R D L E</Logo>
+
+const LogoImage = styled.img`
+    width: ${width * .15}px;
+    max-height: ${height * .05}px;
+    margin-left: ${width * .425}px;
+    margin-top: ${height * .01}px;
 `
 
 // Our base here is rgb(18, 18, 18), to go up a level, simply add 2.55 * the % opaque of the white transparency recommended.

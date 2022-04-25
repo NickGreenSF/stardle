@@ -7,6 +7,11 @@ $width: 100vw;
 $spot-height: $height * .14;
 $hover-padding: math.div($width, 3);
 
+body{
+    overflow: hidden;
+    background-color: #121212;
+}
+
 .black{
     background-color: black;
     color: black;
@@ -51,4 +56,10 @@ $hover-padding: math.div($width, 3);
 .toptext{
     color: rgba(127,127,127,.8);
     font-size: math.div($height, 20);
+}
+
+
+// react-bootstrap's modal body comes with a 1px white border by default
+.modal-content{
+    border: 0px;
 }
