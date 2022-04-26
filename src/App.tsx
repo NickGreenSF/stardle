@@ -430,7 +430,7 @@ export default function App () {
                 onClick={() => {setStatsVisible(true)}}>
                         STATS
             </NavbarText>
-            <Logo style={{left: width * .4}}>STARDLE</Logo>
+            <Logo style={{left: width * .4}}>S T A R D L E</Logo>
             <NavbarText style={{left: width * .6}} 
                 onClick={() => {
                     if (darkMode){
@@ -651,7 +651,6 @@ const Logo = styled.span`
     color: rgba(127,127,127,.9);
     font-size: ${width/30}px;
     cursor: auto;
-    font-family: Baskerville;
     position: absolute;
     text-align: center;
     width: ${width * .2}px;
@@ -661,6 +660,8 @@ const Logo = styled.span`
         font-size: 33px;
     }
 `
+// uncertain if the default font or this is better
+//font-family: Baskerville;
 // <Logo>S T A R D L E</Logo>
 
 const LogoImage = styled.img`
