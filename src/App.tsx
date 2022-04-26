@@ -18,6 +18,7 @@ const width = window.innerWidth
 const height = window.innerHeight
 const relevantWidth = width > height ? width / 3 : width * .9
 const relevantGraphWidth = width > height ? width / 5 : width * .75
+console.log(relevantGraphWidth)
 const relevantPadding = width > height ? relevantWidth : width * .05
 const spotHeight = height * .13
 //console.log(height, spotHeight)
@@ -375,23 +376,23 @@ export default function App () {
         <Modal show={statsVisible} onHide={() => {setStatsVisible(false)}}>
             <ModalBody className={(darkMode ? "darklv5" : "lightcolors")}>
                 <div className={"modalbody " + (darkMode ? "darklv5" : "lightcolors")}>
-                    <div className={(darkMode ? "darklv5" : "lightcolors") + " resultstext basictext"}>
+                    <div className={(darkMode ? "darklv5" : "lightcolors") + " resultstext"} style={{fontSize: height/50}}>
                         {solved ? "The answer was" : ""}
                     </div>
                     <div className={(darkMode ? "darklv5" : "lightcolors") + " answer"}>
                         {solved ? correct[0].toUpperCase() : ""}
                     </div>
                     <div style={{display: "grid", gridTemplateColumns: "1fr 1fr 1fr 1fr", width: "100%"}}>
-                        <div>Played</div>
-                        <div>Success Rate</div>
-                        <div>Streak</div>
-                        <div>Max Streak</div>
-                        <div>{played}</div>
-                        <div>{Math.trunc(successRate * 100)}%</div>
-                        <div>{streak}</div>
-                        <div>{maxStreak}</div>
+                        <StatTitle>Played</StatTitle>
+                        <StatTitle>Success Rate</StatTitle>
+                        <StatTitle>Streak</StatTitle>
+                        <StatTitle>Max Streak</StatTitle>
+                        <Stat>{played}</Stat>
+                        <Stat>{Math.trunc(successRate * 100)}%</Stat>
+                        <Stat>{streak}</Stat>
+                        <Stat>{maxStreak}</Stat>
                     </div>
-                    <div style={{marginBottom: height/50, textAlign: "center"}} className="bold">GUESS DISTRIBUTION</div>
+                    <div style={{textAlign: "center", fontSize: height / 40}} className="bold">GUESS DISTRIBUTION</div>
                     <div style={{display: "grid", gridTemplateColumns: "5fr 95fr"}}>
                         <div>
                             <div style={{fontSize: height/50, height: height/40, marginTop: height/100, marginBottom: height/100}}>1</div>
@@ -402,12 +403,12 @@ export default function App () {
                             <div style={{fontSize: height/50, height: height/40, marginTop: height/100, marginBottom: height/100}}>6</div>
                         </div>
                         <div style={{}}>
-                            <div style={{backgroundColor: "gray", width: (parseInt(data[0]) / maxAttempts) * (relevantGraphWidth), height: height/40, marginTop: height/100, marginBottom: height/100}}></div>
-                            <div style={{backgroundColor: "gray", width: (parseInt(data[1]) / maxAttempts) * (relevantGraphWidth), height: height/40, marginTop: height/100, marginBottom: height/100}}></div>
-                            <div style={{backgroundColor: "gray", width: (parseInt(data[2]) / maxAttempts) * (relevantGraphWidth), height: height/40, marginTop: height/100, marginBottom: height/100}}></div>
-                            <div style={{backgroundColor: "gray", width: (parseInt(data[3]) / maxAttempts) * (relevantGraphWidth), height: height/40, marginTop: height/100, marginBottom: height/100}}></div>
-                            <div style={{backgroundColor: "gray", width: (parseInt(data[4]) / maxAttempts) * (relevantGraphWidth), height: height/40, marginTop: height/100, marginBottom: height/100}}></div>
-                            <div style={{backgroundColor: "gray", width: (parseInt(data[5]) / maxAttempts) * (relevantGraphWidth), height: height/40, marginTop: height/100, marginBottom: height/100}}></div>
+                            <div style={{backgroundColor: "#77D353", width: (parseInt(data[0]) / maxAttempts) * (relevantGraphWidth), height: height/40, marginTop: height/100, marginBottom: height/100}}></div>
+                            <div style={{backgroundColor: "#77D353", width: (parseInt(data[1]) / maxAttempts) * (relevantGraphWidth), height: height/40, marginTop: height/100, marginBottom: height/100}}></div>
+                            <div style={{backgroundColor: "#FFD185", width: (parseInt(data[2]) / maxAttempts) * (relevantGraphWidth), height: height/40, marginTop: height/100, marginBottom: height/100}}></div>
+                            <div style={{backgroundColor: "#FFD185", width: (parseInt(data[3]) / maxAttempts) * (relevantGraphWidth), height: height/40, marginTop: height/100, marginBottom: height/100}}></div>
+                            <div style={{backgroundColor: "lightgray", width: (parseInt(data[4]) / maxAttempts) * (relevantGraphWidth), height: height/40, marginTop: height/100, marginBottom: height/100}}></div>
+                            <div style={{backgroundColor: "lightgray", width: (parseInt(data[5]) / maxAttempts) * (relevantGraphWidth), height: height/40, marginTop: height/100, marginBottom: height/100}}></div>
                         </div>
                     </div>
                 </div>
@@ -417,9 +418,10 @@ export default function App () {
             <ModalBody className={(darkMode ? "darklv5" : "lightcolors")}>
                 <div>Made by Nick Green <a href="http://nickgreensf.com">(nickgreensf.com)</a></div>
                 <div>Based on Wordle</div>
+                <div>Movie data from Wikipedia</div>
             </ModalBody>
         </Modal>
-        <MyNavbar className={(darkMode ? "darklv5" : "lightcolors")}>
+        <MyNavbar className={(darkMode ? "darklv2" : "lightcolors")}>
             <NavbarText 
                 onClick={() => {setRulesVisible(true)}}>
                     RULES
@@ -428,6 +430,7 @@ export default function App () {
                 onClick={() => {setStatsVisible(true)}}>
                         STATS
             </NavbarText>
+            <Logo style={{left: width * .4}}>STARDLE</Logo>
             <NavbarText style={{left: width * .6}} 
                 onClick={() => {
                     if (darkMode){
@@ -448,7 +451,6 @@ export default function App () {
                 onClick={() => {setAboutVisible(true)}}>
                         ABOUT
             </NavbarText>
-            <LogoImage src={logo} alt="S T A R D L E"></LogoImage>
         </MyNavbar>
         <HoverButton 
             className={"hover shortwidth " + (darkMode ? "darklv5 " : "lightcolors ") + (hoverDisplays[0] ? "" : "none")} style={curHoverLocations[0]} 
@@ -634,20 +636,31 @@ const MyNavbar = styled.div`
 
 const NavbarText = styled.span`
     cursor: pointer;
-    font-size: ${height * .02}px;
+    font-size: ${width * .02}px;
     position: absolute;
     padding-top: ${height * .02}px;
     overflow: hidden;
     width: ${width * .2}px;
     text-align: center;
+    @media screen and (min-width: 1000px) {
+        font-size: 20px;
+    }
 `
 
-// const Logo = styled.span`
-//     color: rgba(127,127,127,.9);
-//     font-size: ${height/20}px;
-//     cursor: auto;
-//     font-family: Baskerville;
-// `
+const Logo = styled.span`
+    color: rgba(127,127,127,.9);
+    font-size: ${width/30}px;
+    cursor: auto;
+    font-family: Baskerville;
+    position: absolute;
+    text-align: center;
+    width: ${width * .2}px;
+    display: inline-block;
+    margin-top: ${height * .01}px;
+    @media screen and (min-width: 1000px) {
+        font-size: 33px;
+    }
+`
 // <Logo>S T A R D L E</Logo>
 
 const LogoImage = styled.img`
@@ -655,6 +668,18 @@ const LogoImage = styled.img`
     max-height: ${height * .05}px;
     margin-left: ${width * .425}px;
     margin-top: ${height * .01}px;
+`
+
+//<LogoImage src={logo} alt="S T A R D L E"></LogoImage>
+
+const StatTitle = styled.div`
+    font-size: ${height / 50}px;
+    text-align: center;
+`
+
+const Stat = styled.div`
+    font-size: ${height / 30}px;
+    text-align: center;
 `
 
 // Our base here is rgb(18, 18, 18), to go up a level, simply add 2.55 * the % opaque of the white transparency recommended.
