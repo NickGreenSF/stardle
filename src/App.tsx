@@ -5,20 +5,20 @@ import PointlessWords from './constants/PointlessWords'
 import "./styles.css"
 import styled, { keyframes } from 'styled-components'
 import { flipInX, fadeInRight } from 'react-animations'
-import logo from "./icons/stardle 1.png"
 
 //console.log(Object.keys(Data))
 
 
 //declaring styling variables
 
-const filmmockdata : Array<string> = Object.keys(Data)
+const filmdata : Array<string> = Object.keys(Data)
+filmdata.sort()
 
 const width = window.innerWidth
 const height = window.innerHeight
 const relevantWidth = width > height ? width / 3 : width * .9
 const relevantGraphWidth = width > height ? width / 5 : width * .75
-console.log(relevantGraphWidth)
+//console.log(relevantGraphWidth)
 const relevantPadding = width > height ? relevantWidth : width * .05
 const spotHeight = height * .13
 //console.log(height, spotHeight)
@@ -69,7 +69,7 @@ export default function App () {
 
     //console.log(date)
 
-    let holdoverdata = filmmockdata;
+    let holdoverdata = filmdata;
     let peekOlddivs;
     let peekGuessStyles;
     let peekBools;
@@ -78,7 +78,7 @@ export default function App () {
     let peekHoverDisplays;
     let peekCurHoverLocations;
 
-    const [correct] = useState(Data[filmmockdata[Math.floor(Math.random() * filmmockdata.length)]]);
+    const [correct] = useState(Data[filmdata[Math.floor(Math.random() * filmdata.length)]]);
     //console.log(correct)
     // 1 guess, 2, 3, 4, 5, 6, miss, streak, has played today, guess 1, 2, 3, 4, 5, 6, has seen rules, dark mode
     //document.cookie = "0//0//0//0//0//0//0//0//false//_//_//_//_//_//_//false//false//" + date;
@@ -182,6 +182,7 @@ export default function App () {
     //flipBackBlack(0);
 
     function textHandler(text: string, column: number){
+        text = text.replace(/[^a-z0-9]/gi, '');
         let newData = [];
         for (let i = 0; i < holdoverdata.length; i += 1){
             if (holdoverdata[i].includes(text.toLowerCase())){
@@ -201,7 +202,7 @@ export default function App () {
                 peekHoverSpans[i % 3] = "";
                 peekHoverDisplays[i % 3] = false;
             }
-            holdoverdata = filmmockdata;
+            holdoverdata = filmdata;
         }
         else{
             for (let i = (column * 3); i < (column + 1) * 3; i += 1){
@@ -341,6 +342,7 @@ export default function App () {
                         Tom Hanks
                     </Actor>
                     <Actor
+                        style={{animation: "none"}}
                         className={(darkMode ? "darklv2" : "lightcolors") + " modalactor"}>
                     </Actor>
                     <div className={(darkMode ? "darklv5" : "lightcolors") + " basictext rulestext"}>
@@ -376,10 +378,10 @@ export default function App () {
         <Modal show={statsVisible} onHide={() => {setStatsVisible(false)}}>
             <ModalBody className={(darkMode ? "darklv5" : "lightcolors")}>
                 <div className={"modalbody " + (darkMode ? "darklv5" : "lightcolors")}>
-                    <div className={(darkMode ? "darklv5" : "lightcolors") + " resultstext"} style={{fontSize: height/50}}>
+                    <div className={(darkMode ? "darklv5" : "lightcolors")} style={{fontSize: height/50, textAlign: "center"}}>
                         {solved ? "The answer was" : ""}
                     </div>
-                    <div className={(darkMode ? "darklv5" : "lightcolors") + " answer"}>
+                    <div className={(darkMode ? "darklv5" : "lightcolors")} style={{fontSize: height/30, textAlign: "center", fontWeight: "bold"}}>
                         {solved ? correct[0].toUpperCase() : ""}
                     </div>
                     <div style={{display: "grid", gridTemplateColumns: "1fr 1fr 1fr 1fr", width: "100%"}}>
@@ -431,7 +433,7 @@ export default function App () {
                         STATS
             </NavbarText>
             <Logo style={{left: width * .4}}>S T A R D L E</Logo>
-            <NavbarText style={{left: width * .6}} 
+            <NavbarText style={{left: width * .8}} 
                 onClick={() => {
                     if (darkMode){
                         document.body.classList.add("white");
@@ -447,7 +449,7 @@ export default function App () {
                 }}>
                         DARKMODE
             </NavbarText>
-            <NavbarText style={{left: width * .8}} 
+            <NavbarText style={{left: width * .6}} 
                 onClick={() => {setAboutVisible(true)}}>
                         ABOUT
             </NavbarText>
@@ -628,8 +630,12 @@ const Actor = styled.div`
 `
 
 const MyNavbar = styled.div`
-    height: ${height * .06}px;
-    margin-bottom: ${height * .04}px;
+    height: ${height * .08}px;
+    margin-bottom: ${height * .02}px;
+    @media screen and (max-width: 700px){
+        height: ${width * .08}px;
+        margin-bottom: ${(height * .1) - (width * .08)}px;
+    };
     top: 0;
     width: 100%;
 `
@@ -663,13 +669,6 @@ const Logo = styled.span`
 // uncertain if the default font or this is better
 //font-family: Baskerville;
 // <Logo>S T A R D L E</Logo>
-
-const LogoImage = styled.img`
-    width: ${width * .15}px;
-    max-height: ${height * .05}px;
-    margin-left: ${width * .425}px;
-    margin-top: ${height * .01}px;
-`
 
 //<LogoImage src={logo} alt="S T A R D L E"></LogoImage>
 

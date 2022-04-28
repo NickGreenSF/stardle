@@ -43,11 +43,6 @@ body{
     margin-right: math.div($width, 50);
 }
 
-.answer{
-    @extend .bold;
-    font-size: math.div($height, 20);
-}
-
 .textinput{
     box-sizing: border-box;
     width: 100%;

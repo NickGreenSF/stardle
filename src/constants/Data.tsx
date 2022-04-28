@@ -1,4 +1,4 @@
-// Years done: 2000, first 3 2022, 2021, 2020, 2019, 2018, 2017, 2016, 2015, 2014, 2013
+// Years done: 2000, first 3 2022, 2021, 2020, 2019, 2018, 2017, 2016, 2015, 2014, 2013, 2012, 2011, 2010, 2009, 2008, 2007, 2006, 2005
 
 // "" : [
 //     "",
@@ -15,6 +15,699 @@ interface Map{
 }
 
 const Data: Map = {
+    "the chronicles of narnia the lion the witch and the wardrobe" : [
+        "The Chronicles of Narnia: The Lion, the Witch, and the Wardrobe",
+        "Tilda Swinton",
+        "Liam Neeson",
+        "Georgie Henley",
+        "Sophie Winkleman",
+        "Anna Popplewell",
+        "William Moseley"
+    ],
+    "war of the worlds" : [
+        "War of the Worlds",
+        "Rick Gonzalez",
+        "Tim Robbins",
+        "Miranda Otto",
+        "Justin Chatwin",
+        "Dakota Fanning",
+        "Tom Cruise"
+    ],
+    "king kong" : [
+        "King Kong",
+        "Colin Hanks",
+        "Thomas Kretschmann",
+        "Adrien Brody",
+        "Jack Black",
+        "Naomi Watts",
+        "Andy Serkis"
+    ],
+    "madagascar" : [
+        "Madagascar",
+        "Cedric the Entertainer",
+        "Sacha Baron Cohen",
+        "Jada Pinkett Smith",
+        "David Schwimmer",
+        "Chris Rock",
+        "Ben Stiller"
+    ],
+    "mr and mrs smith" : [
+        "Mr. and Mrs. Smith",
+        "Keith David",
+        "Kerry Washington",
+        "Adam Brody",
+        "Vince Vaughn",
+        "Angelina Jolie",
+        "Brad Pitt"
+    ],
+    "charlie and the chocolate factory" : [
+        "Charlie and the Chocolate Factory",
+        "Deep Roy",
+        "AnnaSophia Robb",
+        "Helena Bonham Carter",
+        "David Kelly",
+        "Freddie Highmore",
+        "Johnny Depp"
+    ],
+    "batman begins" : [
+        "Batman Begins",
+        "Cillian Murphy",
+        "Gary Oldman",
+        "Katie Holmes",
+        "Liam Neeson",
+        "Michael Caine",
+        "Christian Bale"
+    ],
+    "hitch" : [
+        "Hitch",
+        "Philip Bosco",
+        "Julie Ann Emery",
+        "Amber Valletta",
+        "Kevin James",
+        "Eva Mendes",
+        "Will Smith"
+    ],
+    "pirates of the caribbean dead mans chest" : [
+        "Pirates of the Caribbean: Dead Man's Chest",
+        "Tom Hollander",
+        "Jack Davenport",
+        "Bill Nighy",
+        "Keira Knightley",
+        "Orlando Bloom",
+        "Johnny Depp"
+    ],
+    "the da vinci code" : [
+        "The Da Vinci Code",
+        "Jean Reno",
+        "Paul Bettany",
+        "Alfred Molina",
+        "Ian McKellen",
+        "Audrey Tautou",
+        "Tom Hanks"
+    ],
+    "ice age the meltdown" : [
+        "Ice Age: The Meltdown",
+        "Will Arnett",
+        "Seann William Scott",
+        "Queen Latifah",
+        "Denis Leary",
+        "John Leguizamo",
+        "Ray Romano"
+    ],
+    "casino royale" : [
+        "Casino Royale",
+        "Judi Dench",
+        "Jesper Christensen",
+        "Giancarlo Giannini",
+        "Mads Mikkelsen",
+        "Eva Green",
+        "Daniel Craig"
+    ],
+    "night at the museum" : [
+        "Night at the Museum",
+        "Rami Malek",
+        "Patrick Gallagher",
+        "Robin Williams",
+        "Dick Van Dyke",
+        "Carla Gugino",
+        "Ben Stiller"
+    ],
+    "cars" : [
+        "Cars",
+        "Cheech Marin",
+        "Tony Shalhoub",
+        "Larry the Cable Guy",
+        "Bonnie Hunt",
+        "Paul Newman",
+        "Owen Wilson"
+    ],
+    "x-men the last stand" : [
+        "X-Men: The Last Stand",
+        "Kelsey Grammer",
+        "Anna Paquin",
+        "Patrick Stewart",
+        "Ian McKellen",
+        "Halle Berry",
+        "Hugh Jackman"
+    ],
+    "mission: impossible iii" : [
+        "Mission: Impossible III",
+        "Jonathan Rhys Meyers",
+        "Maggie Q",
+        "Michelle Monaghan",
+        "Philip Seymour Hoffman",
+        "Ving Rhames",
+        "Tom Cruise"
+    ],
+    "superman returns" : [
+        "Superman Returns",
+        "Marlon Brando",
+        "Eva Marie Saint",
+        "Kevin Spacey",
+        "James Marsden",
+        "Kate Bosworth",
+        "Brandon Routh"
+    ],
+    "happy feet" : [
+        "Happy Feet",
+        "Hugo Weaving",
+        "Nicole Kidman",
+        "Hugh Jackman",
+        "Brittany Murphy",
+        "Robin Williams",
+        "Elijah Wood"
+    ],
+    "pirates of the caribbean at worlds end" : [
+        "Pirates of the Caribbean: At World's End",
+        "Tom Hollander",
+        "Bill Nighy",
+        "Keira Knightley",
+        "Orlando Bloom",
+        "Geoffrey Rush",
+        "Johnny Depp"
+    ],
+    "spider man 3" : [
+        "Spider-Man 3",
+        "J. K. Simmons",
+        "Topher Grace",
+        "Thomas Haden Church",
+        "James Franco",
+        "Kirsten Dunst",
+        "Tobey Maguire"
+    ],
+    "shrek the third" : [
+        "Shrek the Third",
+        "John Cleese",
+        "Julie Andrews",
+        "Antonio Banderas",
+        "Cameron Diaz",
+        "Eddie Murphy",
+        "Mike Myers"
+    ],
+    "transformers" : [
+        "Transformers",
+        "Jon Voight",
+        "Hugo Weaving",
+        "Peter Cullen",
+        "Megan Fox",
+        "Josh Duhamel",
+        "Shia LaBeouf"
+    ],
+    "ratatouille" : [
+        "Ratatouille",
+        "Brad Garrett",
+        "Peter O'Toole",
+        "Janeane Garofalo",
+        "Ian Holm",
+        "Lou Romano",
+        "Patton Oswalt"
+    ],
+    "i am legend" : [
+        "I Am Legend",
+        "Salli Richardson",
+        "Emma Thompson",
+        "Dash Mihok",
+        "Charlie Tahan",
+        "Alice Braga",
+        "Will Smith"
+    ],
+    "the simpsons movie" : [
+        "The Simpsons Movie",
+        "Harry Shearer",
+        "Hank Azaria",
+        "Yeardley Smith",
+        "Nancy Cartwright",
+        "Julie Kavner",
+        "Dan Castellaneta"
+    ],
+    "national treasure book of secrets" : [
+        "National Treasure: Book of Secrets",
+        "Ed Harris",
+        "Helen Mirren",
+        "Jon Voight",
+        "Diane Kruger",
+        "Justin Bartha",
+        "Nicolas Cage"
+    ],
+    "300" : [
+        "300",
+        "Rodrigo Santoro",
+        "Dominic West",
+        "Giovanni Cimmino",
+        "Lena Headey",
+        "David Wenham",
+        "Gerard Butler"
+    ],
+    "the dark knight" : [
+        "The Dark Knight",
+        "Maggie Gyllenhaal",
+        "Aaron Eckhart",
+        "Gary Oldman",
+        "Heath Ledger",
+        "Michael Caine",
+        "Christian Bale"
+    ],
+    "indiana jones and the kingdom of the crystal skull" : [
+        "Indiana Jones and the Kingdom of the Crystal Skull",
+        "Shia LaBeouf",
+        "John Hurt",
+        "Ray Winstone",
+        "Karen Allen",
+        "Cate Blanchett",
+        "Harrison Ford"
+    ],
+    "kung fu panda" : [
+        "Kung Fu Panda",
+        "David Cross",
+        "Lucy Liu",
+        "Seth Rogen",
+        "Angelina Jolie",
+        "Dustin Hoffman",
+        "Jack Black"
+    ],
+    "hancock" : [
+        "Hancock",
+        "Thomas Lennon",
+        "Johnny Galecki",
+        "Eddie Marsan",
+        "Jason Bateman",
+        "Charlize Theron",
+        "Will Smith"
+    ],
+    "mamma mia!" : [
+        "Mamma Mia!",
+        "Colin Firth",
+        "Pierce Brosnan",
+        "Julie Walters",
+        "Christine Baranski",
+        "Amanda Seyfried",
+        "Meryl Streep"
+    ],
+    "madagascar escape 2 africa" : [
+        "Madagascar: Escape 2 Africa",
+        "Bernie Mac",
+        "Sacha Baron Cohen",
+        "Jada Pinkett Smith",
+        "David Schwimmer",
+        "Chris Rock",
+        "Ben Stiller"
+    ],
+    "quantum of solace" : [
+        "Quantum of Solace",
+        "Anatole Taubman",
+        "Gemma Arterton",
+        "Giancarlo Giannini",
+        "Mathieu Amatric",
+        "Olga Kurylenko",
+        "Daniel Craig"
+    ],
+    "wall-e" : [
+        "WALL-E",
+        "John Ratzenberger",
+        "MacInTalk",
+        "Fred Willard",
+        "Jeff Garlin",
+        "Elissa Knight",
+        "Ben Burtt"
+    ],
+    "the chronicles of narnia prince caspian" : [
+        "The Chronicles of Narnia: Prince Caspian",
+        "Liam Neeson",
+        "Peter Dinklage",
+        "Sergio Castellitto",
+        "Ben Barnes",
+        "Anna Popplewell",
+        "William Moseley"
+    ],
+    "avatar" : [
+        "Avatar",
+        "CCH Pounder",
+        "Michelle Rodriguez",
+        "Sigourney Weaver",
+        "Stephen Lang",
+        "Zoe Saldana",
+        "Sam Worthington"
+    ],
+    "ice age dawn of the dinosaurs" : [
+        "Ice Age: Dawn of the Dinosaurs",
+        "Seann William Scott",
+        "Queen Latifah",
+        "Simon Pegg",
+        "Denis Leary",
+        "John Leguizamo",
+        "Ray Romano"
+    ],
+    "transformers revenge of the fallen" : [
+        "Transformers: Revenge of the Fallen",
+        "Tyrese Gibson",
+        "Josh Duhamel",
+        "Hugo Weaving",
+        "Peter Cullen",
+        "Megan Fox",
+        "Shia LaBeouf"
+    ],
+    "2012" : [
+        "2012",
+        "Danny Glover",
+        "Thandiwe Newton",
+        "Oliver Platt",
+        "Amanda Peet",
+        "Chiwetel Ejiofor",
+        "John Cusack"
+    ],
+    "up" : [
+        "Up",
+        "John Ratzenberger",
+        "Delroy Lindo",
+        "Bob Peterson",
+        "Jordan Nagal",
+        "Christopher Plummer",
+        "Ed Asner"
+    ],
+    "twilight new moon" : [
+        "The Twilight Saga: New Moon",
+        "Graham Greene",
+        "Rachelle Lefevre",
+        "Ashley Greene",
+        "Taylor Lautner",
+        "Robert Pattinson",
+        "Kristen Stewart"
+    ],
+    "sherlock holmes" : [
+        "Sherlock Holmes (2009)",
+        "Eddie Marsan",
+        "Kelly Reilly",
+        "Rachel McAdams",
+        "Mark Strong",
+        "Jude Law",
+        "Robert Downey Jr."
+    ],
+    "star wars episode vi return of the jedi" : [
+        "Star Wars: Episode VI - Return of the Jedi",
+        "James Earl Jones",
+        "Billy Dee Williams",
+        "Ian McDiarmid",
+        "Carrie Fisher",
+        "Harrison Ford",
+        "Mark Hamill"
+    ],
+    "star wars episode v the empire strikes back" : [
+        "Star Wars: Episode V - The Empire Strikes Back",
+        "James Earl Jones",
+        "Frank Oz",
+        "Billy Dee Williams",
+        "Carrie Fisher",
+        "Harrison Ford",
+        "Mark Hamill"
+    ],
+    "star wars episode iv a new hope" : [
+        "Star Wars: Episode IV - A New Hope",
+        "James Earl Jones",
+        "Alec Guiness",
+        "Peter Cushing",
+        "Carrie Fisher",
+        "Harrison Ford",
+        "Mark Hamill"
+    ],
+    "angels and demons" : [
+        "Angels & Demons",
+        "Nikolaj Lie Kaas",
+        "Pierfrancesco Favino",
+        "Stellan Skarsgård",
+        "Ayelet Zurer",
+        "Ewan McGregor",
+        "Tom Hanks"
+    ],
+    "the hangover" : [
+        "The Hangover",
+        "Mike Tyson",
+        "Heather Graham",
+        "Justin Bartha",
+        "Zack Galifianakis",
+        "Ed Helms",
+        "Bradley Cooper"
+    ],
+    "toy story 3" : [
+        "Toy Story 3",
+        "Don Rickles",
+        "John Morris",
+        "Ned Beatty",
+        "Joan Cusack",
+        "Tim Allen",
+        "Tom Hanks"
+    ],
+    "alice in wonderland" : [
+        "Alice in Wonderland (2010)",
+        "Matt Lucas",
+        "Crispin Glover",
+        "Anne Hathaway",
+        "Helena Bonham Carter",
+        "Mia Wasikowska",
+        "Johnny Depp"
+    ],
+    "inception" : [
+        "Inception",
+        "Dileep Rao",
+        "Ken Watanabe",
+        "Tom Hardy",
+        "Elliot Page",
+        "Joseph Gordon-Levitt",
+        "Leonardo DiCaprio"
+    ],
+    "shrek forever after" : [
+        "Shrek Forever After",
+        "Jon Hamm",
+        "Walt Dohrn",
+        "Antonio Banderas",
+        "Eddie Murphy",
+        "Cameron Diaz",
+        "Mike Myers"
+    ],
+    "twilight eclipse" : [
+        "The Twilight Saga: Eclipse",
+        "Jodelle Ferland",
+        "Elizabeth Reaser",
+        "Peter Facinelli",
+        "Taylor Lautner",
+        "Robert Pattinson",
+        "Kristen Stewart"
+    ],
+    "iron man 2" : [
+        "Iron Man 2",
+        "Mickey Rourke",
+        "Sam Rockwell",
+        "Scarlett Johansson",
+        "Don Cheadle",
+        "Gwyneth Paltrow",
+        "Robert Downey Jr."
+    ],
+    "tangled" : [
+        "Tangled",
+        "Jeffrey Tambor",
+        "Ron Perlman",
+        "Brad Garrett",
+        "Donna Murphy",
+        "Zachary Levi",
+        "Mandy Moore"
+    ],
+    "despicable me" : [
+        "Despicable Me",
+        "Will Arnett",
+        "Miranda Cosgrove",
+        "Kristen Wiig",
+        "Russell Brand",
+        "Jason Segel",
+        "Steve Carell"
+    ],
+    "how to train your dragon" : [
+        "How to Train Your Dragon",
+        "Jonah Hill",
+        "Christopher Mintz-Plasse",
+        "Craig Ferguson",
+        "Gerard Butler",
+        "America Ferrera",
+        "Jay Baruchel"
+    ],
+    "transformers dark of the moon" : [
+        "Transformers: Dark of the Moon",
+        "Rosie Huntington-Whiteley",
+        "Josh Duhamel",
+        "Leonard Nimoy",
+        "Hugo Weaving",
+        "Peter Cullen",
+        "Shia LaBeouf"
+    ],
+    "pirates of the caribbean on stranger tides" : [
+        "Pirates of the Caribbean: On Stranger Tides",
+        "Keith Richards",
+        "Kevin McNally",
+        "Geoffrey Rush",
+        "Ian McShane",
+        "Penélope Cruz",
+        "Johnny Depp"
+    ],
+    "twilight breaking dawn part 1" : [
+        "The Twilight Saga: Breaking Dawn - Part 1",
+        "Tanaya Beatty",
+        "Elizabeth Reaser",
+        "Peter Facinelli",
+        "Taylor Lautner",
+        "Robert Pattinson",
+        "Kristen Stewart"
+    ],
+    "mission impossible ghost protocol" : [
+        "Mission: Impossible - Ghost Protocol",
+        "Vladimir Mashkov",
+        "Michael Nyqvist",
+        "Paula Patton",
+        "Simon Pegg",
+        "Jeremy Renner",
+        "Tom Cruise"
+    ],
+    "kung fu panda 2" : [
+        "Kung Fu Panda 2",
+        "Lucy Liu",
+        "Seth Rogen",
+        "Michelle Yeoh",
+        "Gary Oldman",
+        "Angelina Jolie",
+        "Jack Black"
+    ],
+    "fast five" : [
+        "Fast Five",
+        "Matt Schulze",
+        'Chris "Ludacris" Bridges',
+        "Tyrese Gibson",
+        "Jordana Brewster",
+        "Paul Walker",
+        "Vin Diesel"
+    ],
+    "the hangover part ii" : [
+        "The Hangover Part II",
+        "Mike Tyson",
+        "Jamie Chung",
+        "Ken Jeong",
+        "Zach Galifianakis",
+        "Ed Helms",
+        "Bradley Cooper"
+    ],
+    "the smurfs" : [
+        "The Smurfs",
+        "Fred Armisen",
+        "Anton Yelchin",
+        "Katy Perry",
+        "Jonathan Winters",
+        "Neil Patrick Harris",
+        "Hank Azaria"
+    ],
+    "cars 2" : [
+        "Cars 2",
+        "Eddie Izzard",
+        "John Turturro",
+        "Emily Mortimer",
+        "Michael Caine",
+        "Owen Wilson",
+        "Larry the Cable Guy"
+    ],
+    "the avengers" : [
+        "The Avengers",
+        "Tom Hiddleston",
+        "Scarlett Johansson",
+        "Chris Hemsworth",
+        "Mark Ruffalo",
+        "Chris Evans",
+        "Robert Downey Jr."
+    ],
+    "skyfall" : [
+        "Skyfall",
+        "Bérénice Marlohe",
+        "Naomie Harris",
+        "Ralph Fiennes",
+        "Javier Bardem",
+        "Judi Dench",
+        "Daniel Craig"
+    ],
+    "the dark knight rises" : [
+        "The Dark Knight Rises",
+        "Marion Cotillard",
+        "Tom Hardy",
+        "Anne Hathaway",
+        "Gary Oldman",
+        "Michael Caine",
+        "Christian Bale"
+    ],
+    "the hobbit an unexpected journey" : [
+        "The Hobbit: An Unexpected Journey",
+        "Ian Holm",
+        "Hugo Weaving",
+        "Ken Stott",
+        "Richard Armitage",
+        "Ian McKellen",
+        "Martin Freeman"
+    ],
+    "ice age continental drift" : [
+        "Ice Age: Continental Drift",
+        "Drake",
+        "Josh Peck",
+        "Seann William Scott",
+        "Denis Leary",
+        "John Leguizamo",
+        "Ray Romano"
+    ],
+    "twilight breaking dawn part 2" : [
+        "The Twilight Saga: Breaking Dawn - Part 2",
+        "Jackson Rathbone",
+        "Ashley Greene",
+        "Mackenzie Foy",
+        "Taylor Lautner",
+        "Robert Pattinson",
+        "Kristen Stewart"
+    ],
+    "the amazing spider man" : [
+        "The Amazing Spider-Man",
+        "Irrfan Khan",
+        "Campbell Scott",
+        "Denis Leary",
+        "Rhys Ifans",
+        "Emma Stone",
+        "Andrew Garfield"
+    ],
+    "madagascar 3 europes most wanted" : [
+        "Madagascar 3: Europe's Most Wanted",
+        "Jessica Chastain",
+        "Frances McDormand",
+        "Jada Pinkett Smith",
+        "David Schwimmer",
+        "Chris Rock",
+        "Ben Stiller"
+    ],
+    "the hunger games" : [
+        "The Hunger Games",
+        "Wes Bentley",
+        "Elizabeth Banks",
+        "Woody Harrelson",
+        "Liam Hemsworth",
+        "Josh Hutcherson",
+        "Jennifer Lawrence"
+    ],
+    "men in black 3" : [
+        "Men in Black 3",
+        "Alice Eve",
+        "Emma Thompson",
+        "Jemaine Clement",
+        "Josh Brolin",
+        "Tommy Lee Jones",
+        "Will Smith"
+    ],
+    "ferris buellers day off" : [
+        "Ferris Bueller's Day Off",
+        "Charlie Sheen",
+        "Jennifer Grey",
+        "Jeffrey Jones",
+        "Alan Ruck",
+        "Mia Sara",
+        "Matthew Broderick"
+    ],
     "thor the dark world" : [
         "Thor: The Dark World",
         "Idris Elba",
@@ -969,7 +1662,7 @@ const Data: Map = {
         "Rupert Grint",
         "Daniel Radcliffe"
     ],
-    "harry potter and the sorcerer's stone" : [
+    "harry potter and the sorcerers stone" : [
         "Harry Potter and the Sorcerer's Stone",
         "Richard Harris",
         "Robbie Coltrane",
