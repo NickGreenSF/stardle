@@ -3,6 +3,7 @@ import { Modal, ModalBody } from 'react-bootstrap';
 import styled, { keyframes } from 'styled-components';
 import { flipInX, fadeInRight } from 'react-animations';
 import Data from './constants/Data';
+import { Order, InitialDate } from './constants/Order'
 import PointlessWords from './constants/PointlessWords';
 import './styles.css';
 
@@ -11,11 +12,13 @@ import './styles.css';
 // declaring styling variables
 
 function getCookie(name: string) {
-    let matches = document.cookie.match(new RegExp(
-      "(?:^|; )" + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + "=([^;]*)"
-    ));
-    return matches ? decodeURIComponent(matches[1]) : undefined;
-  }
+  const matches = document.cookie.match(
+    new RegExp(
+      `(?:^|; )${name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1')}=([^;]*)`
+    )
+  );
+  return matches ? decodeURIComponent(matches[1]) : undefined;
+}
 
 const filmdata: Array<string> = Object.keys(Data);
 filmdata.sort();
@@ -33,6 +36,10 @@ const today: Date = new Date();
 const date = `${
   today.getMonth() + 1
 }/${today.getDate()}/${today.getFullYear()}`;
+
+const firstDay: Date = new Date(InitialDate);
+const fromFirst: number = Math.floor((today.getTime() - firstDay.getTime()) / (1000 * 3600 * 24))
+//console.log(today, firstDay)
 
 const flipInAnimation = keyframes`${flipInX}`;
 const fadeInRightAnimation = keyframes`${fadeInRight}`;
@@ -167,15 +174,16 @@ const Stat = styled.div`
 // Our base here is rgb(18, 18, 18), to go up a level, simply add 2.55 * the % opaque of the white transparency recommended.
 
 // 1 guess, 2, 3, 4, 5, 6, miss, streak, has played today, guess 1, 2, 3, 4, 5, 6, has seen rules, dark mode
-//document.cookie = "0//0//0//0//0//0//0//0//false//_//_//_//_//_//_//false//false//1/2/2003//0;";
+// document.cookie = "0//0//0//0//0//0//0//0//false//_//_//_//_//_//_//false//false//1/2/2003//0;";
 
-let dataCookie = getCookie("data");
+let dataCookie = getCookie('data');
+console.log(dataCookie);
 if (!dataCookie || dataCookie.length < 1) {
-  document.cookie =
-    'data=0//0//0//0//0//0//0//0//false//_//_//_//_//_//_//false//false//1/2/2003//0';
-    document.cookie = "path=/"
-    document.cookie = "expires=Tue, 19 Jan 2038 03:14:07 GMT"
-  dataCookie = "0//0//0//0//0//0//0//0//false//_//_//_//_//_//_//false//false//1/2/2003//0";
+  document.cookie = `data=${encodeURIComponent(
+    '0//0//0//0//0//0//0//0//false//_//_//_//_//_//_//false//false//1/2/2003//0'
+  )}; expires=Tue, 19 Jan 2038 03:14:07 GMT;`;
+  dataCookie =
+    '0//0//0//0//0//0//0//0//false//_//_//_//_//_//_//false//false//1/2/2003//0';
 }
 
 const outsideData = dataCookie.split('//');
@@ -191,7 +199,9 @@ if (!todaySolved) {
   for (let i = 9; i <= 14; i += 1) {
     outsideData[i] = '_';
   }
-  document.cookie = "data=" + encodeURIComponent(outsideData.join('//'));
+  document.cookie = `data=${encodeURIComponent(
+    outsideData.join('//')
+  )}; expires=Tue, 19 Jan 2038 03:14:07 GMT;`;
 }
 
 const outsideMaxAttempts = Math.max(
@@ -238,7 +248,7 @@ export default function App() {
   let peekCurHoverLocations;
 
   const [correct] = useState(
-    Data[filmdata[Math.floor(Math.random() * filmdata.length)]]
+    Data[filmdata[Order[fromFirst]]]
   );
   // console.log(correct)
   // 1 guess, 2, 3, 4, 5, 6, miss, streak, has played today, guess 1, 2, 3, 4, 5, 6, has seen rules, dark mode
@@ -260,13 +270,15 @@ export default function App() {
 
   const [data] = useState(outsideData);
   // data[8] === "false" ? false : true
-  const [solved, setSolved] = useState(false);
+  const [solved, setSolved] = useState(todaySolved);
 
   const [active, setActive] = useState(0);
   const [rulesVisible, setRulesVisible] = useState(data[15] === 'false');
   if (rulesVisible === true) {
     data[15] = 'true';
-    document.cookie = "data=" + encodeURIComponent(data.join('//'));
+    document.cookie = `data=${encodeURIComponent(
+      data.join('//')
+    )}; expires=Tue, 19 Jan 2038 03:14:07 GMT;`;
   }
   const [statsVisible, setStatsVisible] = useState(false);
   const [aboutVisible, setAboutVisible] = useState(false);
@@ -531,7 +543,9 @@ export default function App() {
       setPlayed(played + 1);
       data[17] = date;
       console.log(played);
-      document.cookie = "data=" + encodeURIComponent(data.join('//'));
+      document.cookie = `data=${encodeURIComponent(
+        data.join('//')
+      )}; expires=Tue, 19 Jan 2038 03:14:07 GMT;`;
       setSuccessRate((outsideWon + 1) / (played + 1));
       peekGuessStyles = guessStyles;
       peekGuessStyles[section] = green;
@@ -589,7 +603,9 @@ export default function App() {
       setStreak(0);
       setPlayed(played + 1);
       data[17] = date;
-      document.cookie = "data=" + encodeURIComponent(data.join('//'));
+      document.cookie = `data=${encodeURIComponent(
+        data.join('//')
+      )}; expires=Tue, 19 Jan 2038 03:14:07 GMT;`;
       setSuccessRate(outsideWon / (played + 1));
       setTimeout(() => {
         setStatsVisible(true);
@@ -912,7 +928,9 @@ export default function App() {
               data[16] = 'true';
             }
             console.log(darkMode);
-            document.cookie = "data=" + encodeURIComponent(data.join('//'));
+            document.cookie = `data=${encodeURIComponent(
+              data.join('//')
+            )}; expires=Tue, 19 Jan 2038 03:14:07 GMT;`;
             setDarkMode(!darkMode);
             // console.log(document.cookie)
           }}
