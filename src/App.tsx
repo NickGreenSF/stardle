@@ -594,6 +594,10 @@ export default function App() {
       }
       setActors(peekactors);
       setTimeout(() => {
+        let curTimeLeft = tomorrow.getTime() - (new Date()).getTime();
+        setSecondsLeft(Math.floor(curTimeLeft/1000) % 60)
+        setMinutesLeft(Math.floor(curTimeLeft/(1000 * 60)) % 60)
+        setHoursLeft(Math.floor(curTimeLeft/(1000 * 60 * 60)) % 24)
         setStatsVisible(true);
       }, 1000);
       // console.log(actors);
@@ -639,6 +643,10 @@ export default function App() {
       )}; expires=Tue, 19 Jan 2038 03:14:07 GMT;`;
       setSuccessRate(outsideWon / (played + 1));
       setTimeout(() => {
+        let curTimeLeft = tomorrow.getTime() - (new Date()).getTime();
+        setSecondsLeft(Math.floor(curTimeLeft/1000) % 60)
+        setMinutesLeft(Math.floor(curTimeLeft/(1000 * 60)) % 60)
+        setHoursLeft(Math.floor(curTimeLeft/(1000 * 60 * 60)) % 24)
         setStatsVisible(true);
       }, 1000);
     }
@@ -946,6 +954,13 @@ export default function App() {
         <NavbarText
           style={{ left: width * 0.2 }}
           onClick={() => {
+            // const [secondsLeft, setSecondsLeft] = useState(Math.floor(timeLeft/1000) % 60)
+            // const [minutesLeft, setMinutesLeft] = useState(Math.floor(timeLeft/(1000 * 60)) % 60)
+            // const [hoursLeft, setHoursLeft] = useState(Math.floor(timeLeft/(1000 * 60 * 60)) % 24)
+            let curTimeLeft = tomorrow.getTime() - (new Date()).getTime();
+            setSecondsLeft(Math.floor(curTimeLeft/1000) % 60)
+            setMinutesLeft(Math.floor(curTimeLeft/(1000 * 60)) % 60)
+            setHoursLeft(Math.floor(curTimeLeft/(1000 * 60 * 60)) % 24)
             setStatsVisible(true);
           }}
         >
