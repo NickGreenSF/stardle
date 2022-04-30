@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Modal, ModalBody } from 'react-bootstrap';
 import styled, { keyframes } from 'styled-components';
 import { flipInX, fadeInRight } from 'react-animations';
@@ -36,6 +36,11 @@ const today: Date = new Date();
 const date = `${
   today.getMonth() + 1
 }/${today.getDate()}/${today.getFullYear()}`;
+
+const tomorrow: Date = new Date();
+tomorrow.setDate(today.getDate() + 1);
+tomorrow.setHours(0, 0, 0, 0);
+console.log(tomorrow.getTime(), today.getTime());
 
 const firstDay: Date = new Date(InitialDate);
 const fromFirst: number = Math.floor((today.getTime() - firstDay.getTime()) / (1000 * 3600 * 24))
@@ -155,11 +160,6 @@ const Logo = styled.span`
     font-size: 33px;
   }
 `;
-// uncertain if the default font or this is better
-// font-family: Baskerville;
-// <Logo>S T A R D L E</Logo>
-
-// <LogoImage src={logo} alt="S T A R D L E"></LogoImage>
 
 const StatTitle = styled.div`
   font-size: ${height / 50}px;
@@ -171,14 +171,13 @@ const Stat = styled.div`
   text-align: center;
 `;
 
-// Our base here is rgb(18, 18, 18), to go up a level, simply add 2.55 * the % opaque of the white transparency recommended.
-
-// 1 guess, 2, 3, 4, 5, 6, miss, streak, has played today, guess 1, 2, 3, 4, 5, 6, has seen rules, dark mode
-// document.cookie = "0//0//0//0//0//0//0//0//false//_//_//_//_//_//_//false//false//1/2/2003//0;";
+// reset cookie for debugging
+//document.cookie = "data="
 
 let dataCookie = getCookie('data');
 console.log(dataCookie);
 if (!dataCookie || dataCookie.length < 1) {
+  // 1 guess, 2, 3, 4, 5, 6, miss, streak, has played today, guess 1, 2, 3, 4, 5, 6, has seen rules, dark mode
   document.cookie = `data=${encodeURIComponent(
     '0//0//0//0//0//0//0//0//false//_//_//_//_//_//_//false//false//1/2/2003//0'
   )}; expires=Tue, 19 Jan 2038 03:14:07 GMT;`;
@@ -186,14 +185,11 @@ if (!dataCookie || dataCookie.length < 1) {
     '0//0//0//0//0//0//0//0//false//_//_//_//_//_//_//false//false//1/2/2003//0';
 }
 
+const timeLeft = tomorrow.getTime() - today.getTime();
+
 const outsideData = dataCookie.split('//');
-// console.log(outsideData[8])
-// if (outsideData[8] === "false"){
-//     for (let i = 9; i <= 14; i += 1){
-//         outsideData[i] = "_";
-//     }
-//     document.cookie = outsideData.join("//")
-// }
+console.log(outsideData[15] === 'false')
+const outsideRules = outsideData[15] === 'false'
 const todaySolved = outsideData[17] === date;
 if (!todaySolved) {
   for (let i = 9; i <= 14; i += 1) {
@@ -238,6 +234,41 @@ export default function App() {
 
   // console.log(date)
 
+  const [secondsLeft, setSecondsLeft] = useState(Math.floor(timeLeft/1000) % 60)
+  const [minutesLeft, setMinutesLeft] = useState(Math.floor(timeLeft/(1000 * 60)) % 60)
+  const [hoursLeft, setHoursLeft] = useState(Math.floor(timeLeft/(1000 * 60 * 60)) % 24)
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      if (secondsLeft === 0){
+        setSecondsLeft(60);
+        if (minutesLeft === 0){
+            setMinutesLeft(60);
+            setHoursLeft(hoursLeft - 1);
+        }
+        else{
+            setMinutesLeft(minutesLeft - 1);
+        }
+      }
+      else{
+        setSecondsLeft(secondsLeft - 1);
+      }
+    }, 1000);
+    return () => clearTimeout(timer);
+  });
+
+  function getstrTimeLeft(time: number){
+    if (time === 60){
+        return "00"
+    }
+    else if (time < 10){
+        return "0" + time
+    }
+    else{
+        return time
+    }
+}
+
   let holdoverdata = filmdata;
   let peekOlddivs;
   let peekGuessStyles;
@@ -273,7 +304,7 @@ export default function App() {
   const [solved, setSolved] = useState(todaySolved);
 
   const [active, setActive] = useState(0);
-  const [rulesVisible, setRulesVisible] = useState(data[15] === 'false');
+  const [rulesVisible, setRulesVisible] = useState(outsideRules);
   if (rulesVisible === true) {
     data[15] = 'true';
     document.cookie = `data=${encodeURIComponent(
@@ -881,6 +912,10 @@ export default function App() {
                   }}
                 />
               </div>
+            </div>
+            <div style={{ textAlign: 'center', fontSize: height / 50 }}>Next STARDLE in</div>
+            <div style={{ textAlign: 'center', fontSize: height / 40 }}>
+                {getstrTimeLeft(hoursLeft)}{":"}{getstrTimeLeft(minutesLeft)}{":"}{getstrTimeLeft(secondsLeft)}
             </div>
           </div>
         </ModalBody>

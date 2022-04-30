@@ -42,7 +42,7 @@ const Data: Map = {
     'Naomi Watts',
     'Andy Serkis',
   ],
-  madagascar: [
+  'madagascar': [
     'Madagascar',
     'Cedric the Entertainer',
     'Sacha Baron Cohen',
@@ -78,7 +78,7 @@ const Data: Map = {
     'Michael Caine',
     'Christian Bale',
   ],
-  hitch: [
+  'hitch': [
     'Hitch',
     'Philip Bosco',
     'Julie Ann Emery',
@@ -132,7 +132,7 @@ const Data: Map = {
     'Carla Gugino',
     'Ben Stiller',
   ],
-  cars: [
+  'cars': [
     'Cars',
     'Cheech Marin',
     'Tony Shalhoub',
@@ -204,7 +204,7 @@ const Data: Map = {
     'Eddie Murphy',
     'Mike Myers',
   ],
-  transformers: [
+  'transformers': [
     'Transformers',
     'Jon Voight',
     'Hugo Weaving',
@@ -213,7 +213,7 @@ const Data: Map = {
     'Josh Duhamel',
     'Shia LaBeouf',
   ],
-  ratatouille: [
+  'ratatouille': [
     'Ratatouille',
     'Brad Garrett',
     "Peter O'Toole",
@@ -285,7 +285,7 @@ const Data: Map = {
     'Dustin Hoffman',
     'Jack Black',
   ],
-  hancock: [
+  'hancock': [
     'Hancock',
     'Thomas Lennon',
     'Johnny Galecki',
@@ -339,7 +339,7 @@ const Data: Map = {
     'Anna Popplewell',
     'William Moseley',
   ],
-  avatar: [
+  'avatar': [
     'Avatar',
     'CCH Pounder',
     'Michelle Rodriguez',
@@ -375,7 +375,7 @@ const Data: Map = {
     'Chiwetel Ejiofor',
     'John Cusack',
   ],
-  up: [
+  'up': [
     'Up',
     'John Ratzenberger',
     'Delroy Lindo',
@@ -465,7 +465,7 @@ const Data: Map = {
     'Mia Wasikowska',
     'Johnny Depp',
   ],
-  inception: [
+  'inception': [
     'Inception',
     'Dileep Rao',
     'Ken Watanabe',
@@ -501,7 +501,7 @@ const Data: Map = {
     'Gwyneth Paltrow',
     'Robert Downey Jr.',
   ],
-  tangled: [
+  'tangled': [
     'Tangled',
     'Jeffrey Tambor',
     'Ron Perlman',
@@ -618,7 +618,7 @@ const Data: Map = {
     'Chris Evans',
     'Robert Downey Jr.',
   ],
-  skyfall: [
+  'skyfall': [
     'Skyfall',
     'Bérénice Marlohe',
     'Naomie Harris',
@@ -726,7 +726,7 @@ const Data: Map = {
     'Amy Adams',
     'Henry Cavill',
   ],
-  gravity: [
+  'gravity': [
     'Gravity',
     'Sandra Bullock',
     'George Clooney',
@@ -789,7 +789,7 @@ const Data: Map = {
     'Gwyneth Paltrow',
     'Robert Downey Jr.',
   ],
-  frozen: [
+  'frozen': [
     'Frozen',
     'Alan Tudyk',
     'Santino Fontana',
@@ -816,7 +816,7 @@ const Data: Map = {
     'James McAvoy',
     'Hugh Jackman',
   ],
-  maleficent: [
+  'maleficent': [
     'Maleficent',
     'Juno Temple',
     'Imelda Staunton',
@@ -888,7 +888,7 @@ const Data: Map = {
     'Sienna Miller',
     'Bradley Cooper',
   ],
-  spectre: [
+  'spectre': [
     'Spectre',
     'Dave Bautista',
     'Naomie Harris',
@@ -897,7 +897,7 @@ const Data: Map = {
     'Christoph Waltz',
     'Daniel Craig',
   ],
-  cinderella: [
+  'cinderella': [
     'Cinderella',
     'Stellan Skarsgård',
     'Nonso Anozie',
@@ -924,7 +924,7 @@ const Data: Map = {
     'Josh Hutcherson',
     'Jennifer Lawrence',
   ],
-  minions: [
+  'minions': [
     'Minions',
     'Sandra Bullock',
     'Jon Hamm',
@@ -969,7 +969,7 @@ const Data: Map = {
     'Bryce Dallas Howard',
     'Chris Pratt',
   ],
-  sing: [
+  'sing': [
     'Sing',
     'Taron Egerton',
     'John C. Reilly',
@@ -996,7 +996,7 @@ const Data: Map = {
     'Ben Affleck',
     'Henry Cavill',
   ],
-  zootopia: [
+  'zootopia': [
     'Zootopia',
     'Bonnie Hunt',
     'Nate Torrence',
@@ -1005,7 +1005,7 @@ const Data: Map = {
     'Jason Bateman',
     'Ginnifer Goodwin',
   ],
-  deadpool: [
+  'deadpool': [
     'Deadpool',
     'Brianna Hildebrand',
     'Gina Carano',
@@ -1086,7 +1086,7 @@ const Data: Map = {
     'Tom Hiddleston',
     'Chris Hemsworth',
   ],
-  it: [
+  'it': [
     'It',
     'Wyatt Oleff',
     'Finn Wolfhard',
@@ -1176,7 +1176,7 @@ const Data: Map = {
     'Bryce Dallas Howard',
     'Chris Pratt',
   ],
-  aquaman: [
+  'aquaman': [
     'Aquaman',
     'Yahya Abdul-Mateen II',
     'Dolph Lundgren',
@@ -1284,7 +1284,7 @@ const Data: Map = {
     'Samuel L. Jackson',
     'Tom Holland',
   ],
-  aladdin: [
+  'aladdin': [
     'Aladdin',
     'Nasim Pedrad',
     'Navid Negahban',
@@ -1293,7 +1293,7 @@ const Data: Map = {
     'Mena Massoud',
     'Will Smith',
   ],
-  joker: [
+  'joker': [
     'Joker',
     'Douglas Hodge',
     'Brett Cullen',
@@ -1338,7 +1338,7 @@ const Data: Map = {
     'Mary Elizabeth Winstead',
     'Margot Robbie',
   ],
-  dolittle: [
+  'dolittle': [
     'Dolittle',
     'Octavia Spencer',
     'Kumail Nanjiani',
@@ -1365,7 +1365,7 @@ const Data: Map = {
     'Omar Sy',
     'Harrison Ford',
   ],
-  onward: [
+  'onward': [
     'Onward',
     'Mel Rodriguez',
     'Kyle Bornheimer',
@@ -1383,7 +1383,7 @@ const Data: Map = {
     'Emma Stone',
     'Nicolas Cage',
   ],
-  tenet: [
+  'tenet': [
     'Tenet',
     'Kenneth Branagh',
     'Michael Caine',
@@ -1419,7 +1419,7 @@ const Data: Map = {
     'Florence Pugh',
     'Scarlett Johansson',
   ],
-  f9: [
+  'f9': [
     'F9',
     'Nathalie Emmanuel',
     'John Cena',
@@ -1428,7 +1428,7 @@ const Data: Map = {
     'Michelle Rodriguez',
     'Vin Diesel',
   ],
-  eternals: [
+  'eternals': [
     'Eternals',
     'Lauren Ridloff',
     'Brian Tyree Henry',
@@ -1473,7 +1473,7 @@ const Data: Map = {
     'Finn Wolfhard',
     'Carrie Coon',
   ],
-  scream: [
+  'scream': [
     'Scream',
     'Mikey Madison',
     'Jack Quaid',
@@ -1482,7 +1482,7 @@ const Data: Map = {
     'Courteney Cox',
     'Neve Campbell',
   ],
-  uncharted: [
+  'uncharted': [
     'Uncharted',
     'Rudy Pankow',
     'Tati Gabrielle',
@@ -1545,7 +1545,7 @@ const Data: Map = {
     'Christine Baranski',
     'Jim Carrey',
   ],
-  dinosaur: [
+  'dinosaur': [
     'Dinosaur',
     'Samuel E. Wright',
     'Hayden Panettiere',
@@ -1572,7 +1572,7 @@ const Data: Map = {
     'Helen Hunt',
     'Tom Hanks',
   ],
-  gladiator: [
+  'gladiator': [
     'Gladiator',
     'Richard Harris',
     'Djimon Hounsou',
