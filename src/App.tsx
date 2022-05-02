@@ -1,61 +1,76 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Dispatch, SetStateAction } from 'react';
 import { Modal, ModalBody } from 'react-bootstrap';
-import styled, { keyframes } from 'styled-components';
+import styled, { Keyframes, keyframes, StyledComponent } from 'styled-components';
 import { flipInX, fadeInRight } from 'react-animations';
 import Data from './constants/Data';
-import { Order, InitialDate } from './constants/Order'
+import { Order, InitialDate } from './constants/Order';
 import PointlessWords from './constants/PointlessWords';
 import './styles.css';
 
-// console.log(Object.keys(Data))
+// used to style the guesses for being correct/close/incorrect
+interface InputStyle{
+  backgroundColor?: string;
+  borderRadius?: number;
+  paddingTop?: number;
+}
 
-// declaring styling variables
-
+// https://javascript.info/cookie#getcookie-name
 function getCookie(name: string) {
-  const matches = document.cookie.match(
+  const matches : RegExpMatchArray | null = document.cookie.match(
     new RegExp(
       `(?:^|; )${name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1')}=([^;]*)`
     )
   );
-  return matches ? decodeURIComponent(matches[1]) : undefined;
+  return matches ? decodeURIComponent(matches[1]) : "";
 }
 
+// all the possible answers, sorted alphabetically
 const filmdata: Array<string> = Object.keys(Data);
 filmdata.sort();
 
-const width = window.innerWidth;
-const height = window.innerHeight;
-const relevantWidth = width > height ? width / 3 : width * 0.9;
-const relevantGraphWidth = width > height ? width / 5 : width * 0.75;
-// console.log(relevantGraphWidth)
-const relevantPadding = width > height ? relevantWidth : width * 0.05;
-const spotHeight = height * 0.13;
-// console.log(height, spotHeight)
+// need width and height for responsive design
+const width : number = window.innerWidth;
+const height : number = window.innerHeight;
+// if we're on a phone, we need to use different widths than if we're on a computer
+const relevantWidth : number = width > height ? width / 3 : width * 0.9;
+const relevantGraphWidth : number = width > height ? width / 5 : width * 0.75;
+const relevantPadding : number = width > height ? relevantWidth : width * 0.05;
+// height of sections of puzzle remains the same proportion irrespective of platform
+const spotHeight : number = height * 0.13;
 
+// the current time
 const today: Date = new Date();
+// keeping a string date to compare with the one stored in the cookie.
 const date = `${
   today.getMonth() + 1
 }/${today.getDate()}/${today.getFullYear()}`;
 
+// initializing a new date object and setting it to midnight tomorrow
 const tomorrow: Date = new Date();
 tomorrow.setDate(today.getDate() + 1);
 tomorrow.setHours(0, 0, 0, 0);
-console.log(tomorrow.getTime(), today.getTime());
+// console.log(tomorrow.getTime(), today.getTime());
 
+// determining the number of days from the first date we started using this ordering array
 const firstDay: Date = new Date(InitialDate);
-const fromFirst: number = Math.floor((today.getTime() - firstDay.getTime()) / (1000 * 3600 * 24))
-//console.log(today, firstDay)
+const fromFirst: number = Math.floor(
+  (today.getTime() - firstDay.getTime()) / (1000 * 3600 * 24)
+);
+// console.log(today, firstDay)
 
-const flipInAnimation = keyframes`${flipInX}`;
-const fadeInRightAnimation = keyframes`${fadeInRight}`;
+// animations
+const flipInAnimation : Keyframes = keyframes`${flipInX}`;
+const fadeInRightAnimation : Keyframes = keyframes`${fadeInRight}`;
 
-const Puzzle = styled.div`
+// top level div for the puzzle itself
+const Puzzle : StyledComponent<"div", any, {}, never> = styled.div`
   width: ${relevantWidth}px;
   box-sizing: content-box;
   margin-left: ${relevantPadding}px;
 `;
 
-const HoverButton = styled.button`
+// the buttons that the user guesses with
+const HoverButton : StyledComponent<"button", any, {}, never> = styled.button`
   width: ${relevantWidth}px;
   margin-left: ${relevantPadding}px;
   border-radius: ${height * 0.02}px;
@@ -69,22 +84,26 @@ const HoverButton = styled.button`
   text-align: left;
 `;
 
-const HoverText = styled.span`
+// the text in the hover buttons
+const HoverText : StyledComponent<"span", any, {}, never> = styled.span`
   font-size: ${height / 40}px;
 `;
 
-const Hider = styled.div`
+// a bar that displays instead of an actor
+const Hider : StyledComponent<"div", any, {}, never> = styled.div`
   height: ${spotHeight * 0.45}px;
   border-radius: ${height * 0.02}px;
   animation: 1s ${fadeInRightAnimation};
 `;
 
-const TopLevel = styled.div`
+// take up the whole page
+const TopLevel : StyledComponent<"div", any, {}, never> = styled.div`
   height: ${height}px;
   padding: auto;
 `;
 
-const Input = styled.input`
+// text input
+const Input : StyledComponent<"input", any, {}, never> = styled.input`
   border-radius: ${height * 0.02}px;
   border-width: 1px;
   border-color: black;
@@ -94,7 +113,8 @@ const Input = styled.input`
   box-sizing: border-box;
 `;
 
-const AboveInput = styled.div`
+// the text that replaces the input once it is used
+const AboveInput : StyledComponent<"div", any, {}, never> = styled.div`
   border-radius: ${height * 0.02}px;
   border-width: 1px;
   border-color: black;
@@ -103,14 +123,16 @@ const AboveInput = styled.div`
   font-size: ${height / 40}px;
 `;
 
-const Spot = styled.div`
+// one of the six actor-input pairs
+const Spot : StyledComponent<"div", any, {}, never> = styled.div`
   margin-top: 0;
   padding-bottom: ${spotHeight * 0.1}px;
   height: ${spotHeight}px;
   overflow: hidden;
 `;
 
-const Actor = styled.div`
+// the name of an actor
+const Actor : StyledComponent<"div", any, {}, never> = styled.div`
   padding-top: ${height / 200}px;
   height: ${spotHeight * 0.45}px;
   font-size: ${height / 40}px;
@@ -123,7 +145,8 @@ const Actor = styled.div`
   animation: 1s ${flipInAnimation};
 `;
 
-const MyNavbar = styled.div`
+// navbar with media tag for maximum size
+const MyNavbar : StyledComponent<"div", any, {}, never> = styled.div`
   height: ${height * 0.08}px;
   margin-bottom: ${height * 0.02}px;
   @media screen and (max-width: 700px) {
@@ -134,7 +157,8 @@ const MyNavbar = styled.div`
   width: 100%;
 `;
 
-const NavbarText = styled.span`
+// navbar text again with media tag
+const NavbarText : StyledComponent<"span", any, {}, never> = styled.span`
   cursor: pointer;
   font-size: ${width * 0.02}px;
   position: absolute;
@@ -147,7 +171,8 @@ const NavbarText = styled.span`
   }
 `;
 
-const Logo = styled.span`
+// the S T A R D L E logo
+const Logo : StyledComponent<"span", any, {}, never> = styled.span`
   color: rgba(127, 127, 127, 0.9);
   font-size: ${width / 30}px;
   cursor: auto;
@@ -161,23 +186,48 @@ const Logo = styled.span`
   }
 `;
 
-const StatTitle = styled.div`
+// the title of a stat
+const StatTitle : StyledComponent<"div", any, {}, never> = styled.div`
   font-size: ${height / 50}px;
   text-align: center;
 `;
 
-const Stat = styled.div`
+// a stat (streak, winrate, etc.)
+const Stat : StyledComponent<"div", any, {}, never> = styled.div`
   font-size: ${height / 30}px;
   text-align: center;
 `;
 
-// reset cookie for debugging
-//document.cookie = "data="
+// the possible locations of the hovering buttons
+const hoverLocations : {top: number}[] = [
+  { top: height * 0.21 },
+  { top: height * 0.25 },
+  { top: height * 0.29 },
+  { top: height * 0.34 },
+  { top: height * 0.38 },
+  { top: height * 0.42 },
+  { top: height * 0.47 },
+  { top: height * 0.51 },
+  { top: height * 0.55 },
+  { top: height * 0.6 },
+  { top: height * 0.64 },
+  { top: height * 0.68 },
+  { top: height * 0.73 },
+  { top: height * 0.77 },
+  { top: height * 0.81 },
+  { top: height * 0.86 },
+  { top: height * 0.9 },
+  { top: height * 0.94 },
+];
 
-let dataCookie = getCookie('data');
-console.log(dataCookie);
+// reset cookie for debugging
+// document.cookie = "data="
+
+// the data we use from the cookie!
+let dataCookie : string = getCookie('data');
+// console.log(dataCookie);
 if (!dataCookie || dataCookie.length < 1) {
-  // 1 guess, 2, 3, 4, 5, 6, miss, streak, has played today, guess 1, 2, 3, 4, 5, 6, has seen rules, dark mode
+  // 1 guess solves, 2, 3, 4, 5, 6, miss, streak, has played today, guess 1, 2, 3, 4, 5, 6, has seen rules, dark mode, date last played, maxstreak
   document.cookie = `data=${encodeURIComponent(
     '0//0//0//0//0//0//0//0//false//_//_//_//_//_//_//false//false//1/2/2003//0'
   )}; expires=Tue, 19 Jan 2038 03:14:07 GMT;`;
@@ -185,14 +235,27 @@ if (!dataCookie || dataCookie.length < 1) {
     '0//0//0//0//0//0//0//0//false//_//_//_//_//_//_//false//false//1/2/2003//0';
 }
 
-const timeLeft = tomorrow.getTime() - today.getTime();
+// how long til midnight tomorrow
+const timeLeft : number = tomorrow.getTime() - today.getTime();
 
-const outsideData = dataCookie.split('//');
-console.log(outsideData[15] === 'false')
-const outsideRules = outsideData[15] === 'false'
-const todaySolved = outsideData[17] === date;
+// splitting our cookie data into an array
+const outsideData : Array<string> = dataCookie.split('//');
+// has our user seen the rules yet? if no, show it to them
+const outsideRules : boolean = outsideData[15] === 'false';
+// if the user has not seen the rules, they will after having loaded the site, so set this bool to true
+if (outsideRules === true) {
+  outsideData[15] = 'true';
+  document.cookie = `data=${encodeURIComponent(
+    outsideData.join('//')
+  )}; expires=Tue, 19 Jan 2038 03:14:07 GMT;`;
+}
+// initial false value for typing purposes, never changed
+const initialVisible: boolean = false;
+// has our user played today?
+const todaySolved : boolean = outsideData[17] === date;
+// if they have not, the cookie will have stored yesterday's guesses, remove them
 if (!todaySolved) {
-  for (let i = 9; i <= 14; i += 1) {
+  for (let i : number = 9; i <= 14; i += 1) {
     outsideData[i] = '_';
   }
   document.cookie = `data=${encodeURIComponent(
@@ -200,7 +263,8 @@ if (!todaySolved) {
   )}; expires=Tue, 19 Jan 2038 03:14:07 GMT;`;
 }
 
-const outsideMaxAttempts = Math.max(
+// most commonly used number of attempts to solve, stored for graph width in stats modal
+const outsideMaxAttempts : number = Math.max(
   1,
   Math.max(
     parseInt(outsideData[0]),
@@ -211,7 +275,8 @@ const outsideMaxAttempts = Math.max(
     parseInt(outsideData[5])
   )
 );
-const outsidePlayed =
+// how many times the user has played the game
+const outsidePlayed : number =
   parseInt(outsideData[0]) +
   parseInt(outsideData[1]) +
   parseInt(outsideData[2]) +
@@ -219,180 +284,165 @@ const outsidePlayed =
   parseInt(outsideData[4]) +
   parseInt(outsideData[5]) +
   parseInt(outsideData[6]);
-const outsideWon =
-  parseInt(outsideData[0]) +
-  parseInt(outsideData[1]) +
-  parseInt(outsideData[2]) +
-  parseInt(outsideData[3]) +
-  parseInt(outsideData[4]) +
-  parseInt(outsideData[5]);
-const outsideStreak = parseInt(outsideData[7]);
-const outsideMaxStreak = parseInt(outsideData[18]);
+// how many times the user has won the game, so, plays minus losses
+const outsideWon : number = outsidePlayed - parseInt(outsideData[6]);
+// how many consecutive wins the user has
+const outsideStreak : number = parseInt(outsideData[7]);
+// the most consecutive wins the user has ever had
+const outsideMaxStreak : number = parseInt(outsideData[18]);
 
 export default function App() {
-  // console.log(document.cookie)
+  // keeping track of time for the countdown timer
+  const [secondsLeft, setSecondsLeft] : [number, Dispatch<SetStateAction<number>>] = useState(
+    Math.floor(timeLeft / 1000) % 60
+  );
+  const [minutesLeft, setMinutesLeft] : [number, Dispatch<SetStateAction<number>>] = useState(
+    Math.floor(timeLeft / (1000 * 60)) % 60
+  );
+  const [hoursLeft, setHoursLeft] : [number, Dispatch<SetStateAction<number>>] = useState(
+    Math.floor(timeLeft / (1000 * 60 * 60)) % 24
+  );
 
-  // console.log(date)
-
-  const [secondsLeft, setSecondsLeft] = useState(Math.floor(timeLeft/1000) % 60)
-  const [minutesLeft, setMinutesLeft] = useState(Math.floor(timeLeft/(1000 * 60)) % 60)
-  const [hoursLeft, setHoursLeft] = useState(Math.floor(timeLeft/(1000 * 60 * 60)) % 24)
-
+  // ticking down every second
   useEffect(() => {
-    const timer = setTimeout(() => {
-      if (secondsLeft === 0){
+    const timer : NodeJS.Timeout = setTimeout(() => {
+      if (secondsLeft === 0) {
         setSecondsLeft(60);
-        if (minutesLeft === 0){
-            setMinutesLeft(60);
-            setHoursLeft(hoursLeft - 1);
+        if (minutesLeft === 0) {
+          setMinutesLeft(60);
+          setHoursLeft(hoursLeft - 1);
+        } else {
+          setMinutesLeft(minutesLeft - 1);
         }
-        else{
-            setMinutesLeft(minutesLeft - 1);
-        }
-      }
-      else{
+      } else {
         setSecondsLeft(secondsLeft - 1);
       }
     }, 1000);
     return () => clearTimeout(timer);
   });
 
-  function getstrTimeLeft(time: number){
-    if (time === 60){
-        return "00"
+  // converts number from 0 - 60 to the appropriate amount of seconds/minutes
+  function getstrTimeLeft(time: number) {
+    if (time === 60) {
+      return '00';
     }
-    else if (time < 10){
-        return "0" + time
+    if (time < 10) {
+      return `0${time}`;
     }
-    else{
-        return time
-    }
-}
 
-  let holdoverdata = filmdata;
-  let peekOlddivs;
-  let peekGuessStyles;
-  let peekBools;
-  let peekGuessSpans;
-  let peekHoverSpans;
-  let peekHoverDisplays;
-  let peekCurHoverLocations;
+    return time;
+  }
 
-  const [correct] = useState(
-    Data[filmdata[Order[fromFirst]]]
-  );
-  // console.log(correct)
-  // 1 guess, 2, 3, 4, 5, 6, miss, streak, has played today, guess 1, 2, 3, 4, 5, 6, has seen rules, dark mode
-  // document.cookie = "0//0//0//0//0//0//0//0//false//_//_//_//_//_//_//false//false//" + date;
-  // const [cookie, setCookie] = useState(document.cookie)
-  // if (!cookie || cookie.length < 1){
-  //     document.cookie = "0//0//0//0//0//0//0//0//false//_//_//_//_//_//_//false//false//" + date;
-  //     setCookie(document.cookie)
-  // }
+  // using all these as middlemen to set our state objects rather than do it through the array itself
+  let holdoverdata : string[] = filmdata;
+  let peekGuessStyles : object[];
+  let peekBools : boolean[];
+  let peekGuessSpans : string[];
+  let peekHoverSpans : string[];
+  let peekHoverDisplays : boolean[];
+  let peekCurHoverLocations : {top : number}[];
 
-  const [maxAttempts, setMaxAttempts] = useState(outsideMaxAttempts);
-  const [played, setPlayed] = useState(outsidePlayed);
-  const [streak, setStreak] = useState(outsideStreak);
-  const [maxStreak, setMaxStreak] = useState(outsideMaxStreak);
-  const [successRate, setSuccessRate] = useState(
+  // the correct answer
+  const [correct] : [string[], Dispatch<SetStateAction<string[]>>] = useState(Data[filmdata[Order[fromFirst]]]);
+
+  // our stats calculated earlier, as well as successrate
+  const [maxAttempts, setMaxAttempts] : [number, Dispatch<SetStateAction<number>>] = useState(outsideMaxAttempts);
+  const [played, setPlayed] : [number, Dispatch<SetStateAction<number>>] = useState(outsidePlayed);
+  const [streak, setStreak] : [number, Dispatch<SetStateAction<number>>] = useState(outsideStreak);
+  const [maxStreak, setMaxStreak] : [number, Dispatch<SetStateAction<number>>] = useState(outsideMaxStreak);
+  const [successRate, setSuccessRate] : [number, Dispatch<SetStateAction<number>>] = useState(
     outsideWon / Math.max(1, played)
   );
   // console.log(successRate)
 
-  const [data] = useState(outsideData);
-  // data[8] === "false" ? false : true
-  const [solved, setSolved] = useState(todaySolved);
+  // date from the cookie
+  const [data] : [string[], Dispatch<SetStateAction<string[]>>] = useState(outsideData);
+  // whether or not the puzzle is playable depends on if it has been played today, which we track here
+  const [solved, setSolved] : [boolean, Dispatch<SetStateAction<boolean>>] = useState(todaySolved);
 
-  const [active, setActive] = useState(0);
-  const [rulesVisible, setRulesVisible] = useState(outsideRules);
-  if (rulesVisible === true) {
-    data[15] = 'true';
-    document.cookie = `data=${encodeURIComponent(
-      data.join('//')
-    )}; expires=Tue, 19 Jan 2038 03:14:07 GMT;`;
-  }
-  const [statsVisible, setStatsVisible] = useState(false);
-  const [aboutVisible, setAboutVisible] = useState(false);
+  // which of the six spots is currently being used for input
+  const [active, setActive] : [number, Dispatch<SetStateAction<number>>] = useState(0);
+  // can we see the rules/stats/about modal?
+  const [rulesVisible, setRulesVisible] : [boolean, Dispatch<SetStateAction<boolean>>] = useState(outsideRules);
+  const [statsVisible, setStatsVisible] : [boolean, Dispatch<SetStateAction<boolean>>] = useState(initialVisible);
+  const [aboutVisible, setAboutVisible] : [boolean, Dispatch<SetStateAction<boolean>>] = useState(initialVisible);
 
-  // if (data[data.length - 1] === "false"){
-  //     data[data.length - 1] = "true";
-  //     document.cookie = data.join("//");
-  //     console.log(data);
-  // }
-
-  const [darkMode, setDarkMode] = useState(data[16] === 'true');
+  // are we in dark mode?
+  const [darkMode, setDarkMode] : [boolean, Dispatch<SetStateAction<boolean>>] = useState(data[16] === 'true');
+  // if we are not we have to use classnames to enforce the background color on the body
   if (!darkMode) {
     document.body.classList.add('white');
   }
 
-  const [bools, setBools] = useState(
+  // where can we input text right now?
+  const [bools, setBools] : [boolean[], Dispatch<SetStateAction<boolean[]>>] = useState(
     solved === false
       ? [true, false, false, false, false, false]
       : [false, false, false, false, false, false]
   );
 
-  const green = {
+  // these are the style options for a guess being correct, close, or incorrect.
+  const green : InputStyle = {
     backgroundColor: '#77D353',
     borderRadius: height / 50,
     paddingTop: height / 200,
   };
-  const yellow = {
+  const yellow : InputStyle = {
     backgroundColor: '#FFD185',
     borderRadius: height / 50,
     paddingTop: height / 200,
   };
-  const gray = {
+  const gray : InputStyle = {
     backgroundColor: 'lightgray',
     borderRadius: height / 50,
     paddingTop: height / 200,
   };
-  const none = {
+  const blank : InputStyle = {};
+
+  // things i don't want to display
+  const none : {display: string} = {
     display: 'none',
   };
-  const blank = {};
 
+  // function to check if a guess is close to the correct answer, provided it isn't correct
   function yellowCheck(ourGuess: string) {
-    // console.log(guess)
-    const strGuess = ourGuess.replace(/[^a-z0-9 ]/gi, '');
-    const correctSans = correct[0].replace(/[^a-z0-9 ]/gi, '');
-    // console.log(guess, correctSans)
-    const wordsGuess = new Set(strGuess.split(' '));
-    const wordset = correctSans.split(' ');
-    // console.log(wordsGuess, wordset)
-    let flag = false;
+    // sanitizing both the guess and the correct answer
+    const strGuess : string = ourGuess.replace(/[^a-z0-9 ]/gi, '');
+    const correctSans : string = correct[0].replace(/[^a-z0-9 ]/gi, '');
+    // making lists of words! wordsguess is a set so we can check if it has a word slightly faster
+    const wordsGuess : Set<string> = new Set(strGuess.split(' '));
+    const wordset : string[] = correctSans.split(' ');
+    let flag : boolean = false;
     wordset.forEach((item) => {
       if (!PointlessWords.has(item) && wordsGuess.has(item)) {
-        // console.log(item)
+        // if you return in a forEach you just break the loop, so I'm using a flag outside the function.
         flag = true;
       }
     });
     return flag;
   }
 
-  const [olddiv, setOlddiv] = useState('');
-  const [newoldtext, setNewOlddiv] = useState(['', '', '', '', '', '']);
-  const [actors, setActors] = useState(
+  // a relic from an early version, reason for its presence in textHandler
+  const [olddiv, setOlddiv] : [string, Dispatch<SetStateAction<string>>] = useState('');
+  // the actors we're displaying
+  const [actors, setActors] : [string[], Dispatch<SetStateAction<string[]>>] = useState(
     solved === false
       ? [correct[1], '_', '_', '_', '_', '_']
       : [correct[1], correct[2], correct[3], correct[4], correct[5], correct[6]]
   );
-  const [guessSpans, setGuessSpans] = useState(
+  // the user's guesses for the day
+  const [guessSpans, setGuessSpans] : [string[], Dispatch<SetStateAction<string[]>>] = useState(
     solved === false
       ? ['', '', '', '', '', '']
       : [data[9], data[10], data[11], data[12], data[13], data[14]]
   );
-  const [guessStyles, setGuessStyles] = useState(
+  // the styles on the boxes that display the user's guess after they have made it
+  const [guessStyles, setGuessStyles] : [InputStyle[], Dispatch<SetStateAction<InputStyle[]>>] = useState(
     solved === false
       ? [blank, blank, blank, blank, blank, blank]
       : [
           (() => {
-            //   data[9].length > 1
-            // ? data[9] === correct[0]
-            //   ? green
-            //   : yellowCheck(data[9])
-            //   ? yellow
-            //   : gray
-            // : blank
+            // writing and calling lambdas so that we may avoid having nested ternary expressions, which eslint does not like
             if (data[9].length > 1) {
               if (data[9] === correct[0]) {
                 return green;
@@ -466,55 +516,43 @@ export default function App() {
           }).call(undefined),
         ]
   );
-  const [hoverSpans, setHoverSpans] = useState(['', '', '']);
-  const [hoverDisplays, setHoverDisplays] = useState([false, false, false]);
-  const hoverLocations = [
-    { top: height * 0.21 },
-    { top: height * 0.25 },
-    { top: height * 0.29 },
-    { top: height * 0.34 },
-    { top: height * 0.38 },
-    { top: height * 0.42 },
-    { top: height * 0.47 },
-    { top: height * 0.51 },
-    { top: height * 0.55 },
-    { top: height * 0.6 },
-    { top: height * 0.64 },
-    { top: height * 0.68 },
-    { top: height * 0.73 },
-    { top: height * 0.77 },
-    { top: height * 0.81 },
-    { top: height * 0.86 },
-    { top: height * 0.9 },
-    { top: height * 0.94 },
-  ];
-  const [curHoverLocations, setCurHoverLocations] = useState([
+
+  // the text in the spans in the hover buttons
+  const [hoverSpans, setHoverSpans]  : [string[], Dispatch<SetStateAction<string[]>>] = useState(['', '', '']);
+  // whether or not a hover button is currently being displayed
+  const [hoverDisplays, setHoverDisplays]  : [boolean[], Dispatch<SetStateAction<boolean[]>>] = 
+    useState([initialVisible, initialVisible, initialVisible]);
+  // where the hover buttons currently are
+  const [curHoverLocations, setCurHoverLocations]  : [{top : number}[], Dispatch<SetStateAction<{top : number}[]>>] = useState([
     hoverLocations[0],
     hoverLocations[1],
     hoverLocations[2],
   ]);
-  // animateds[0].addListener( ( { value } ) => rotations[0] = value );
-  // flipBackBlack(0);
 
+  // shows the suggested possible guess using the user's text
   function textHandler(pretext: string, column: number) {
-    const text = pretext.replace(/[^a-z0-9 ]/gi, '');
-    const newData = [];
-    for (let i = 0; i < holdoverdata.length; i += 1) {
+    // sanitized
+    const text : string = pretext.replace(/[^a-z0-9 ]/gi, '');
+    // the data displayed in each box
+    const newData : string[] = [];
+    // if the previous suggestions still work use them.
+    for (let i : number = 0; i < holdoverdata.length; i += 1) {
       if (holdoverdata[i].includes(text.toLowerCase())) {
         newData.push(holdoverdata[i]);
       }
     }
 
-    // if this isn't here the text updates don't work. i have no idea why this is.
+    // if this isn't here the textbox updates are way too slow. not sure why. i think it's similar to how useEffect works, but I don't know.
     setOlddiv(text);
 
     holdoverdata = newData;
-    // console.log(holdoverdata);
+    // setting the hover texts and display props to the appropriate values
     peekHoverSpans = hoverSpans;
     peekHoverDisplays = hoverDisplays;
+    // if there is no text, hide all of the hover buttons
     if (text.length === 0) {
       for (
-        let i = column * 3;
+        let i : number = column * 3;
         i < Math.min((column + 1) * 3, column * 3 + newData.length);
         i += 1
       ) {
@@ -523,7 +561,7 @@ export default function App() {
       }
       holdoverdata = filmdata;
     } else {
-      for (let i = column * 3; i < (column + 1) * 3; i += 1) {
+      for (let i : number = column * 3; i < (column + 1) * 3; i += 1) {
         if (i < column * 3 + newData.length) {
           [peekHoverSpans[i % 3]] = Data[newData[i - column * 3]];
           peekHoverDisplays[i % 3] = true;
@@ -533,109 +571,129 @@ export default function App() {
         }
       }
     }
-    // console.log("setting hover texts here")
+    // setting
     setHoverSpans(peekHoverSpans);
     setHoverDisplays(peekHoverDisplays);
-    peekOlddivs = newoldtext;
-    newoldtext[column] = text;
-    setNewOlddiv(peekOlddivs);
-    // now we need to know where we are in the chain of command so we can render 3 suggestion boxes under.
   }
 
+  // guess function takes in the current location, of the 18 possible, where the hover button clicked is
   function guess(box: number) {
     if (box > 17) {
       // this will break the page if allowed to run so we abort it
       return;
     }
-    let section = Math.floor(box / 3);
+    // which of the six spots are we in?
+    let section : number = Math.floor(box / 3);
+    // we set active to 1 + current value since a guess deactivates a section
     setActive(active + 1);
+    // recording this guess in the cookie
     data[section + 9] = hoverSpans[box % 3];
+    // setting the display text as the appropriate button text
     peekGuessSpans = guessSpans;
     peekGuessSpans[section] = hoverSpans[box % 3];
     setGuessSpans(peekGuessSpans);
-    // setBooltest(false);
+    // if the guess is correct end the game
     if (hoverSpans[box % 3] === correct[0]) {
-      // console.log("winner!");
-      console.log(section, data[section]);
+      // we solved it
       setSolved(true);
+      // record how many guesses this took
       data[section] = (parseInt(data[section]) + 1).toString();
+      // if we have a new record for most attempts with X guesses record that
       if (parseInt(data[section]) > maxAttempts) {
         setMaxAttempts(maxAttempts + 1);
       }
+      // we have played today
       data[8] = 'true';
+      // add 1 to streak
       data[7] = (parseInt(data[7]) + 1).toString();
-      console.log(data[7], maxStreak);
+      // record max streak if applicable
       if (parseInt(data[7]) > maxStreak) {
         setMaxStreak(parseInt(data[7]));
         data[18] = data[7];
       }
-      console.log(data[18]);
+      // set these things for the stat modal
       setStreak(streak + 1);
       setPlayed(played + 1);
+      // record last date played
       data[17] = date;
-      console.log(played);
+      // finally encode in the cookie
       document.cookie = `data=${encodeURIComponent(
         data.join('//')
       )}; expires=Tue, 19 Jan 2038 03:14:07 GMT;`;
+      // set success rate for modal
       setSuccessRate((outsideWon + 1) / (played + 1));
+      // set the displayed text to green
       peekGuessStyles = guessStyles;
       peekGuessStyles[section] = green;
       setGuessStyles(peekGuessStyles);
+      // set all bools to false so no input can be made
       peekBools = bools;
-      for (let i = 0; i < peekBools.length; i += 1) {
+      for (let i : number = 0; i < peekBools.length; i += 1) {
         peekBools[i] = false;
       }
       setBools(peekBools);
+      // hide all the hover buttons
       textHandler('', section);
-      const peekactors = actors;
+      // show all the actors
+      const peekactors : string[] = actors;
       while (section < correct.length - 1) {
         peekactors[section + 1] = correct[section + 2];
         section += 1;
       }
       setActors(peekactors);
       setTimeout(() => {
-        let curTimeLeft = tomorrow.getTime() - (new Date()).getTime();
-        setSecondsLeft(Math.floor(curTimeLeft/1000) % 60)
-        setMinutesLeft(Math.floor(curTimeLeft/(1000 * 60)) % 60)
-        setHoursLeft(Math.floor(curTimeLeft/(1000 * 60 * 60)) % 24)
+        // we're about to show the stats modal so we need to make sure the timer is set to the right value
+        const curTimeLeft : number = tomorrow.getTime() - new Date().getTime();
+        setSecondsLeft(Math.floor(curTimeLeft / 1000) % 60);
+        setMinutesLeft(Math.floor(curTimeLeft / (1000 * 60)) % 60);
+        setHoursLeft(Math.floor(curTimeLeft / (1000 * 60 * 60)) % 24);
         setStatsVisible(true);
       }, 1000);
-      // console.log(actors);
       return;
     }
-    const curWord = hoverSpans[box % 3];
+    // otherwise we take our current word and test for closeness
+    const curWord : string = hoverSpans[box % 3];
     textHandler('', section);
-    const yellowResult = yellowCheck(curWord);
-    // console.log(yellowResult)
+    // here is the test
+    const yellowResult : boolean = yellowCheck(curWord);
     if (yellowResult) {
+      // if it is close, set the display box to yellow
       peekGuessStyles = guessStyles;
       peekGuessStyles[section] = yellow;
       setGuessStyles(peekGuessStyles);
     } else {
+      // otherwise set it to gray
       peekGuessStyles = guessStyles;
       peekGuessStyles[section] = gray;
       setGuessStyles(peekGuessStyles);
     }
 
+    // deny input to this section
     peekBools = bools;
     peekBools[section] = false;
 
+    // set the hover buttons to appropriate locations
     peekCurHoverLocations = curHoverLocations;
     peekCurHoverLocations[0] = hoverLocations[(section + 1) * 3];
     peekCurHoverLocations[1] = hoverLocations[(section + 1) * 3 + 1];
     peekCurHoverLocations[2] = hoverLocations[(section + 1) * 3 + 2];
     setCurHoverLocations(peekCurHoverLocations);
     if (box < 15) {
+      // if we have more to do show the next actor
       peekBools[section + 1] = true;
-      const peekactors = actors;
+      const peekactors : string[] = actors;
       peekactors[section + 1] = correct[section + 2];
       setActors(peekactors);
       // console.log(actors);
     } else {
+      // if not we lost, solved is true
       setSolved(true);
+      // record that we missed
       data[6] = (parseInt(data[6]) + 1).toString();
+      // set streak to 0
       data[7] = '0';
       setStreak(0);
+      // similar as before
       setPlayed(played + 1);
       data[17] = date;
       document.cookie = `data=${encodeURIComponent(
@@ -643,10 +701,10 @@ export default function App() {
       )}; expires=Tue, 19 Jan 2038 03:14:07 GMT;`;
       setSuccessRate(outsideWon / (played + 1));
       setTimeout(() => {
-        let curTimeLeft = tomorrow.getTime() - (new Date()).getTime();
-        setSecondsLeft(Math.floor(curTimeLeft/1000) % 60)
-        setMinutesLeft(Math.floor(curTimeLeft/(1000 * 60)) % 60)
-        setHoursLeft(Math.floor(curTimeLeft/(1000 * 60 * 60)) % 24)
+        const curTimeLeft : number = tomorrow.getTime() - new Date().getTime();
+        setSecondsLeft(Math.floor(curTimeLeft / 1000) % 60);
+        setMinutesLeft(Math.floor(curTimeLeft / (1000 * 60)) % 60);
+        setHoursLeft(Math.floor(curTimeLeft / (1000 * 60 * 60)) % 24);
         setStatsVisible(true);
       }, 1000);
     }
@@ -921,9 +979,12 @@ export default function App() {
                 />
               </div>
             </div>
-            <div style={{ textAlign: 'center', fontSize: height / 50 }}>Next STARDLE in</div>
+            <div style={{ textAlign: 'center', fontSize: height / 50 }}>
+              Next STARDLE in
+            </div>
             <div style={{ textAlign: 'center', fontSize: height / 40 }}>
-                {getstrTimeLeft(hoursLeft)}{":"}{getstrTimeLeft(minutesLeft)}{":"}{getstrTimeLeft(secondsLeft)}
+              {getstrTimeLeft(hoursLeft)}:{getstrTimeLeft(minutesLeft)}:
+              {getstrTimeLeft(secondsLeft)}
             </div>
           </div>
         </ModalBody>
@@ -954,13 +1015,10 @@ export default function App() {
         <NavbarText
           style={{ left: width * 0.2 }}
           onClick={() => {
-            // const [secondsLeft, setSecondsLeft] = useState(Math.floor(timeLeft/1000) % 60)
-            // const [minutesLeft, setMinutesLeft] = useState(Math.floor(timeLeft/(1000 * 60)) % 60)
-            // const [hoursLeft, setHoursLeft] = useState(Math.floor(timeLeft/(1000 * 60 * 60)) % 24)
-            let curTimeLeft = tomorrow.getTime() - (new Date()).getTime();
-            setSecondsLeft(Math.floor(curTimeLeft/1000) % 60)
-            setMinutesLeft(Math.floor(curTimeLeft/(1000 * 60)) % 60)
-            setHoursLeft(Math.floor(curTimeLeft/(1000 * 60 * 60)) % 24)
+            const curTimeLeft : number = tomorrow.getTime() - new Date().getTime();
+            setSecondsLeft(Math.floor(curTimeLeft / 1000) % 60);
+            setMinutesLeft(Math.floor(curTimeLeft / (1000 * 60)) % 60);
+            setHoursLeft(Math.floor(curTimeLeft / (1000 * 60 * 60)) % 24);
             setStatsVisible(true);
           }}
         >
