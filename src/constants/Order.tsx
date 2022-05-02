@@ -1,3 +1,6 @@
+// we use a randomized array the size of the sample set to set the order in which the Stardles are played from an initial date.
+// This can be reconfigured at any time in about thirty seconds.
+
 export const Order: Array<number> = [
   107, 73, 153, 50, 37, 60, 22, 152, 180, 104, 128, 16, 133, 59, 90, 82, 87,
   157, 176, 155, 172, 166, 111, 23, 44, 139, 11, 126, 161, 52, 158, 93, 115,

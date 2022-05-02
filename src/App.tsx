@@ -1028,6 +1028,7 @@ export default function App() {
         <NavbarText
           style={{ left: width * 0.8 }}
           onClick={() => {
+            // when we set the darkmode toggle, we also have to set classname for the body
             if (darkMode) {
               document.body.classList.add('white');
               data[16] = 'false';

@@ -4,9 +4,8 @@
 
 $height: 90vh;
 $width: 100vw;
-$spot-height: $height * .14;
-$hover-padding: math.div($width, 3);
 
+// I initialize the background color to the darkmode value, so that I can just make the background white in light mode.
 body{
     overflow: hidden;
     background-color: #121212;
@@ -28,6 +27,8 @@ body{
     margin: 50%
 }
 
+// these styles for the modal do a lot of the same stuff that the styled components do in the main page, but i'm happy with the modal
+// proportions as they are
 .modalbody{
     margin: auto;
 }
