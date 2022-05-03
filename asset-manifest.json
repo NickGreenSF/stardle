@@ -1,8 +1,8 @@
 {
   "files": {
     "main.css": "/stardle/static/css/main.44fbcc44.chunk.css",
-    "main.js": "/stardle/static/js/main.87d7df02.chunk.js",
-    "main.js.map": "/stardle/static/js/main.87d7df02.chunk.js.map",
+    "main.js": "/stardle/static/js/main.f281de2b.chunk.js",
+    "main.js.map": "/stardle/static/js/main.f281de2b.chunk.js.map",
     "runtime-main.js": "/stardle/static/js/runtime-main.44bb909e.js",
     "runtime-main.js.map": "/stardle/static/js/runtime-main.44bb909e.js.map",
     "static/js/2.077975fa.chunk.js": "/stardle/static/js/2.077975fa.chunk.js",
@@ -15,6 +15,6 @@
     "static/js/runtime-main.44bb909e.js",
     "static/js/2.077975fa.chunk.js",
     "static/css/main.44fbcc44.chunk.css",
-    "static/js/main.87d7df02.chunk.js"
+    "static/js/main.f281de2b.chunk.js"
   ]
 }
