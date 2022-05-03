@@ -2,7 +2,7 @@
   "name": "nickgreensfhome",
   "version": "0.1.0",
   "private": true,
-  "homepage": "http://nickgreensf.com",
+  "homepage": "https://nickgreensf.github.io/stardle/",
   "dependencies": {
     "react": "^17.0.2",
     "react-animations": "^1.0.0",
@@ -44,6 +44,7 @@
     "@types/node": "^16.11.12",
     "@types/react-animations": "^1.0.0",
     "@types/styled-components": "^5.1.25",
+    "gh-pages": "^3.2.3",
     "prettier": "^2.5.1",
     "typescript": "^4.5.2"
   }

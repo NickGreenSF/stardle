@@ -59,13 +59,6 @@ body {
   color: black;
 }
 
-.rulestext {
-  margin-top: 0.75vh;
-  margin-bottom: 0.75vh;
-  margin-left: 2vw;
-  margin-right: 2vw;
-}
-
 .rules {
   margin: 50%;
 }
@@ -74,24 +67,9 @@ body {
   margin: auto;
 }
 
-.modallogo {
-  color: rgba(127, 127, 127, 0.8);
-  font-size: 3vh;
-}
-
-.modalactor {
-  margin-left: 2vw;
-  margin-right: 2vw;
-}
-
 .textinput {
   box-sizing: border-box;
   width: 100%;
-}
-
-.toptext {
-  color: rgba(127, 127, 127, 0.8);
-  font-size: 4.5vh;
 }
 
 .modal-content {

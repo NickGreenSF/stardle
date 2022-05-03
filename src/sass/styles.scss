@@ -1,9 +1,5 @@
-@use "sass:math";
 @use "ShortStyles";
 @use "DarkMode";
-
-$height: 90vh;
-$width: 100vw;
 
 // I initialize the background color to the darkmode value, so that I can just make the background white in light mode.
 body{
@@ -16,13 +12,6 @@ body{
     color: black;
 }
 
-.rulestext{
-    margin-top: math.div($height, 120);
-    margin-bottom: math.div($height, 120);
-    margin-left: math.div($width, 50);
-    margin-right: math.div($width, 50);
-}
-
 .rules{
     margin: 50%
 }
@@ -33,27 +22,10 @@ body{
     margin: auto;
 }
 
-.modallogo{
-    color: rgba(127,127,127,.8);
-    font-size: math.div($height, 30);
-}
-
-.modalactor{
-    // width is short or long width
-    margin-left: math.div($width, 50);
-    margin-right: math.div($width, 50);
-}
-
 .textinput{
     box-sizing: border-box;
     width: 100%;
 }
-
-.toptext{
-    color: rgba(127,127,127,.8);
-    font-size: math.div($height, 20);
-}
-
 
 // react-bootstrap's modal body comes with a 1px white border by default
 .modal-content{

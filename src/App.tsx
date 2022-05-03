@@ -198,6 +198,30 @@ const Stat : StyledComponent<"div", any, {}, never> = styled.div`
   text-align: center;
 `;
 
+// version of the text logo in the modal
+const ModalLogo : StyledComponent<"span", any, {}, never> = styled.span`
+  color: rgba(127,127,127,.8);
+  font-size: ${height / 30}px;
+`
+
+const RulesText : StyledComponent<"div", any, {}, never> = styled.div`
+  margin-top: ${height / 120}px;
+  margin-bottom: ${height / 120}px;
+  margin-left: ${width / 50}px;
+  margin-right: ${width / 50}px;
+`
+
+const RulesAboveInput : StyledComponent<"div", any, {}, never> = styled.div`
+  border-radius: ${height * 0.02}px;
+  border-width: 1px;
+  border-color: black;
+  border-style: solid;
+  height: ${spotHeight * 0.45}px;
+  font-size: ${height / 40}px;
+  margin-left: ${width / 50}px;
+  margin-right: ${width / 50}px;
+`;
+
 // the possible locations of the hovering buttons
 const hoverLocations : {top: number}[] = [
   { top: height * 0.21 },
@@ -720,90 +744,94 @@ export default function App() {
         }}
       >
         <ModalBody className={darkMode ? 'darklv5' : 'lightcolors'}>
-          <div className={`modalbody ${darkMode ? 'darklv5' : 'lightcolors'}`}>
-            <div
+          <div style={{margin: 'auto'}} className={`${darkMode ? 'darklv5' : 'lightcolors'}`}>
+            <div style={{ fontSize: height / 50, textAlign: "right", cursor: "pointer" }} onClick={() => {
+              setRulesVisible(false);
+            }}>X</div>
+            <RulesText
               className={`${
                 darkMode ? 'darklv5' : 'lightcolors'
-              } basictext rulestext bold`}
+              } bold`}
             >
               HOW TO PLAY
-            </div>
-            <div
+            </RulesText>
+            <RulesText
               className={`${
                 darkMode ? 'darklv5' : 'lightcolors'
-              } basictext rulestext`}
+              }`}
             >
-              Guess the <span className="modallogo">S T A R D L E</span> in six
+              Guess the <ModalLogo>S T A R D L E</ModalLogo> in six
               tries.
-            </div>
-            <div
+            </RulesText>
+            <RulesText
               className={`${
                 darkMode ? 'darklv5' : 'lightcolors'
-              } basictext rulestext`}
+              }`}
             >
               Enter your guesses into the boxes below the actors.
-            </div>
+            </RulesText>
             <Actor
-              className={`${darkMode ? 'darklv1' : 'lightcolors'} modalactor`}
+              style={{marginLeft: width / 50, marginRight: width / 50}}
+              className={`${darkMode ? 'darklv1' : 'lightcolors'}`}
             >
               Tom Hanks
             </Actor>
             <Actor
-              style={{ animation: 'none' }}
-              className={`${darkMode ? 'darklv2' : 'lightcolors'} modalactor`}
+              style={{ animation: 'none', marginLeft: width / 50, marginRight: width / 50}}
+              className={`${darkMode ? 'darklv2' : 'lightcolors'}`}
             />
-            <div
+            <RulesText
               className={`${
                 darkMode ? 'darklv5' : 'lightcolors'
-              } basictext rulestext`}
+              }`}
             >
               Guess by pressing a movie title suggested by the text box.
-            </div>
-            <div
+            </RulesText>
+            <RulesText
               className={`${
                 darkMode ? 'darklv5' : 'lightcolors'
-              } basictext rulestext`}
+              }`}
             >
               After each guess the color of the text box will change to show how
               close your title is to the STARDLE.
-            </div>
-            <div
+            </RulesText>
+            <RulesText
               className={`${
                 darkMode ? 'darklv5' : 'lightcolors'
-              } basictext rulestext`}
+              }`}
             >
               If a guess is correct, you win.
-            </div>
-            <AboveInput style={green} className="modalactor">
+            </RulesText>
+            <RulesAboveInput style={green} className="modalactor">
               <div className="textinput blacktext">Toy Story 4</div>
-            </AboveInput>
-            <div
+            </RulesAboveInput>
+            <RulesText
               className={`${
                 darkMode ? 'darklv5' : 'lightcolors'
-              } basictext rulestext`}
+              }`}
             >
               If a guess has words in common with the Stardle:
-            </div>
-            <AboveInput style={yellow} className="modalactor">
+            </RulesText>
+            <RulesAboveInput style={yellow} className="modalactor">
               <div className="textinput blacktext">Toy Story 3</div>
-            </AboveInput>
-            <div
+            </RulesAboveInput>
+            <RulesText
               className={`${
                 darkMode ? 'darklv5' : 'lightcolors'
-              } basictext rulestext`}
+              }`}
             >
               If a guess has no words in common with the Stardle:
-            </div>
-            <AboveInput style={gray} className="modalactor">
+            </RulesText>
+            <RulesAboveInput style={gray} className="modalactor">
               <div className="textinput blacktext">Cast Away</div>
-            </AboveInput>
-            <div
+            </RulesAboveInput>
+            <RulesText
               className={`${
                 darkMode ? 'darklv5' : 'lightcolors'
-              } basictext rulestext`}
+              }`}
             >
               A new Stardle will be available every day.
-            </div>
+            </RulesText>
           </div>
         </ModalBody>
       </Modal>
@@ -814,7 +842,10 @@ export default function App() {
         }}
       >
         <ModalBody className={darkMode ? 'darklv5' : 'lightcolors'}>
-          <div className={`modalbody ${darkMode ? 'darklv5' : 'lightcolors'}`}>
+          <div style={{ margin: "auto" }} className={`${darkMode ? 'darklv5' : 'lightcolors'}`}>
+            <div style={{ fontSize: height / 50, textAlign: "right", cursor: "pointer" }} onClick={() => {
+              setStatsVisible(false);
+            }}>X</div>
             <div
               className={darkMode ? 'darklv5' : 'lightcolors'}
               style={{ fontSize: height / 50, textAlign: 'center' }}
@@ -996,6 +1027,9 @@ export default function App() {
         }}
       >
         <ModalBody className={darkMode ? 'darklv5' : 'lightcolors'}>
+          <div style={{ fontSize: height / 50, textAlign: "right", cursor: "pointer" }} onClick={() => {
+              setAboutVisible(false);
+            }}>X</div>
           <div>
             Made by Nick Green{' '}
             <a href="http://nickgreensf.com">(nickgreensf.com)</a>
