@@ -1,4 +1,5 @@
 import React, { useState, useEffect, Dispatch, SetStateAction } from 'react';
+import ReactGA from 'react-ga'
 import { Modal, ModalBody } from 'react-bootstrap';
 import styled, { Keyframes, keyframes, StyledComponent } from 'styled-components';
 import { flipInX, fadeInRight } from 'react-animations';
@@ -6,6 +7,10 @@ import Data from './constants/Data';
 import { Order, InitialDate } from './constants/Order';
 import PointlessWords from './constants/PointlessWords';
 import './styles.css';
+
+const trackingID : string = 'UA-227712205-1';
+
+ReactGA.initialize(trackingID);
 
 // used to style the guesses for being correct/close/incorrect
 interface InputStyle{
@@ -21,7 +26,7 @@ function getCookie(name: string) {
       `(?:^|; )${name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1')}=([^;]*)`
     )
   );
-  return matches ? decodeURIComponent(matches[1]) : "";
+  return matches ? decodeURIComponent(matches[1]) : '';
 }
 
 // all the possible answers, sorted alphabetically
@@ -63,14 +68,14 @@ const flipInAnimation : Keyframes = keyframes`${flipInX}`;
 const fadeInRightAnimation : Keyframes = keyframes`${fadeInRight}`;
 
 // top level div for the puzzle itself
-const Puzzle : StyledComponent<"div", any, {}, never> = styled.div`
+const Puzzle : StyledComponent<'div', any, {}, never> = styled.div`
   width: ${relevantWidth}px;
   box-sizing: content-box;
   margin-left: ${relevantPadding}px;
 `;
 
 // the buttons that the user guesses with
-const HoverButton : StyledComponent<"button", any, {}, never> = styled.button`
+const HoverButton : StyledComponent<'button', any, {}, never> = styled.button`
   width: ${relevantWidth}px;
   margin-left: ${relevantPadding}px;
   border-radius: ${height * 0.02}px;
@@ -85,25 +90,25 @@ const HoverButton : StyledComponent<"button", any, {}, never> = styled.button`
 `;
 
 // the text in the hover buttons
-const HoverText : StyledComponent<"span", any, {}, never> = styled.span`
+const HoverText : StyledComponent<'span', any, {}, never> = styled.span`
   font-size: ${height / 40}px;
 `;
 
 // a bar that displays instead of an actor
-const Hider : StyledComponent<"div", any, {}, never> = styled.div`
+const Hider : StyledComponent<'div', any, {}, never> = styled.div`
   height: ${spotHeight * 0.45}px;
   border-radius: ${height * 0.02}px;
   animation: 1s ${fadeInRightAnimation};
 `;
 
 // take up the whole page
-const TopLevel : StyledComponent<"div", any, {}, never> = styled.div`
+const TopLevel : StyledComponent<'div', any, {}, never> = styled.div`
   height: ${height}px;
   padding: auto;
 `;
 
 // text input
-const Input : StyledComponent<"input", any, {}, never> = styled.input`
+const Input : StyledComponent<'input', any, {}, never> = styled.input`
   border-radius: ${height * 0.02}px;
   border-width: 1px;
   border-color: black;
@@ -114,7 +119,7 @@ const Input : StyledComponent<"input", any, {}, never> = styled.input`
 `;
 
 // the text that replaces the input once it is used
-const AboveInput : StyledComponent<"div", any, {}, never> = styled.div`
+const AboveInput : StyledComponent<'div', any, {}, never> = styled.div`
   border-radius: ${height * 0.02}px;
   border-width: 1px;
   border-color: black;
@@ -124,7 +129,7 @@ const AboveInput : StyledComponent<"div", any, {}, never> = styled.div`
 `;
 
 // one of the six actor-input pairs
-const Spot : StyledComponent<"div", any, {}, never> = styled.div`
+const Spot : StyledComponent<'div', any, {}, never> = styled.div`
   margin-top: 0;
   padding-bottom: ${spotHeight * 0.1}px;
   height: ${spotHeight}px;
@@ -132,7 +137,7 @@ const Spot : StyledComponent<"div", any, {}, never> = styled.div`
 `;
 
 // the name of an actor
-const Actor : StyledComponent<"div", any, {}, never> = styled.div`
+const Actor : StyledComponent<'div', any, {}, never> = styled.div`
   padding-top: ${height / 200}px;
   height: ${spotHeight * 0.45}px;
   font-size: ${height / 40}px;
@@ -146,7 +151,7 @@ const Actor : StyledComponent<"div", any, {}, never> = styled.div`
 `;
 
 // navbar with media tag for maximum size
-const MyNavbar : StyledComponent<"div", any, {}, never> = styled.div`
+const MyNavbar : StyledComponent<'div', any, {}, never> = styled.div`
   height: ${height * 0.08}px;
   margin-bottom: ${height * 0.02}px;
   @media screen and (max-width: 700px) {
@@ -158,7 +163,7 @@ const MyNavbar : StyledComponent<"div", any, {}, never> = styled.div`
 `;
 
 // navbar text again with media tag
-const NavbarText : StyledComponent<"span", any, {}, never> = styled.span`
+const NavbarText : StyledComponent<'span', any, {}, never> = styled.span`
   cursor: pointer;
   font-size: ${width * 0.02}px;
   position: absolute;
@@ -172,7 +177,7 @@ const NavbarText : StyledComponent<"span", any, {}, never> = styled.span`
 `;
 
 // the S T A R D L E logo
-const Logo : StyledComponent<"span", any, {}, never> = styled.span`
+const Logo : StyledComponent<'span', any, {}, never> = styled.span`
   color: rgba(127, 127, 127, 0.9);
   font-size: ${width / 30}px;
   cursor: auto;
@@ -187,31 +192,31 @@ const Logo : StyledComponent<"span", any, {}, never> = styled.span`
 `;
 
 // the title of a stat
-const StatTitle : StyledComponent<"div", any, {}, never> = styled.div`
+const StatTitle : StyledComponent<'div', any, {}, never> = styled.div`
   font-size: ${height / 50}px;
   text-align: center;
 `;
 
 // a stat (streak, winrate, etc.)
-const Stat : StyledComponent<"div", any, {}, never> = styled.div`
+const Stat : StyledComponent<'div', any, {}, never> = styled.div`
   font-size: ${height / 30}px;
   text-align: center;
 `;
 
 // version of the text logo in the modal
-const ModalLogo : StyledComponent<"span", any, {}, never> = styled.span`
+const ModalLogo : StyledComponent<'span', any, {}, never> = styled.span`
   color: rgba(127,127,127,.8);
   font-size: ${height / 30}px;
 `
 
-const RulesText : StyledComponent<"div", any, {}, never> = styled.div`
+const RulesText : StyledComponent<'div', any, {}, never> = styled.div`
   margin-top: ${height / 120}px;
   margin-bottom: ${height / 120}px;
   margin-left: ${width / 50}px;
   margin-right: ${width / 50}px;
 `
 
-const RulesAboveInput : StyledComponent<"div", any, {}, never> = styled.div`
+const RulesAboveInput : StyledComponent<'div', any, {}, never> = styled.div`
   border-radius: ${height * 0.02}px;
   border-width: 1px;
   border-color: black;
@@ -245,7 +250,7 @@ const hoverLocations : {top: number}[] = [
 ];
 
 // reset cookie for debugging
-// document.cookie = "data="
+// document.cookie = 'data='
 
 // the data we use from the cookie!
 let dataCookie : string = getCookie('data');
@@ -316,6 +321,12 @@ const outsideStreak : number = parseInt(outsideData[7]);
 const outsideMaxStreak : number = parseInt(outsideData[18]);
 
 export default function App() {
+  // react ga pageview
+  useEffect(() => {
+    console.log(window.location.href);
+    ReactGA.pageview(window.location.href);
+  }, []);
+
   // keeping track of time for the countdown timer
   const [secondsLeft, setSecondsLeft] : [number, Dispatch<SetStateAction<number>>] = useState(
     Math.floor(timeLeft / 1000) % 60
@@ -745,7 +756,7 @@ export default function App() {
       >
         <ModalBody className={darkMode ? 'darklv5' : 'lightcolors'}>
           <div style={{margin: 'auto'}} className={`${darkMode ? 'darklv5' : 'lightcolors'}`}>
-            <div style={{ fontSize: height / 50, textAlign: "right", cursor: "pointer" }} onClick={() => {
+            <div style={{ fontSize: height / 50, textAlign: 'right', cursor: 'pointer' }} onClick={() => {
               setRulesVisible(false);
             }}>X</div>
             <RulesText
@@ -792,7 +803,7 @@ export default function App() {
                 darkMode ? 'darklv5' : 'lightcolors'
               }`}
             >
-              After each guess the color of the text box will change to show how
+              After each guess the game reveals another actor and the color of the previous text box will change to show how
               close your title is to the STARDLE.
             </RulesText>
             <RulesText
@@ -802,8 +813,8 @@ export default function App() {
             >
               If a guess is correct, you win.
             </RulesText>
-            <RulesAboveInput style={green} className="modalactor">
-              <div className="textinput blacktext">Toy Story 4</div>
+            <RulesAboveInput style={green} className='modalactor'>
+              <div className='textinput blacktext'>Toy Story 4</div>
             </RulesAboveInput>
             <RulesText
               className={`${
@@ -812,8 +823,8 @@ export default function App() {
             >
               If a guess has words in common with the Stardle:
             </RulesText>
-            <RulesAboveInput style={yellow} className="modalactor">
-              <div className="textinput blacktext">Toy Story 3</div>
+            <RulesAboveInput style={yellow} className='modalactor'>
+              <div className='textinput blacktext'>Toy Story 3</div>
             </RulesAboveInput>
             <RulesText
               className={`${
@@ -822,8 +833,8 @@ export default function App() {
             >
               If a guess has no words in common with the Stardle:
             </RulesText>
-            <RulesAboveInput style={gray} className="modalactor">
-              <div className="textinput blacktext">Cast Away</div>
+            <RulesAboveInput style={gray} className='modalactor'>
+              <div className='textinput blacktext'>Cast Away</div>
             </RulesAboveInput>
             <RulesText
               className={`${
@@ -842,8 +853,8 @@ export default function App() {
         }}
       >
         <ModalBody className={darkMode ? 'darklv5' : 'lightcolors'}>
-          <div style={{ margin: "auto" }} className={`${darkMode ? 'darklv5' : 'lightcolors'}`}>
-            <div style={{ fontSize: height / 50, textAlign: "right", cursor: "pointer" }} onClick={() => {
+          <div style={{ margin: 'auto' }} className={`${darkMode ? 'darklv5' : 'lightcolors'}`}>
+            <div style={{ fontSize: height / 50, textAlign: 'right', cursor: 'pointer' }} onClick={() => {
               setStatsVisible(false);
             }}>X</div>
             <div
@@ -880,7 +891,7 @@ export default function App() {
             </div>
             <div
               style={{ textAlign: 'center', fontSize: height / 40 }}
-              className="bold"
+              className='bold'
             >
               GUESS DISTRIBUTION
             </div>
@@ -1027,12 +1038,12 @@ export default function App() {
         }}
       >
         <ModalBody className={darkMode ? 'darklv5' : 'lightcolors'}>
-          <div style={{ fontSize: height / 50, textAlign: "right", cursor: "pointer" }} onClick={() => {
+          <div style={{ fontSize: height / 50, textAlign: 'right', cursor: 'pointer' }} onClick={() => {
               setAboutVisible(false);
             }}>X</div>
           <div>
             Made by Nick Green{' '}
-            <a href="http://nickgreensf.com">(nickgreensf.com)</a>
+            <a href='http://nickgreensf.com'>(nickgreensf.com)</a>
           </div>
           <div>Based on Wordle</div>
           <div>Movie data from Wikipedia</div>
@@ -1136,7 +1147,7 @@ export default function App() {
             }}
           />
           <AboveInput style={bools[0] ? none : guessStyles[0]}>
-            <div className="blacktext">
+            <div className='blacktext'>
               {guessSpans[0].length > 1 ? guessSpans[0] : ''}
             </div>
           </AboveInput>
@@ -1170,7 +1181,7 @@ export default function App() {
             }}
           />
           <AboveInput style={bools[1] ? none : guessStyles[1]}>
-            <div className="blacktext">
+            <div className='blacktext'>
               {guessSpans[1].length > 1 ? guessSpans[1] : ''}
             </div>
           </AboveInput>
@@ -1204,7 +1215,7 @@ export default function App() {
             }}
           />
           <AboveInput style={bools[2] ? none : guessStyles[2]}>
-            <div className="blacktext">
+            <div className='blacktext'>
               {guessSpans[2].length > 1 ? guessSpans[2] : ''}
             </div>
           </AboveInput>
@@ -1238,7 +1249,7 @@ export default function App() {
             }}
           />
           <AboveInput style={bools[3] ? none : guessStyles[3]}>
-            <div className="blacktext">
+            <div className='blacktext'>
               {guessSpans[3].length > 1 ? guessSpans[3] : ''}
             </div>
           </AboveInput>
@@ -1272,7 +1283,7 @@ export default function App() {
             }}
           />
           <AboveInput style={bools[4] ? none : guessStyles[4]}>
-            <div className="blacktext">
+            <div className='blacktext'>
               {guessSpans[4].length > 1 ? guessSpans[4] : ''}
             </div>
           </AboveInput>
@@ -1309,7 +1320,7 @@ export default function App() {
             }}
           />
           <AboveInput style={bools[5] ? none : guessStyles[5]}>
-            <div className="blacktext">
+            <div className='blacktext'>
               {guessSpans[5].length > 1 ? guessSpans[5] : ''}
             </div>
           </AboveInput>
