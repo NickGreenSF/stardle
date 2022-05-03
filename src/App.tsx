@@ -323,7 +323,7 @@ const outsideMaxStreak : number = parseInt(outsideData[18]);
 export default function App() {
   // react ga pageview
   useEffect(() => {
-    console.log(window.location.href);
+    // console.log(window.location.href);
     ReactGA.pageview(window.location.href);
   }, []);
 
