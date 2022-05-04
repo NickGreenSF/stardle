@@ -1,20 +1,20 @@
 {
   "files": {
     "main.css": "/stardle/static/css/main.44fbcc44.chunk.css",
-    "main.js": "/stardle/static/js/main.f281de2b.chunk.js",
-    "main.js.map": "/stardle/static/js/main.f281de2b.chunk.js.map",
-    "runtime-main.js": "/stardle/static/js/runtime-main.44bb909e.js",
-    "runtime-main.js.map": "/stardle/static/js/runtime-main.44bb909e.js.map",
-    "static/js/2.077975fa.chunk.js": "/stardle/static/js/2.077975fa.chunk.js",
-    "static/js/2.077975fa.chunk.js.map": "/stardle/static/js/2.077975fa.chunk.js.map",
+    "main.js": "/stardle/static/js/main.80381021.chunk.js",
+    "main.js.map": "/stardle/static/js/main.80381021.chunk.js.map",
+    "runtime-main.js": "/stardle/static/js/runtime-main.447bd43c.js",
+    "runtime-main.js.map": "/stardle/static/js/runtime-main.447bd43c.js.map",
+    "static/js/2.77e3b97f.chunk.js": "/stardle/static/js/2.77e3b97f.chunk.js",
+    "static/js/2.77e3b97f.chunk.js.map": "/stardle/static/js/2.77e3b97f.chunk.js.map",
     "index.html": "/stardle/index.html",
     "static/css/main.44fbcc44.chunk.css.map": "/stardle/static/css/main.44fbcc44.chunk.css.map",
-    "static/js/2.077975fa.chunk.js.LICENSE.txt": "/stardle/static/js/2.077975fa.chunk.js.LICENSE.txt"
+    "static/js/2.77e3b97f.chunk.js.LICENSE.txt": "/stardle/static/js/2.77e3b97f.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
-    "static/js/runtime-main.44bb909e.js",
-    "static/js/2.077975fa.chunk.js",
+    "static/js/runtime-main.447bd43c.js",
+    "static/js/2.77e3b97f.chunk.js",
     "static/css/main.44fbcc44.chunk.css",
-    "static/js/main.f281de2b.chunk.js"
+    "static/js/main.80381021.chunk.js"
   ]
 }
