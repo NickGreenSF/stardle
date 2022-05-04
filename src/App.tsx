@@ -378,7 +378,7 @@ export default function App() {
   let peekCurHoverLocations : {top : number}[];
 
   // the correct answer
-  const [correct] : [string[], Dispatch<SetStateAction<string[]>>] = useState(Data[filmdata[Order[fromFirst]]]);
+  const [correct] : [string[], Dispatch<SetStateAction<string[]>>] = useState(Data[filmdata[Order[fromFirst % Order.length]]]);
 
   // our stats calculated earlier, as well as successrate
   const [maxAttempts, setMaxAttempts] : [number, Dispatch<SetStateAction<number>>] = useState(outsideMaxAttempts);
