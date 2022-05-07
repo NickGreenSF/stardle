@@ -2,7 +2,7 @@
   "name": "stardle",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://nickgreensf.github.io/stardle/",
+  "homepage": "http://stardle.xyz",
   "dependencies": {
     "react": "^17.0.2",
     "react-animations": "^1.0.0",

@@ -86,7 +86,7 @@ const HoverButton : StyledComponent<'button', any, {}, never> = styled.button`
   border-color: black;
   z-index: 7;
   color: black;
-  text-align: left;
+  text-align: center;
 `;
 
 // the text in the hover buttons
@@ -105,6 +105,9 @@ const Hider : StyledComponent<'div', any, {}, never> = styled.div`
 const TopLevel : StyledComponent<'div', any, {}, never> = styled.div`
   height: ${height}px;
   padding: auto;
+  @media screen and (max-width: 1000px){
+    height: ${height * 1.5}px;
+  }
 `;
 
 // text input
@@ -116,6 +119,7 @@ const Input : StyledComponent<'input', any, {}, never> = styled.input`
   height: ${spotHeight * 0.45}px;
   font-size: ${height / 40}px;
   box-sizing: border-box;
+  text-align: center;
 `;
 
 // the text that replaces the input once it is used
@@ -126,6 +130,8 @@ const AboveInput : StyledComponent<'div', any, {}, never> = styled.div`
   border-style: solid;
   height: ${spotHeight * 0.45}px;
   font-size: ${height / 40}px;
+  overflow: hidden;
+  text-align: center;
 `;
 
 // one of the six actor-input pairs
