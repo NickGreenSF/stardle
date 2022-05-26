@@ -820,7 +820,7 @@ export default function App() {
               If a guess is correct, you win.
             </RulesText>
             <RulesAboveInput style={green} className='modalactor'>
-              <div className='textinput blacktext'>Toy Story 4</div>
+              <div className='textinput blacktext' style={{textAlign: 'center'}}>Toy Story 4</div>
             </RulesAboveInput>
             <RulesText
               className={`${
@@ -830,7 +830,7 @@ export default function App() {
               If a guess has words in common with the Stardle:
             </RulesText>
             <RulesAboveInput style={yellow} className='modalactor'>
-              <div className='textinput blacktext'>Toy Story 3</div>
+              <div className='textinput blacktext' style={{textAlign: 'center'}}>Toy Story 3</div>
             </RulesAboveInput>
             <RulesText
               className={`${
@@ -840,7 +840,7 @@ export default function App() {
               If a guess has no words in common with the Stardle:
             </RulesText>
             <RulesAboveInput style={gray} className='modalactor'>
-              <div className='textinput blacktext'>Cast Away</div>
+              <div className='textinput blacktext' style={{textAlign: 'center'}}>Cast Away</div>
             </RulesAboveInput>
             <RulesText
               className={`${
@@ -884,6 +884,7 @@ export default function App() {
                 display: 'grid',
                 gridTemplateColumns: '1fr 1fr 1fr 1fr',
                 width: '100%',
+                marginBottom: height / 50,
               }}
             >
               <StatTitle>Played</StatTitle>
